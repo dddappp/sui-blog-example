@@ -1,13 +1,13 @@
-module SuiBlogExample::article_add_comment_logic {
+module sui_blog_example::article_add_comment_logic {
     use std::string::String;
 
     use sui::tx_context::TxContext;
 
-    use SuiBlogExample::article;
-    use SuiBlogExample::comment;
-    use SuiBlogExample::comment_added;
+    use sui_blog_example::article;
+    use sui_blog_example::comment;
+    use sui_blog_example::comment_added;
 
-    friend SuiBlogExample::article_aggregate;
+    friend sui_blog_example::article_aggregate;
 
     public(friend) fun verify(
         comment_seq_id: u64,

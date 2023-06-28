@@ -1,10 +1,10 @@
-module SuiBlogExample::article_remove_comment_logic {
+module sui_blog_example::article_remove_comment_logic {
     use sui::tx_context::TxContext;
 
-    use SuiBlogExample::article;
-    use SuiBlogExample::comment_removed;
+    use sui_blog_example::article;
+    use sui_blog_example::comment_removed;
 
-    friend SuiBlogExample::article_aggregate;
+    friend sui_blog_example::article_aggregate;
 
     public(friend) fun verify(
         comment_seq_id: u64,

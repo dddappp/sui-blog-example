@@ -1,12 +1,12 @@
-module SuiBlogExample::article_update_logic {
+module sui_blog_example::article_update_logic {
     use std::string::String;
 
     use sui::tx_context::TxContext;
 
-    use SuiBlogExample::article;
-    use SuiBlogExample::article_updated;
+    use sui_blog_example::article;
+    use sui_blog_example::article_updated;
 
-    friend SuiBlogExample::article_aggregate;
+    friend sui_blog_example::article_aggregate;
 
     public(friend) fun verify(
         title: String,

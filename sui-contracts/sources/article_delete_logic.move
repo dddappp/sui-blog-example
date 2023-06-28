@@ -1,9 +1,9 @@
-module SuiBlogExample::article_delete_logic {
+module sui_blog_example::article_delete_logic {
     use sui::tx_context::TxContext;
 
-    use SuiBlogExample::article;
+    use sui_blog_example::article;
 
-    friend SuiBlogExample::article_aggregate;
+    friend sui_blog_example::article_aggregate;
 
     public(friend) fun verify(
         article: &article::Article,

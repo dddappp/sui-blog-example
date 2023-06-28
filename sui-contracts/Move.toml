@@ -1,5 +1,5 @@
 [package]
-name = "SuiBlogExample"
+name = "sui_blog_example"
 version = "0.0.1"
 
 [dependencies]
@@ -7,5 +7,5 @@ Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-fram
 #Sui = { local = "../../../MystenLabs/sui/crates/sui-framework/packages/sui-framework" }
 
 [addresses]
-SuiBlogExample = "0x0"
+sui_blog_example = "0x0"
 #sui = "0000000000000000000000000000000000000000000000000000000000000002"
