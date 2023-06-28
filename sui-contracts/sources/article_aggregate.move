@@ -69,8 +69,7 @@ module SuiBlogExample::article_aggregate {
             article,
             ctx,
         );
-        article::update_version_and_transfer_object(updated_article, tx_context::sender(ctx));
-        //todo delete the article
+        article::drop_article(updated_article);
         article::emit_article_deleted(article_deleted);
     }
 

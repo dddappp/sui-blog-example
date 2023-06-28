@@ -319,6 +319,18 @@ module SuiBlogExample::article {
         //assert!(article.version != 0, EINAPPROPRIATE_VERSION);
     }
 
+    public(friend) fun drop_article(article: Article) {
+        let Article {
+            id,
+            version: _version,
+            title: _title,
+            body: _body,
+            comments,
+        } = article;
+        object::delete(id);
+        table::destroy_empty(comments);
+    }
+
     public(friend) fun emit_article_created(article_created: ArticleCreated) {
         event::emit(article_created);
     }
