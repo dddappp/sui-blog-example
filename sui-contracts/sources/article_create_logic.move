@@ -14,7 +14,7 @@ module sui_blog_example::article_create_logic {
         ctx: &mut TxContext,
     ): article::ArticleCreated {
         let _ = ctx;
-        return article::new_article_created(
+        article::new_article_created(
             title,
             body,
         )
@@ -26,7 +26,6 @@ module sui_blog_example::article_create_logic {
     ): article::Article {
         let title = article_created::title(article_created);
         let body = article_created::body(article_created);
-        let _ = ctx;
         article::new_article(
             title,
             body,

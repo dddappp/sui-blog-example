@@ -11,7 +11,7 @@ module sui_blog_example::article_delete_logic {
     ): article::ArticleDeleted {
         let _ = ctx;
         article::new_article_deleted(
-            article
+            article,
         )
     }
 
