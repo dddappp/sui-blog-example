@@ -38,7 +38,9 @@ public class SuiArticleStateRetriever {
         SuiMoveObjectResponse<Article> getObjectDataResponse = suiJsonRpcClient.getMoveObject(
                 objectId, new SuiObjectDataOptions(true, true, true, true, true, true, true), Article.class
         );
-
+        if (getObjectDataResponse.getData() == null) {
+            return null;
+        }
         Article article = getObjectDataResponse.getData().getContent().getFields();
         return toArticleState(article);
     }

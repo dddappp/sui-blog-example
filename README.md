@@ -4,11 +4,15 @@ An example of developing a blog_example application based on the Sui platform.
 
 ## Programing
 
-It only requires 30 or so lines of code to be written by the developer (all of which is a description of the domain model), and then generates a blog example that emulates [RoR Getting Started](https://guides.rubyonrails.org/getting_started.html) in one click, without requiring the developer to write a single line of other code.
+It only requires 30 or so lines of code (all of which is a description of the domain model) to be written by the developer, and then generates a blog example that emulates [RoR Getting Started](https://guides.rubyonrails.org/getting_started.html) in one click, without requiring the developer to write a single line of other code.
 
 ### Write DDDML Model File
 
-See: [dddml/blog.yaml](./dddml/blog.yaml).
+For what you need to write see: [dddml/blog.yaml](./dddml/blog.yaml).
+
+> **Tip**
+>
+> About DDDML, here is an introductory article: ["Introducing DDDML: The Key to Low-Code Development for Decentralized Applications"](https://github.com/wubuku/Dapp-LCDP-Demo/blob/main/IntroducingDDDML.md). 
 
 ### Run dddappp Project Creation Tool
 
@@ -19,7 +23,7 @@ wubuku/dddappp:0.0.1 \
 --dddmlDirectoryPath /myapp/dddml \
 --boundedContextName Test.SuiBlogExample \
 --suiMoveProjectDirectoryPath /myapp/sui-contracts \
---boundedContextSuiPackageName sui_blog_example\
+--boundedContextSuiPackageName sui_blog_example \
 --boundedContextJavaPackageName org.test.suiblogexample \
 --javaProjectsDirectoryPath /myapp/sui-java-service \
 --javaProjectNamePrefix suiblogexample \
@@ -119,20 +123,23 @@ You can use parameters to filter articles, such as: http://localhost:1023/api/Ar
 
 #### Update Articles
 
+You can update an article like this: (Note that the first argument after --args is the object ID of the article, please replace it with the actual value.)
+
 ```shell
 sui client call --package 0xdc93d426b0a5ceaa8a883776c34370f83af72df528e8c9229a4febe2dc1b3b60 --module article_aggregate --function update \
 --args 0xd31224eac22bfd66de709d521f337acf65a026e5fe16218ceae3a1843df5eaec \"Hello\" '"My friends."' \
 --gas-budget 10000000
 ```
 
-
+You can use the Sui Client CLI to query information about an object like this:
 
 ```shell
 sui client object 0xd31224eac22bfd66de709d521f337acf65a026e5fe16218ceae3a1843df5eaec
 ```
 
-
 #### Delete Articles
+
+You can delete an article like this: (Note that the first argument after --args is the object ID of the article, please replace it with the actual value.)
 
 
 ```shell
@@ -145,14 +152,17 @@ sui client call --package 0xdc93d426b0a5ceaa8a883776c34370f83af72df528e8c9229a4f
 
 #### Add Comments
 
+First, get the object ID  of another article (the article that was not deleted).
 
-Get the object ID  of another article.
+You can add a comment like this: (Note that the first argument after --args is the object ID of an article, please replace it with the actual value.)
 
 ```shell
 sui client call --package 0xdc93d426b0a5ceaa8a883776c34370f83af72df528e8c9229a4febe2dc1b3b60 --module article_aggregate --function add_comment \
 --args 0xf05e0623bb54630d2b78f2ae186babcd62585296a5ae2a002a2017a4eeaafd6b \"1\" \"Anonymous\" '"A test comment"' \
 --gas-budget 10000000
 ```
+
+Add more comment like this:
 
 ```shell
 sui client call --package 0xdc93d426b0a5ceaa8a883776c34370f83af72df528e8c9229a4febe2dc1b3b60 --module article_aggregate --function add_comment \
@@ -162,7 +172,33 @@ sui client call --package 0xdc93d426b0a5ceaa8a883776c34370f83af72df528e8c9229a4f
 
 #### READ Comments
 
-[TBD]
+You can access the off-chain service RESTful API to get information about comments of an article:
+
+```shell
+curl http://localhost:1023/api/Articles/0xf05e0623bb54630d2b78f2ae186babcd62585296a5ae2a002a2017a4eeaafd6b
+```
+
+#### Update Comments
+
+We can submit a transaction like this to update a comment:
+
+```shell
+sui client call --package 0xdc93d426b0a5ceaa8a883776c34370f83af72df528e8c9229a4febe2dc1b3b60 --module article_aggregate --function update_comment \
+--args 0xf05e0623bb54630d2b78f2ae186babcd62585296a5ae2a002a2017a4eeaafd6b \"1\" \"Anonymous\" '"A test comment from Anonymous"' \
+--gas-budget 10000000
+```
+
+Then we can query the comment state again to see if the comment content has been updated.
+
+#### Remove Comments
+
+We can submit a transaction like this to delete a comment:
+
+```shell
+sui client call --package 0xdc93d426b0a5ceaa8a883776c34370f83af72df528e8c9229a4febe2dc1b3b60 --module article_aggregate --function remove_comment \
+--args 0xf05e0623bb54630d2b78f2ae186babcd62585296a5ae2a002a2017a4eeaafd6b \"1\" \
+--gas-budget 10000000
+```
 
 ## Some Tips
 

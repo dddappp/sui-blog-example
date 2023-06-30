@@ -40,6 +40,9 @@ public class SuiArticleService {
     @Transactional
     public void updateArticleState(String objectId) {
         ArticleState articleState = suiArticleStateRetriever.retrieveArticleState(objectId);
+        if (articleState == null) {
+            return;
+        }
         articleStateRepository.merge(articleState);
     }
 
