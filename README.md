@@ -29,7 +29,7 @@ sudo docker run -p 3306:3306 --name mysql \
 -d mysql:5.7
 ```
 
-## Programing
+## Programming
 
 It only requires 30 or so lines of code (all of which is a description of the domain model) to be written by the developer, and then generates a blog example that emulates [RoR Getting Started](https://guides.rubyonrails.org/getting_started.html) in one click, without requiring the developer to write a single line of other code.
 
