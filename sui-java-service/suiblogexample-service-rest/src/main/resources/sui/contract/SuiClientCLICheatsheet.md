@@ -8,7 +8,7 @@
 
 ```shell
 sui client call --package _PACKAGE_ID_ --module article_aggregate --function create \
---args \"string_title\" \"string_body\" \
+--args '"string_title"' '"string_body"' \
 --gas-budget 100000
 ```
 
@@ -16,7 +16,7 @@ sui client call --package _PACKAGE_ID_ --module article_aggregate --function cre
 
 ```shell
 sui client call --package _PACKAGE_ID_ --module article_aggregate --function update \
---args article::article_article \"string_title\" \"string_body\" \
+--args article_Object_ID '"string_title"' '"string_body"' \
 --gas-budget 100000
 ```
 
@@ -24,7 +24,7 @@ sui client call --package _PACKAGE_ID_ --module article_aggregate --function upd
 
 ```shell
 sui client call --package _PACKAGE_ID_ --module article_aggregate --function delete \
---args article::article_article \
+--args article_Object_ID \
 --gas-budget 100000
 ```
 
@@ -32,7 +32,7 @@ sui client call --package _PACKAGE_ID_ --module article_aggregate --function del
 
 ```shell
 sui client call --package _PACKAGE_ID_ --module article_aggregate --function add_comment \
---args article::article_article \"u64_comment_seq_id\" \"string_commenter\" \"string_body\" \
+--args article_Object_ID \"u64_comment_seq_id\" '"string_commenter"' '"string_body"' \
 --gas-budget 100000
 ```
 
@@ -40,7 +40,7 @@ sui client call --package _PACKAGE_ID_ --module article_aggregate --function add
 
 ```shell
 sui client call --package _PACKAGE_ID_ --module article_aggregate --function remove_comment \
---args article::article_article \"u64_comment_seq_id\" \
+--args article_Object_ID \"u64_comment_seq_id\" \
 --gas-budget 100000
 ```
 
@@ -48,7 +48,7 @@ sui client call --package _PACKAGE_ID_ --module article_aggregate --function rem
 
 ```shell
 sui client call --package _PACKAGE_ID_ --module article_aggregate --function update_comment \
---args article::article_article \"u64_comment_seq_id\" \"string_commenter\" \"string_body\" \
+--args article_Object_ID \"u64_comment_seq_id\" '"string_commenter"' '"string_body"' \
 --gas-budget 100000
 ```
 
