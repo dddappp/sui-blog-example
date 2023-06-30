@@ -232,7 +232,7 @@ sui client call --package 0xdc93d426b0a5ceaa8a883776c34370f83af72df528e8c9229a4f
 --gas-budget 10000000
 ```
 
-#### READ Comments
+#### Read Comments
 
 You can access the off-chain service RESTful API to get information about comments of an article:
 
@@ -264,10 +264,6 @@ sui client call --package 0xdc93d426b0a5ceaa8a883776c34370f83af72df528e8c9229a4f
 
 ## Some Tips
 
-### Blog Example for Rooch
-
-Here is a Rooch version of blog sample: https://github.com/rooch-network/rooch/blob/main/examples/blog_example/README.md
-
 ### Clean Up Exited Docker Containers
 
 Run the command:
@@ -276,5 +272,7 @@ Run the command:
 docker rm $(docker ps -aq --filter "ancestor=wubuku/dddappp:0.0.1")
 ```
 
+### Blog Example for Rooch
 
+Here is a Rooch version of blog sample: https://github.com/rooch-network/rooch/blob/main/examples/blog_example/README.md
 
