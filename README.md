@@ -4,7 +4,7 @@ An example of developing a blog_example application based on the Sui platform.
 
 ## Programing
 
-It requires less than 30 lines of code to be written by the developer (all of which is a description of the domain model), and then generates a blog example that emulates [RoR Getting Started](https://guides.rubyonrails.org/getting_started.html) in one click, without requiring the developer to write a single line of other code.
+It only requires 30 or so lines of code to be written by the developer (all of which is a description of the domain model), and then generates a blog example that emulates [RoR Getting Started](https://guides.rubyonrails.org/getting_started.html) in one click, without requiring the developer to write a single line of other code.
 
 ### Write DDDML Model File
 
@@ -99,9 +99,70 @@ After the off-chain services are started, you can access this URL to get a cheat
 
 In the cheatsheet, the Package Id of the contracts you just published and the Object Ids (created according to the Id Generators declared in models) you need when creating certain entities are already filled in for you. The parameters you need to fill in are placeholders containing their type and meaning (name). You can copy these commands, modify them as needed, and execute them directly in a terminal.
 
-## CRUD Articles
+### CRUD Articles
 
-## CRUD Comments
+#### Create Articles
+
+```shell
+sui client call --package 0xdc93d426b0a5ceaa8a883776c34370f83af72df528e8c9229a4febe2dc1b3b60 --module article_aggregate --function create \
+--args \"Hello\" \"World\" \
+--gas-budget 10000000
+```
+
+Then you can change the content of the first parameter (title) and the second parameter (body) after `--args`, and create a few more articles.
+
+#### Read Articles
+
+You can access the off-chain service RESTful API to get information about articles that have been created: http://localhost:1023/api/Articles
+
+You can use parameters to filter articles, such as: http://localhost:1023/api/Articles?title=Hello
+
+#### Update Articles
+
+```shell
+sui client call --package 0xdc93d426b0a5ceaa8a883776c34370f83af72df528e8c9229a4febe2dc1b3b60 --module article_aggregate --function update \
+--args 0xd31224eac22bfd66de709d521f337acf65a026e5fe16218ceae3a1843df5eaec \"Hello\" '"My friends."' \
+--gas-budget 10000000
+```
+
+
+
+```shell
+sui client object 0xd31224eac22bfd66de709d521f337acf65a026e5fe16218ceae3a1843df5eaec
+```
+
+
+#### Delete Articles
+
+
+```shell
+sui client call --package 0xdc93d426b0a5ceaa8a883776c34370f83af72df528e8c9229a4febe2dc1b3b60 --module article_aggregate --function delete \
+--args 0xd31224eac22bfd66de709d521f337acf65a026e5fe16218ceae3a1843df5eaec \
+--gas-budget 10000000
+```
+
+### CRUD Comments
+
+#### Add Comments
+
+
+Get the object ID  of another article.
+
+```shell
+sui client call --package 0xdc93d426b0a5ceaa8a883776c34370f83af72df528e8c9229a4febe2dc1b3b60 --module article_aggregate --function add_comment \
+--args 0xf05e0623bb54630d2b78f2ae186babcd62585296a5ae2a002a2017a4eeaafd6b \"1\" \"Anonymous\" '"A test comment"' \
+--gas-budget 10000000
+```
+
+```shell
+sui client call --package 0xdc93d426b0a5ceaa8a883776c34370f83af72df528e8c9229a4febe2dc1b3b60 --module article_aggregate --function add_comment \
+--args 0xf05e0623bb54630d2b78f2ae186babcd62585296a5ae2a002a2017a4eeaafd6b \"2\" \"Anonymous2\" '"A test comment2"' \
+--gas-budget 10000000
+```
+
+#### READ Comments
+
+[TBD]
 
 ## Some Tips
 
