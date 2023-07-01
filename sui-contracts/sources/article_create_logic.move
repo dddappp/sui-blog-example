@@ -1,8 +1,6 @@
 module sui_blog_example::article_create_logic {
     use std::string::String;
-
     use sui::tx_context::TxContext;
-
     use sui_blog_example::article;
     use sui_blog_example::article_created;
 
@@ -32,4 +30,5 @@ module sui_blog_example::article_create_logic {
             ctx,
         )
     }
+
 }

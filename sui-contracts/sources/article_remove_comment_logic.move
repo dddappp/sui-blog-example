@@ -1,6 +1,5 @@
 module sui_blog_example::article_remove_comment_logic {
     use sui::tx_context::TxContext;
-
     use sui_blog_example::article;
     use sui_blog_example::comment_removed;
 
@@ -30,4 +29,5 @@ module sui_blog_example::article_remove_comment_logic {
         article::remove_comment(&mut article, comment_seq_id);
         article
     }
+
 }

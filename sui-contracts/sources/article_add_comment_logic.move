@@ -1,8 +1,6 @@
 module sui_blog_example::article_add_comment_logic {
     use std::string::String;
-
     use sui::tx_context::TxContext;
-
     use sui_blog_example::article;
     use sui_blog_example::comment;
     use sui_blog_example::comment_added;
@@ -44,4 +42,5 @@ module sui_blog_example::article_add_comment_logic {
         article::add_comment(&mut article, comment);
         article
     }
+
 }

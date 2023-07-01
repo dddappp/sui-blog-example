@@ -1,6 +1,5 @@
 module sui_blog_example::article_delete_logic {
     use sui::tx_context::TxContext;
-
     use sui_blog_example::article;
 
     friend sui_blog_example::article_aggregate;
@@ -26,4 +25,5 @@ module sui_blog_example::article_delete_logic {
         let _ = article_deleted;
         article
     }
+
 }

@@ -1,8 +1,6 @@
 module sui_blog_example::article_update_logic {
     use std::string::String;
-
     use sui::tx_context::TxContext;
-
     use sui_blog_example::article;
     use sui_blog_example::article_updated;
 
@@ -36,4 +34,5 @@ module sui_blog_example::article_update_logic {
         article::set_body(&mut article, body);
         article
     }
+
 }
