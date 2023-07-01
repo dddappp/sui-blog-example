@@ -44,6 +44,7 @@ module sui_blog_example::article {
     }
 
     public(friend) fun set_title(article: &mut Article, title: String) {
+        assert!(std::string::length(&title) <= 200, EID_DATA_TOO_LONG);
         article.title = title;
     }
 
@@ -52,6 +53,7 @@ module sui_blog_example::article {
     }
 
     public(friend) fun set_body(article: &mut Article, body: String) {
+        assert!(std::string::length(&body) <= 2000, EID_DATA_TOO_LONG);
         article.body = body;
     }
 

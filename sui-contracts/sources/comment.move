@@ -30,6 +30,7 @@ module sui_blog_example::comment {
     }
 
     public(friend) fun set_commenter(comment: &mut Comment, commenter: String) {
+        assert!(std::string::length(&commenter) <= 100, EID_DATA_TOO_LONG);
         comment.commenter = commenter;
     }
 
@@ -38,6 +39,7 @@ module sui_blog_example::comment {
     }
 
     public(friend) fun set_body(comment: &mut Comment, body: String) {
+        assert!(std::string::length(&body) <= 500, EID_DATA_TOO_LONG);
         comment.body = body;
     }
 
