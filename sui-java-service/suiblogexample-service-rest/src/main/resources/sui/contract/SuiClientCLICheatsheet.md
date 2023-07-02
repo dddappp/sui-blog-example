@@ -4,19 +4,35 @@
 
 ## Article aggregate
 
-### Create method
-
-```shell
-sui client call --package _PACKAGE_ID_ --module article_aggregate --function create \
---args '"string_title"' '"string_body"' \
---gas-budget 100000
-```
-
 ### Update method
 
 ```shell
 sui client call --package _PACKAGE_ID_ --module article_aggregate --function update \
---args article_Object_ID '"string_title"' '"string_body"' \
+--args article_Object_ID '"string_title"' '"string_body"' address_owner \
+--gas-budget 100000
+```
+
+### UpdateComment method
+
+```shell
+sui client call --package _PACKAGE_ID_ --module article_aggregate --function update_comment \
+--args article_Object_ID \"u64_comment_seq_id\" '"string_commenter"' '"string_body"' address_owner \
+--gas-budget 100000
+```
+
+### RemoveComment method
+
+```shell
+sui client call --package _PACKAGE_ID_ --module article_aggregate --function remove_comment \
+--args article_Object_ID \"u64_comment_seq_id\" \
+--gas-budget 100000
+```
+
+### Create method
+
+```shell
+sui client call --package _PACKAGE_ID_ --module article_aggregate --function create \
+--args '"string_title"' '"string_body"' address_owner \
 --gas-budget 100000
 ```
 
@@ -32,23 +48,7 @@ sui client call --package _PACKAGE_ID_ --module article_aggregate --function del
 
 ```shell
 sui client call --package _PACKAGE_ID_ --module article_aggregate --function add_comment \
---args article_Object_ID \"u64_comment_seq_id\" '"string_commenter"' '"string_body"' \
---gas-budget 100000
-```
-
-### RemoveComment method
-
-```shell
-sui client call --package _PACKAGE_ID_ --module article_aggregate --function remove_comment \
---args article_Object_ID \"u64_comment_seq_id\" \
---gas-budget 100000
-```
-
-### UpdateComment method
-
-```shell
-sui client call --package _PACKAGE_ID_ --module article_aggregate --function update_comment \
---args article_Object_ID \"u64_comment_seq_id\" '"string_commenter"' '"string_body"' \
+--args article_Object_ID \"u64_comment_seq_id\" '"string_commenter"' '"string_body"' address_owner \
 --gas-budget 100000
 ```
 

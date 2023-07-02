@@ -9,14 +9,17 @@ module sui_blog_example::article_update_logic {
     public(friend) fun verify(
         title: String,
         body: String,
+        owner: address,
         article: &article::Article,
         ctx: &TxContext,
     ): article::ArticleUpdated {
         let _ = ctx;
+        assert!(sui::tx_context::sender(ctx) == article::owner(article), 111);
         article::new_article_updated(
             article,
             title,
             body,
+            owner,
         )
     }
 
@@ -27,11 +30,13 @@ module sui_blog_example::article_update_logic {
     ): article::Article {
         let title = article_updated::title(article_updated);
         let body = article_updated::body(article_updated);
+        let owner = article_updated::owner(article_updated);
         let id = article::id(&article);
         let _ = ctx;
         let _ = id;
         article::set_title(&mut article, title);
         article::set_body(&mut article, body);
+        article::set_owner(&mut article, owner);
         article
     }
 

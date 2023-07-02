@@ -11,6 +11,7 @@ module sui_blog_example::article_add_comment_logic {
         comment_seq_id: u64,
         commenter: String,
         body: String,
+        owner: address,
         article: &article::Article,
         ctx: &TxContext,
     ): article::CommentAdded {
@@ -20,6 +21,7 @@ module sui_blog_example::article_add_comment_logic {
             comment_seq_id,
             commenter,
             body,
+            owner,
         )
     }
 
@@ -31,6 +33,7 @@ module sui_blog_example::article_add_comment_logic {
         let comment_seq_id = comment_added::comment_seq_id(comment_added);
         let commenter = comment_added::commenter(comment_added);
         let body = comment_added::body(comment_added);
+        let owner = comment_added::owner(comment_added);
         let id = article::id(&article);
         let _ = ctx;
         let _ = id;
@@ -38,6 +41,7 @@ module sui_blog_example::article_add_comment_logic {
             comment_seq_id,
             commenter,
             body,
+            owner,
         );
         article::add_comment(&mut article, comment);
         article

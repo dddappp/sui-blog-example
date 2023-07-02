@@ -12,12 +12,12 @@ module sui_blog_example::article {
     use sui::transfer;
     use sui::tx_context::TxContext;
     use sui_blog_example::comment::{Self, Comment};
-    friend sui_blog_example::article_create_logic;
     friend sui_blog_example::article_update_logic;
+    friend sui_blog_example::article_update_comment_logic;
+    friend sui_blog_example::article_remove_comment_logic;
+    friend sui_blog_example::article_create_logic;
     friend sui_blog_example::article_delete_logic;
     friend sui_blog_example::article_add_comment_logic;
-    friend sui_blog_example::article_remove_comment_logic;
-    friend sui_blog_example::article_update_comment_logic;
     friend sui_blog_example::article_aggregate;
 
     const EID_DATA_TOO_LONG: u64 = 102;
@@ -28,6 +28,7 @@ module sui_blog_example::article {
         version: u64,
         title: String,
         body: String,
+        owner: address,
         comments: table::Table<u64, Comment>,
     }
 
@@ -55,6 +56,14 @@ module sui_blog_example::article {
     public(friend) fun set_body(article: &mut Article, body: String) {
         assert!(std::string::length(&body) <= 2000, EID_DATA_TOO_LONG);
         article.body = body;
+    }
+
+    public fun owner(article: &Article): address {
+        article.owner
+    }
+
+    public(friend) fun set_owner(article: &mut Article, owner: address) {
+        article.owner = owner;
     }
 
     public(friend) fun add_comment(article: &mut Article, comment: Comment) {
@@ -86,6 +95,7 @@ module sui_blog_example::article {
     public(friend) fun new_article(
         title: String,
         body: String,
+        owner: address,
         ctx: &mut TxContext,
     ): Article {
         assert!(std::string::length(&title) <= 200, EID_DATA_TOO_LONG);
@@ -95,40 +105,8 @@ module sui_blog_example::article {
             version: 0,
             title,
             body,
+            owner,
             comments: table::new<u64, Comment>(ctx),
-        }
-    }
-
-    struct ArticleCreated has copy, drop {
-        id: option::Option<object::ID>,
-        title: String,
-        body: String,
-    }
-
-    public fun article_created_id(article_created: &ArticleCreated): option::Option<object::ID> {
-        article_created.id
-    }
-
-    public(friend) fun set_article_created_id(article_created: &mut ArticleCreated, id: object::ID) {
-        article_created.id = option::some(id);
-    }
-
-    public fun article_created_title(article_created: &ArticleCreated): String {
-        article_created.title
-    }
-
-    public fun article_created_body(article_created: &ArticleCreated): String {
-        article_created.body
-    }
-
-    public(friend) fun new_article_created(
-        title: String,
-        body: String,
-    ): ArticleCreated {
-        ArticleCreated {
-            id: option::none(),
-            title,
-            body,
         }
     }
 
@@ -137,6 +115,7 @@ module sui_blog_example::article {
         version: u64,
         title: String,
         body: String,
+        owner: address,
     }
 
     public fun article_updated_id(article_updated: &ArticleUpdated): object::ID {
@@ -151,73 +130,68 @@ module sui_blog_example::article {
         article_updated.body
     }
 
+    public fun article_updated_owner(article_updated: &ArticleUpdated): address {
+        article_updated.owner
+    }
+
     public(friend) fun new_article_updated(
         article: &Article,
         title: String,
         body: String,
+        owner: address,
     ): ArticleUpdated {
         ArticleUpdated {
             id: id(article),
             version: version(article),
             title,
             body,
+            owner,
         }
     }
 
-    struct ArticleDeleted has copy, drop {
-        id: object::ID,
-        version: u64,
-    }
-
-    public fun article_deleted_id(article_deleted: &ArticleDeleted): object::ID {
-        article_deleted.id
-    }
-
-    public(friend) fun new_article_deleted(
-        article: &Article,
-    ): ArticleDeleted {
-        ArticleDeleted {
-            id: id(article),
-            version: version(article),
-        }
-    }
-
-    struct CommentAdded has copy, drop {
+    struct CommentUpdated has copy, drop {
         id: object::ID,
         version: u64,
         comment_seq_id: u64,
         commenter: String,
         body: String,
+        owner: address,
     }
 
-    public fun comment_added_id(comment_added: &CommentAdded): object::ID {
-        comment_added.id
+    public fun comment_updated_id(comment_updated: &CommentUpdated): object::ID {
+        comment_updated.id
     }
 
-    public fun comment_added_comment_seq_id(comment_added: &CommentAdded): u64 {
-        comment_added.comment_seq_id
+    public fun comment_updated_comment_seq_id(comment_updated: &CommentUpdated): u64 {
+        comment_updated.comment_seq_id
     }
 
-    public fun comment_added_commenter(comment_added: &CommentAdded): String {
-        comment_added.commenter
+    public fun comment_updated_commenter(comment_updated: &CommentUpdated): String {
+        comment_updated.commenter
     }
 
-    public fun comment_added_body(comment_added: &CommentAdded): String {
-        comment_added.body
+    public fun comment_updated_body(comment_updated: &CommentUpdated): String {
+        comment_updated.body
     }
 
-    public(friend) fun new_comment_added(
+    public fun comment_updated_owner(comment_updated: &CommentUpdated): address {
+        comment_updated.owner
+    }
+
+    public(friend) fun new_comment_updated(
         article: &Article,
         comment_seq_id: u64,
         commenter: String,
         body: String,
-    ): CommentAdded {
-        CommentAdded {
+        owner: address,
+    ): CommentUpdated {
+        CommentUpdated {
             id: id(article),
             version: version(article),
             comment_seq_id,
             commenter,
             body,
+            owner,
         }
     }
 
@@ -246,42 +220,107 @@ module sui_blog_example::article {
         }
     }
 
-    struct CommentUpdated has copy, drop {
+    struct ArticleCreated has copy, drop {
+        id: option::Option<object::ID>,
+        title: String,
+        body: String,
+        owner: address,
+    }
+
+    public fun article_created_id(article_created: &ArticleCreated): option::Option<object::ID> {
+        article_created.id
+    }
+
+    public(friend) fun set_article_created_id(article_created: &mut ArticleCreated, id: object::ID) {
+        article_created.id = option::some(id);
+    }
+
+    public fun article_created_title(article_created: &ArticleCreated): String {
+        article_created.title
+    }
+
+    public fun article_created_body(article_created: &ArticleCreated): String {
+        article_created.body
+    }
+
+    public fun article_created_owner(article_created: &ArticleCreated): address {
+        article_created.owner
+    }
+
+    public(friend) fun new_article_created(
+        title: String,
+        body: String,
+        owner: address,
+    ): ArticleCreated {
+        ArticleCreated {
+            id: option::none(),
+            title,
+            body,
+            owner,
+        }
+    }
+
+    struct ArticleDeleted has copy, drop {
+        id: object::ID,
+        version: u64,
+    }
+
+    public fun article_deleted_id(article_deleted: &ArticleDeleted): object::ID {
+        article_deleted.id
+    }
+
+    public(friend) fun new_article_deleted(
+        article: &Article,
+    ): ArticleDeleted {
+        ArticleDeleted {
+            id: id(article),
+            version: version(article),
+        }
+    }
+
+    struct CommentAdded has copy, drop {
         id: object::ID,
         version: u64,
         comment_seq_id: u64,
         commenter: String,
         body: String,
+        owner: address,
     }
 
-    public fun comment_updated_id(comment_updated: &CommentUpdated): object::ID {
-        comment_updated.id
+    public fun comment_added_id(comment_added: &CommentAdded): object::ID {
+        comment_added.id
     }
 
-    public fun comment_updated_comment_seq_id(comment_updated: &CommentUpdated): u64 {
-        comment_updated.comment_seq_id
+    public fun comment_added_comment_seq_id(comment_added: &CommentAdded): u64 {
+        comment_added.comment_seq_id
     }
 
-    public fun comment_updated_commenter(comment_updated: &CommentUpdated): String {
-        comment_updated.commenter
+    public fun comment_added_commenter(comment_added: &CommentAdded): String {
+        comment_added.commenter
     }
 
-    public fun comment_updated_body(comment_updated: &CommentUpdated): String {
-        comment_updated.body
+    public fun comment_added_body(comment_added: &CommentAdded): String {
+        comment_added.body
     }
 
-    public(friend) fun new_comment_updated(
+    public fun comment_added_owner(comment_added: &CommentAdded): address {
+        comment_added.owner
+    }
+
+    public(friend) fun new_comment_added(
         article: &Article,
         comment_seq_id: u64,
         commenter: String,
         body: String,
-    ): CommentUpdated {
-        CommentUpdated {
+        owner: address,
+    ): CommentAdded {
+        CommentAdded {
             id: id(article),
             version: version(article),
             comment_seq_id,
             commenter,
             body,
+            owner,
         }
     }
 
@@ -327,18 +366,27 @@ module sui_blog_example::article {
             version: _version,
             title: _title,
             body: _body,
+            owner: _owner,
             comments,
         } = article;
         object::delete(id);
         table::destroy_empty(comments);
     }
 
-    public(friend) fun emit_article_created(article_created: ArticleCreated) {
-        event::emit(article_created);
-    }
-
     public(friend) fun emit_article_updated(article_updated: ArticleUpdated) {
         event::emit(article_updated);
+    }
+
+    public(friend) fun emit_comment_updated(comment_updated: CommentUpdated) {
+        event::emit(comment_updated);
+    }
+
+    public(friend) fun emit_comment_removed(comment_removed: CommentRemoved) {
+        event::emit(comment_removed);
+    }
+
+    public(friend) fun emit_article_created(article_created: ArticleCreated) {
+        event::emit(article_created);
     }
 
     public(friend) fun emit_article_deleted(article_deleted: ArticleDeleted) {
@@ -347,14 +395,6 @@ module sui_blog_example::article {
 
     public(friend) fun emit_comment_added(comment_added: CommentAdded) {
         event::emit(comment_added);
-    }
-
-    public(friend) fun emit_comment_removed(comment_removed: CommentRemoved) {
-        event::emit(comment_removed);
-    }
-
-    public(friend) fun emit_comment_updated(comment_updated: CommentUpdated) {
-        event::emit(comment_updated);
     }
 
 }

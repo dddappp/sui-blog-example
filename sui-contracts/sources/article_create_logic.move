@@ -9,12 +9,14 @@ module sui_blog_example::article_create_logic {
     public(friend) fun verify(
         title: String,
         body: String,
+        owner: address,
         ctx: &mut TxContext,
     ): article::ArticleCreated {
         let _ = ctx;
         article::new_article_created(
             title,
             body,
+            owner,
         )
     }
 
@@ -24,9 +26,11 @@ module sui_blog_example::article_create_logic {
     ): article::Article {
         let title = article_created::title(article_created);
         let body = article_created::body(article_created);
+        let owner = article_created::owner(article_created);
         article::new_article(
             title,
             body,
+            owner,
             ctx,
         )
     }

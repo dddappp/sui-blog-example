@@ -14,35 +14,17 @@ module sui_blog_example::article_aggregate {
     use sui_blog_example::article_update_comment_logic;
     use sui_blog_example::article_update_logic;
 
-    public entry fun create(
-        title: String,
-        body: String,
-        ctx: &mut tx_context::TxContext,
-    ) {
-        let article_created = article_create_logic::verify(
-            title,
-            body,
-            ctx,
-        );
-        let article = article_create_logic::mutate(
-            &article_created,
-            ctx,
-        );
-        article::set_article_created_id(&mut article_created, article::id(&article));
-        article::transfer_object(article, tx_context::sender(ctx));
-        article::emit_article_created(article_created);
-    }
-
-
     public entry fun update(
         article: article::Article,
         title: String,
         body: String,
+        owner: address,
         ctx: &mut tx_context::TxContext,
     ) {
         let article_updated = article_update_logic::verify(
             title,
             body,
+            owner,
             &article,
             ctx,
         );
@@ -53,6 +35,74 @@ module sui_blog_example::article_aggregate {
         );
         article::update_version_and_transfer_object(updated_article, tx_context::sender(ctx));
         article::emit_article_updated(article_updated);
+    }
+
+
+    public entry fun update_comment(
+        article: article::Article,
+        comment_seq_id: u64,
+        commenter: String,
+        body: String,
+        owner: address,
+        ctx: &mut tx_context::TxContext,
+    ) {
+        let comment_updated = article_update_comment_logic::verify(
+            comment_seq_id,
+            commenter,
+            body,
+            owner,
+            &article,
+            ctx,
+        );
+        let updated_article = article_update_comment_logic::mutate(
+            &comment_updated,
+            article,
+            ctx,
+        );
+        article::update_version_and_transfer_object(updated_article, tx_context::sender(ctx));
+        article::emit_comment_updated(comment_updated);
+    }
+
+
+    public entry fun remove_comment(
+        article: article::Article,
+        comment_seq_id: u64,
+        ctx: &mut tx_context::TxContext,
+    ) {
+        let comment_removed = article_remove_comment_logic::verify(
+            comment_seq_id,
+            &article,
+            ctx,
+        );
+        let updated_article = article_remove_comment_logic::mutate(
+            &comment_removed,
+            article,
+            ctx,
+        );
+        article::update_version_and_transfer_object(updated_article, tx_context::sender(ctx));
+        article::emit_comment_removed(comment_removed);
+    }
+
+
+    public entry fun create(
+        title: String,
+        body: String,
+        owner: address,
+        ctx: &mut tx_context::TxContext,
+    ) {
+        let article_created = article_create_logic::verify(
+            title,
+            body,
+            owner,
+            ctx,
+        );
+        let article = article_create_logic::mutate(
+            &article_created,
+            ctx,
+        );
+        article::set_article_created_id(&mut article_created, article::id(&article));
+        article::transfer_object(article, tx_context::sender(ctx));
+        article::emit_article_created(article_created);
     }
 
 
@@ -79,12 +129,14 @@ module sui_blog_example::article_aggregate {
         comment_seq_id: u64,
         commenter: String,
         body: String,
+        owner: address,
         ctx: &mut tx_context::TxContext,
     ) {
         let comment_added = article_add_comment_logic::verify(
             comment_seq_id,
             commenter,
             body,
+            owner,
             &article,
             ctx,
         );
@@ -95,50 +147,6 @@ module sui_blog_example::article_aggregate {
         );
         article::update_version_and_transfer_object(updated_article, tx_context::sender(ctx));
         article::emit_comment_added(comment_added);
-    }
-
-
-    public entry fun remove_comment(
-        article: article::Article,
-        comment_seq_id: u64,
-        ctx: &mut tx_context::TxContext,
-    ) {
-        let comment_removed = article_remove_comment_logic::verify(
-            comment_seq_id,
-            &article,
-            ctx,
-        );
-        let updated_article = article_remove_comment_logic::mutate(
-            &comment_removed,
-            article,
-            ctx,
-        );
-        article::update_version_and_transfer_object(updated_article, tx_context::sender(ctx));
-        article::emit_comment_removed(comment_removed);
-    }
-
-
-    public entry fun update_comment(
-        article: article::Article,
-        comment_seq_id: u64,
-        commenter: String,
-        body: String,
-        ctx: &mut tx_context::TxContext,
-    ) {
-        let comment_updated = article_update_comment_logic::verify(
-            comment_seq_id,
-            commenter,
-            body,
-            &article,
-            ctx,
-        );
-        let updated_article = article_update_comment_logic::mutate(
-            &comment_updated,
-            article,
-            ctx,
-        );
-        article::update_version_and_transfer_object(updated_article, tx_context::sender(ctx));
-        article::emit_comment_updated(comment_updated);
     }
 
 }

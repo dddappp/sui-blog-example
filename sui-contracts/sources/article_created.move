@@ -22,4 +22,8 @@ module sui_blog_example::article_created {
         article::article_created_body(article_created)
     }
 
+    public fun owner(article_created: &ArticleCreated): address {
+        article::article_created_owner(article_created)
+    }
+
 }

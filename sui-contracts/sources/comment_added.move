@@ -25,4 +25,8 @@ module sui_blog_example::comment_added {
         article::comment_added_body(comment_added)
     }
 
+    public fun owner(comment_added: &CommentAdded): address {
+        article::comment_added_owner(comment_added)
+    }
+
 }

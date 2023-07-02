@@ -13,6 +13,8 @@ aggregates:
       Body:
         type: String
         length: 2000
+      Owner:
+        type: address
       Comments:
         itemType: Comment
 
@@ -30,3 +32,18 @@ aggregates:
           Body:
             type: String
             length: 500
+          Owner:
+            type: address
+    methods:
+      Update:
+        verificationLogic:
+          Move:
+            "assert!(sui::tx_context::sender(ctx) == article::owner(article), 111);"
+      UpdateComment:
+        verificationLogic:
+          Move:
+            "assert!(sui::tx_context::sender(ctx) == comment::owner(comment), 111);"
+      RemoveComment:
+        verificationLogic:
+          Move:
+            "assert!(sui::tx_context::sender(ctx) == comment::owner(comment), 111);"
