@@ -46,6 +46,14 @@ public class SuiArticleService {
         articleStateRepository.merge(articleState);
     }
 
+    @Transactional
+    public void deleteArticle(String objectId) {
+        ArticleState.MutableArticleState s = (ArticleState.MutableArticleState) articleStateRepository.get(objectId, true);
+        if (s != null) {
+            s.setDeleted(true);
+            articleStateRepository.merge(s);
+        }
+    }
 
 }
 
