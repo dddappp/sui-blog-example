@@ -208,11 +208,15 @@ In the cheatsheet, the Package Id of the contracts you just published and the Ob
 
 ### CRUD Articles
 
+Here we assume that the package ID of the contracts you have published is `0xdc93d426b0a5ceaa8a883776c34370f83af72df528e8c9229a4febe2dc1b3b60`。
+
 #### Create Articles
+
+You can create an article like this (you need to replace the placeholder `{ACCOUNT_ADDRESS}` with your account address):
 
 ```shell
 sui client call --package 0xdc93d426b0a5ceaa8a883776c34370f83af72df528e8c9229a4febe2dc1b3b60 --module article_aggregate --function create \
---args \"Hello\" \"World\" \
+--args \"Hello\" \"World\" {ACCOUNT_ADDRESS} \
 --gas-budget 10000000
 ```
 
@@ -226,11 +230,13 @@ You can use parameters to filter articles, such as: http://localhost:1023/api/Ar
 
 #### Update Articles
 
+Let's assume that the object ID of an article you just created is `0xd31224eac22bfd66de709d521f337acf65a026e5fe16218ceae3a1843df5eaec`.
+
 You can update an article like this: (Note that the first argument after --args is the object ID of the article, please replace it with the actual value.)
 
 ```shell
 sui client call --package 0xdc93d426b0a5ceaa8a883776c34370f83af72df528e8c9229a4febe2dc1b3b60 --module article_aggregate --function update \
---args 0xd31224eac22bfd66de709d521f337acf65a026e5fe16218ceae3a1843df5eaec \"Hello\" '"My friends."' \
+--args 0xd31224eac22bfd66de709d521f337acf65a026e5fe16218ceae3a1843df5eaec \"Hello\" '"My friends."' {ACCOUNT_ADDRESS} \
 --gas-budget 10000000
 ```
 
@@ -243,7 +249,6 @@ sui client object 0xd31224eac22bfd66de709d521f337acf65a026e5fe16218ceae3a1843df5
 #### Delete Articles
 
 You can delete an article like this: (Note that the first argument after --args is the object ID of the article, please replace it with the actual value.)
-
 
 ```shell
 sui client call --package 0xdc93d426b0a5ceaa8a883776c34370f83af72df528e8c9229a4febe2dc1b3b60 --module article_aggregate --function delete \
@@ -287,7 +292,7 @@ We can submit a transaction like this to update a comment:
 
 ```shell
 sui client call --package 0xdc93d426b0a5ceaa8a883776c34370f83af72df528e8c9229a4febe2dc1b3b60 --module article_aggregate --function update_comment \
---args 0xf05e0623bb54630d2b78f2ae186babcd62585296a5ae2a002a2017a4eeaafd6b \"1\" \"Anonymous\" '"A test comment from Anonymous"' \
+--args 0xf05e0623bb54630d2b78f2ae186babcd62585296a5ae2a002a2017a4eeaafd6b \"1\" \"Anonymous\" '"A test comment from Anonymous"' {ACCOUNT_ADDRESS} \
 --gas-budget 10000000
 ```
 
@@ -313,7 +318,11 @@ Run the command:
 docker rm $(docker ps -aq --filter "ancestor=wubuku/dddappp:0.0.1")
 ```
 
+### A More Complex Sui Demo
+
+If you are interested, you can find a more complex Sui Demo here: ["A Sui Demo"](https://github.com/dddappp/A-Sui-Demo).
+
 ### Blog Example for Rooch
 
-Here is a Rooch version of blog sample: https://github.com/rooch-network/rooch/blob/main/examples/blog_example/README.md
+Here is a Rooch version like this blog example: https://github.com/rooch-network/rooch/blob/main/examples/blog_example/README.md
 
