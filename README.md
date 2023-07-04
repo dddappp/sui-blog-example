@@ -83,15 +83,52 @@ After the above command is successfully executed, two directories `sui-java-serv
 
 Now you can try to compile the off-chain service. Go to the directory `sui-java-service` and run:
 
-
 ```shell
 mvn compile
 ```
 
 If there is no unexpected failure, the compilation should be successful.
 
-## Test Example
 
+### Implementing Business Logic
+
+The tool has generated some files with the suffix `_logic.move` in the directory `sui-contracts/sources`. 
+
+Generally, these files contain the scaffolding code of functions that implement business logic, namely the signature part of the functions. You just need to fill in the implementation part of the functions.
+
+However, in this example, the `MOVE_CRUD_IT` preprocessor already generates the full CRUD methods for us. If CRUD is all the business logic you need, then you don't have to write another line of code.
+
+It is possible that you feel that the default generated CRUD logic does not meet your needs, for example, you may want to add comment without passing the `Owner` argument to `entry fun add_comment` and directly use the sender account address as the owner, then this requirement can currently be satisfied as follows.
+
+First, remove the use of the `MOVE_CRUD_IT` preprocessor from the `Comment` entity definition in the dddml model document.
+
+Then, define a custom method in the model file like this:
+
+```yaml
+aggregates:
+  Article:
+  # ...
+
+    methods:
+      AddComment:
+        event:
+          name: CommentAdded
+        parameters:
+          CommentSeqId:
+            type: u64
+          Commenter:
+            type: String
+          Body:
+            type: String
+```
+
+Note that the `Owner` parameter is no longer present in the method parameters above.
+
+Then, delete `article_add_comment_logic.move`, run the dddappp tool again.
+
+In the regenerated `article_add_comment_logic.move` file, the `verify` function will have an empty body except for the signature part. You will need to fill it in yourself.
+
+## Test Example
 
 ### Publish the Sui contracts
 
