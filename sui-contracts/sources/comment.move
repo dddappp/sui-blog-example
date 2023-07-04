@@ -8,9 +8,9 @@ module sui_blog_example::comment {
     friend sui_blog_example::article_update_logic;
     friend sui_blog_example::article_update_comment_logic;
     friend sui_blog_example::article_remove_comment_logic;
+    friend sui_blog_example::article_add_comment_logic;
     friend sui_blog_example::article_create_logic;
     friend sui_blog_example::article_delete_logic;
-    friend sui_blog_example::article_add_comment_logic;
     friend sui_blog_example::article;
 
     const EID_DATA_TOO_LONG: u64 = 102;

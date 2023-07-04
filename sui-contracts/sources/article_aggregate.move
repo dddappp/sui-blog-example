@@ -84,6 +84,30 @@ module sui_blog_example::article_aggregate {
     }
 
 
+    public entry fun add_comment(
+        article: article::Article,
+        comment_seq_id: u64,
+        commenter: String,
+        body: String,
+        ctx: &mut tx_context::TxContext,
+    ) {
+        let comment_added = article_add_comment_logic::verify(
+            comment_seq_id,
+            commenter,
+            body,
+            &article,
+            ctx,
+        );
+        let updated_article = article_add_comment_logic::mutate(
+            &comment_added,
+            article,
+            ctx,
+        );
+        article::update_version_and_transfer_object(updated_article, tx_context::sender(ctx));
+        article::emit_comment_added(comment_added);
+    }
+
+
     public entry fun create(
         title: String,
         body: String,
@@ -121,32 +145,6 @@ module sui_blog_example::article_aggregate {
         );
         article::drop_article(updated_article);
         article::emit_article_deleted(article_deleted);
-    }
-
-
-    public entry fun add_comment(
-        article: article::Article,
-        comment_seq_id: u64,
-        commenter: String,
-        body: String,
-        owner: address,
-        ctx: &mut tx_context::TxContext,
-    ) {
-        let comment_added = article_add_comment_logic::verify(
-            comment_seq_id,
-            commenter,
-            body,
-            owner,
-            &article,
-            ctx,
-        );
-        let updated_article = article_add_comment_logic::mutate(
-            &comment_added,
-            article,
-            ctx,
-        );
-        article::update_version_and_transfer_object(updated_article, tx_context::sender(ctx));
-        article::emit_comment_added(comment_added);
     }
 
 }

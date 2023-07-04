@@ -28,6 +28,14 @@ sui client call --package _PACKAGE_ID_ --module article_aggregate --function rem
 --gas-budget 100000
 ```
 
+### AddComment method
+
+```shell
+sui client call --package _PACKAGE_ID_ --module article_aggregate --function add_comment \
+--args article_Object_ID \"u64_comment_seq_id\" '"string_commenter"' '"string_body"' \
+--gas-budget 100000
+```
+
 ### Create method
 
 ```shell
@@ -41,14 +49,6 @@ sui client call --package _PACKAGE_ID_ --module article_aggregate --function cre
 ```shell
 sui client call --package _PACKAGE_ID_ --module article_aggregate --function delete \
 --args article_Object_ID \
---gas-budget 100000
-```
-
-### AddComment method
-
-```shell
-sui client call --package _PACKAGE_ID_ --module article_aggregate --function add_comment \
---args article_Object_ID \"u64_comment_seq_id\" '"string_commenter"' '"string_body"' address_owner \
 --gas-budget 100000
 ```
 

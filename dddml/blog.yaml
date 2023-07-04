@@ -47,3 +47,18 @@ aggregates:
         verificationLogic:
           Move:
             "assert!(sui::tx_context::sender(ctx) == comment::owner(comment), 111);"
+      AddComment:
+        event:
+          name: CommentAdded
+          properties:
+            Owner:
+              type: address
+        parameters:
+          CommentSeqId:
+            type: u64
+          Commenter:
+            type: String
+            length: 100
+          Body:
+            type: String
+            length: 500

@@ -17,9 +17,9 @@ import org.test.suiblogexample.sui.contract.SuiPackage;
 import org.test.suiblogexample.sui.contract.article.ArticleUpdated;
 import org.test.suiblogexample.sui.contract.article.CommentUpdated;
 import org.test.suiblogexample.sui.contract.article.CommentRemoved;
+import org.test.suiblogexample.sui.contract.article.CommentAdded;
 import org.test.suiblogexample.sui.contract.article.ArticleCreated;
 import org.test.suiblogexample.sui.contract.article.ArticleDeleted;
-import org.test.suiblogexample.sui.contract.article.CommentAdded;
 import org.test.suiblogexample.sui.contract.repository.ArticleEventRepository;
 import org.test.suiblogexample.sui.contract.repository.SuiPackageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -171,6 +171,46 @@ public class ArticleEventService {
     }
 
     @Transactional
+    public void pullCommentAddedEvents() {
+        String packageId = getDefaultSuiPackageId();
+        if (packageId == null) {
+            return;
+        }
+        int limit = 1;
+        EventId cursor = getCommentAddedEventNextCursor();
+        while (true) {
+            PaginatedMoveEvents<CommentAdded> eventPage = suiJsonRpcClient.queryMoveEvents(
+                    packageId + "::" + ContractConstants.ARTICLE_MODULE_COMMENT_ADDED,
+                    cursor, limit, false, CommentAdded.class);
+
+            if (eventPage.getData() != null && !eventPage.getData().isEmpty()) {
+                cursor = eventPage.getNextCursor();
+                for (SuiMoveEventEnvelope<CommentAdded> eventEnvelope : eventPage.getData()) {
+                    saveCommentAdded(eventEnvelope);
+                }
+            } else {
+                break;
+            }
+            if (!Page.hasNextPage(eventPage)) {
+                break;
+            }
+        }
+    }
+
+    private EventId getCommentAddedEventNextCursor() {
+        AbstractArticleEvent lastEvent = articleEventRepository.findFirstCommentAddedByOrderBySuiTimestampDesc();
+        return lastEvent != null ? new EventId(lastEvent.getSuiTxDigest(), lastEvent.getSuiEventSeq() + "") : null;
+    }
+
+    private void saveCommentAdded(SuiMoveEventEnvelope<CommentAdded> eventEnvelope) {
+        AbstractArticleEvent.CommentAdded commentAdded = DomainBeanUtils.toCommentAdded(eventEnvelope);
+        if (articleEventRepository.findById(commentAdded.getArticleEventId()).isPresent()) {
+            return;
+        }
+        articleEventRepository.save(commentAdded);
+    }
+
+    @Transactional
     public void pullArticleCreatedEvents() {
         String packageId = getDefaultSuiPackageId();
         if (packageId == null) {
@@ -248,46 +288,6 @@ public class ArticleEventService {
             return;
         }
         articleEventRepository.save(articleDeleted);
-    }
-
-    @Transactional
-    public void pullCommentAddedEvents() {
-        String packageId = getDefaultSuiPackageId();
-        if (packageId == null) {
-            return;
-        }
-        int limit = 1;
-        EventId cursor = getCommentAddedEventNextCursor();
-        while (true) {
-            PaginatedMoveEvents<CommentAdded> eventPage = suiJsonRpcClient.queryMoveEvents(
-                    packageId + "::" + ContractConstants.ARTICLE_MODULE_COMMENT_ADDED,
-                    cursor, limit, false, CommentAdded.class);
-
-            if (eventPage.getData() != null && !eventPage.getData().isEmpty()) {
-                cursor = eventPage.getNextCursor();
-                for (SuiMoveEventEnvelope<CommentAdded> eventEnvelope : eventPage.getData()) {
-                    saveCommentAdded(eventEnvelope);
-                }
-            } else {
-                break;
-            }
-            if (!Page.hasNextPage(eventPage)) {
-                break;
-            }
-        }
-    }
-
-    private EventId getCommentAddedEventNextCursor() {
-        AbstractArticleEvent lastEvent = articleEventRepository.findFirstCommentAddedByOrderBySuiTimestampDesc();
-        return lastEvent != null ? new EventId(lastEvent.getSuiTxDigest(), lastEvent.getSuiEventSeq() + "") : null;
-    }
-
-    private void saveCommentAdded(SuiMoveEventEnvelope<CommentAdded> eventEnvelope) {
-        AbstractArticleEvent.CommentAdded commentAdded = DomainBeanUtils.toCommentAdded(eventEnvelope);
-        if (articleEventRepository.findById(commentAdded.getArticleEventId()).isPresent()) {
-            return;
-        }
-        articleEventRepository.save(commentAdded);
     }
 
 

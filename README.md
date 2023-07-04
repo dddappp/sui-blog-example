@@ -108,18 +108,22 @@ Then, define a custom method in the model file like this:
 aggregates:
   Article:
   # ...
-
     methods:
       AddComment:
         event:
           name: CommentAdded
+          properties:
+            Owner:
+              type: address
         parameters:
           CommentSeqId:
             type: u64
           Commenter:
             type: String
+            length: 100
           Body:
             type: String
+            length: 500
 ```
 
 Note that the `Owner` parameter is no longer present in the method parameters above.
