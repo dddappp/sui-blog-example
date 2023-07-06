@@ -67,3 +67,19 @@ aggregates:
           Body:
             type: String
             length: 500
+
+
+  Tag:
+    metadata:
+      Preprocessors: ["MOVE_CRUD_IT"]
+    immutable: true
+    id:
+      name: Name
+      type: String
+      generator:
+        class: assigned
+        tableName: TagNameTable
+    methods:
+      Create:
+        event:
+          isObjectFrozen: true

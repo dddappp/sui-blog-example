@@ -52,6 +52,16 @@ sui client call --package _PACKAGE_ID_ --module article_aggregate --function del
 --gas-budget 100000
 ```
 
+## Tag aggregate
+
+### Create method
+
+```shell
+sui client call --package _PACKAGE_ID_ --module tag_aggregate --function create \
+--args '"string_name"' \"_TAG_TAG_NAME_TABLE_OBJECT_ID_\" \
+--gas-budget 100000
+```
+
 
 ---
 

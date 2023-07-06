@@ -16,6 +16,7 @@ public class SuiCliCheatsheetConstants {
 
     static {
         Map<String, String> map = new HashMap<>();
+        map.put(ContractConstants.TAG_MODULE_TAG_NAME_TABLE, "_TAG_TAG_NAME_TABLE_OBJECT_ID_");
         ID_GENERATOR_OBJECT_NAME_TO_ARGUMENT_HINT_MAP = map;
     }
 
