@@ -15,6 +15,11 @@ aggregates:
         length: 2000
       Owner:
         type: address
+      Tags:
+        itemType: ID
+        defaultLogic:
+          Move:
+            "std::vector::empty()"
       Comments:
         itemType: Comment
 

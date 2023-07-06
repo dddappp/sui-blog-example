@@ -7,7 +7,7 @@ module sui_blog_example::article {
     use std::option;
     use std::string::String;
     use sui::event;
-    use sui::object::{Self, UID};
+    use sui::object::{Self, ID, UID};
     use sui::table;
     use sui::transfer;
     use sui::tx_context::TxContext;
@@ -29,6 +29,7 @@ module sui_blog_example::article {
         title: String,
         body: String,
         owner: address,
+        tags: vector<ID>,
         comments: table::Table<u64, Comment>,
     }
 
@@ -64,6 +65,14 @@ module sui_blog_example::article {
 
     public(friend) fun set_owner(article: &mut Article, owner: address) {
         article.owner = owner;
+    }
+
+    public fun tags(article: &Article): vector<ID> {
+        article.tags
+    }
+
+    public(friend) fun set_tags(article: &mut Article, tags: vector<ID>) {
+        article.tags = tags;
     }
 
     public(friend) fun add_comment(article: &mut Article, comment: Comment) {
@@ -106,6 +115,7 @@ module sui_blog_example::article {
             title,
             body,
             owner,
+            tags: std::vector::empty(),
             comments: table::new<u64, Comment>(ctx),
         }
     }
@@ -367,6 +377,7 @@ module sui_blog_example::article {
             title: _title,
             body: _body,
             owner: _owner,
+            tags: _tags,
             comments,
         } = article;
         object::delete(id);
