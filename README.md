@@ -35,7 +35,44 @@ It only requires 30 or so lines of code (all of which is a description of the do
 
 ### Write DDDML Model File
 
-For what you need to write see: [dddml/blog.yaml](./dddml/blog.yaml).
+In the `dddml` directory in the root of the repository, create a DDDML file like this:
+
+```yaml
+aggregates:
+  Article:
+    metadata:
+      Preprocessors: ["MOVE_CRUD_IT"]
+    id:
+      name: Id
+      type: UID
+    properties:
+      Title:
+        type: String
+        length: 200
+      Body:
+        type: String
+        length: 2000
+      Owner:
+        type: address
+      Comments:
+        itemType: Comment
+    entities:
+      Comment:
+        metadata:
+          Preprocessors: ["MOVE_CRUD_IT"]
+        id:
+          name: CommentSeqId
+          type: u64
+        properties:
+          Commenter:
+            type: String
+            length: 100
+          Body:
+            type: String
+            length: 500
+          Owner:
+            type: address
+```
 
 > **Tip**
 >
@@ -62,21 +99,13 @@ wubuku/dddappp:0.0.1 \
 The command parameters above are straightforward:
 
 * This line `-v .:/myapp \` indicates mounting the local current directory into the `/myapp` directory inside the container.
-
 * `dddmlDirectoryPath` is the directory where the DDDML model files are located. It should be a directory path that can be read in the container.
-
 * Understand the value of the `boundedContextName` parameter as the name of the application you want to develop. When the name has multiple parts, separate them with dots and use the PascalCase naming convention for each part. Bounded-context is a term in Domain-driven design (DDD) that refers to a specific problem domain scope that contains specific business boundaries, constraints, and language. If you cannot understand this concept for the time being, it is not a big deal.
-
 * `boundedContextJavaPackageName` is the Java package name of the off-chain service. According to Java naming conventions, it should be all lowercase and the parts should be separated by dots.
-
 * `boundedContextSuiPackageName` is the package name of the on-chain Sui contracts. According to the Sui development convention, it should be named in snake_case style with all lowercase letters.
-
 * `javaProjectsDirectoryPath` is the directory path where the off-chain service code is placed. The off-chain service consists of multiple modules (projects). It should be a readable and writable directory path in the container.
-
 * `javaProjectNamePrefix` is the name prefix of each module of the off-chain service. It is recommended to use an all-lowercase name.
-
 * `pomGroupId` is the GroupId of the off-chain service. We use Maven as the project management tool for off-chain service. It should be all lowercase and the parts should be separated by dots.
-
 * `suiMoveProjectDirectoryPath` is the directory path where the on-chain Sui contract code is placed. It should be a readable and writable directory path in the container.
 
 After the above command is successfully executed, two directories `sui-java-service` and `sui-contracts` should be added to the local current directory.
