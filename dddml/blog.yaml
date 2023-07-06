@@ -16,7 +16,7 @@ aggregates:
       Owner:
         type: address
       Tags:
-        itemType: ID
+        itemType: String
         defaultLogic:
           Move:
             "std::vector::empty()"
@@ -68,6 +68,12 @@ aggregates:
             type: String
             length: 500
 
+      UpdateTags:
+        event:
+          name: ArticleTagsUpdated
+        parameters:
+          Tags:
+            itemReferenceType: Tag
 
   Tag:
     metadata:

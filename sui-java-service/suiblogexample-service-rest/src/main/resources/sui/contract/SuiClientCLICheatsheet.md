@@ -36,6 +36,14 @@ sui client call --package _PACKAGE_ID_ --module article_aggregate --function add
 --gas-budget 100000
 ```
 
+### UpdateTags method
+
+```shell
+sui client call --package _PACKAGE_ID_ --module article_aggregate --function update_tags \
+--args article_Object_ID '["string_tags_item"]' \
+--gas-budget 100000
+```
+
 ### Create method
 
 ```shell

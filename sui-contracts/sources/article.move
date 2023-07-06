@@ -7,7 +7,7 @@ module sui_blog_example::article {
     use std::option;
     use std::string::String;
     use sui::event;
-    use sui::object::{Self, ID, UID};
+    use sui::object::{Self, UID};
     use sui::table;
     use sui::transfer;
     use sui::tx_context::TxContext;
@@ -16,6 +16,7 @@ module sui_blog_example::article {
     friend sui_blog_example::article_update_comment_logic;
     friend sui_blog_example::article_remove_comment_logic;
     friend sui_blog_example::article_add_comment_logic;
+    friend sui_blog_example::article_update_tags_logic;
     friend sui_blog_example::article_create_logic;
     friend sui_blog_example::article_delete_logic;
     friend sui_blog_example::article_aggregate;
@@ -29,7 +30,7 @@ module sui_blog_example::article {
         title: String,
         body: String,
         owner: address,
-        tags: vector<ID>,
+        tags: vector<String>,
         comments: table::Table<u64, Comment>,
     }
 
@@ -67,11 +68,11 @@ module sui_blog_example::article {
         article.owner = owner;
     }
 
-    public fun tags(article: &Article): vector<ID> {
+    public fun tags(article: &Article): vector<String> {
         article.tags
     }
 
-    public(friend) fun set_tags(article: &mut Article, tags: vector<ID>) {
+    public(friend) fun set_tags(article: &mut Article, tags: vector<String>) {
         article.tags = tags;
     }
 
@@ -276,6 +277,31 @@ module sui_blog_example::article {
         }
     }
 
+    struct ArticleTagsUpdated has copy, drop {
+        id: object::ID,
+        version: u64,
+        tags: vector<String>,
+    }
+
+    public fun article_tags_updated_id(article_tags_updated: &ArticleTagsUpdated): object::ID {
+        article_tags_updated.id
+    }
+
+    public fun article_tags_updated_tags(article_tags_updated: &ArticleTagsUpdated): vector<String> {
+        article_tags_updated.tags
+    }
+
+    public(friend) fun new_article_tags_updated(
+        article: &Article,
+        tags: vector<String>,
+    ): ArticleTagsUpdated {
+        ArticleTagsUpdated {
+            id: id(article),
+            version: version(article),
+            tags,
+        }
+    }
+
     struct ArticleCreated has copy, drop {
         id: option::Option<object::ID>,
         title: String,
@@ -398,6 +424,10 @@ module sui_blog_example::article {
 
     public(friend) fun emit_comment_added(comment_added: CommentAdded) {
         event::emit(comment_added);
+    }
+
+    public(friend) fun emit_article_tags_updated(article_tags_updated: ArticleTagsUpdated) {
+        event::emit(article_tags_updated);
     }
 
     public(friend) fun emit_article_created(article_created: ArticleCreated) {
