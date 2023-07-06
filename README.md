@@ -2,6 +2,8 @@
 
 An example of developing a blog_example application based on the Sui platform.
 
+It only requires 30 or so lines of code (all of which is a description of the domain model) to be written by the developer, and then generates a blog example that emulates [RoR Getting Started](https://guides.rubyonrails.org/getting_started.html) in one click, without requiring the developer to write a single line of other code.
+
 ## Prerequisites
 
 Currently, the dddappp low-code tool is published as a Docker image for developers to experience.
@@ -30,8 +32,6 @@ sudo docker run -p 3306:3306 --name mysql \
 ```
 
 ## Programming
-
-It only requires 30 or so lines of code (all of which is a description of the domain model) to be written by the developer, and then generates a blog example that emulates [RoR Getting Started](https://guides.rubyonrails.org/getting_started.html) in one click, without requiring the developer to write a single line of other code.
 
 ### Write DDDML Model File
 
@@ -129,9 +129,7 @@ However, in this example, the `MOVE_CRUD_IT` preprocessor already generates the 
 
 It is possible that you feel that the default generated CRUD logic does not meet your needs, for example, you may want to add comment without passing the `Owner` argument to `entry fun add_comment` and directly use the sender account address as the owner, then this requirement can currently be satisfied as follows.
 
-First, remove the use of the `MOVE_CRUD_IT` preprocessor from the `Comment` entity definition in the dddml model document.
-
-Then, define a custom method in the model file like this:
+First, define a custom method in the model file like this:
 
 ```yaml
 aggregates:
@@ -157,9 +155,9 @@ aggregates:
 
 Note that the `Owner` parameter is no longer present in the method parameters above.
 
-Then, delete `article_add_comment_logic.move`, run the dddappp tool again.
+Then, delete `article_add_comment_logic.move`, run the dddappp tool again. (Since the dddappp tool does not overwrite the `*_logic.move` files by default, you will need to delete it manually.)
 
-In the regenerated `article_add_comment_logic.move` file, the `verify` function will have an empty body except for the signature part. You will need to fill it in yourself.
+Open the regenerated `article_add_comment_logic.move` file, find the `verify` function and fill in the body with the logic you want.
 
 ## Test Example
 
