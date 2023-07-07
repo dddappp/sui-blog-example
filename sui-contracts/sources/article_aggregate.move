@@ -5,9 +5,7 @@
 
 module sui_blog_example::article_aggregate {
     use std::string::String;
-
     use sui::tx_context;
-
     use sui_blog_example::article;
     use sui_blog_example::article_add_comment_logic;
     use sui_blog_example::article_create_logic;
@@ -114,17 +112,15 @@ module sui_blog_example::article_aggregate {
 
     public entry fun update_tags(
         article: article::Article,
-        //_tags: vector<&Tag>,
-        _tag_1: &Tag,
-        _tag_2: &Tag,
-        _tag_3: &Tag,
+        tags_0: &Tag,
+        tags_1: &Tag,
+        tags_2: &Tag,
         ctx: &mut tx_context::TxContext,
     ) {
         let article_tags_updated = article_update_tags_logic::verify(
-            //std::vector::empty(),
-            _tag_1,
-            _tag_2,
-            _tag_3,
+            tags_0,
+            tags_1,
+            tags_2,
             &article,
             ctx,
         );
@@ -176,4 +172,5 @@ module sui_blog_example::article_aggregate {
         article::drop_article(updated_article);
         article::emit_article_deleted(article_deleted);
     }
+
 }

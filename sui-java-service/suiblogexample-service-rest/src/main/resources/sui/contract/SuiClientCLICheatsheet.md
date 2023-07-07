@@ -40,7 +40,7 @@ sui client call --package _PACKAGE_ID_ --module article_aggregate --function add
 
 ```shell
 sui client call --package _PACKAGE_ID_ --module article_aggregate --function update_tags \
---args article_Object_ID '["string_tags_item"]' \
+--args article_Object_ID \"_TAG_OBJECT_ID_\" \"_TAG_OBJECT_ID_\" \"_TAG_OBJECT_ID_\" \
 --gas-budget 100000
 ```
 

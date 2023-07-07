@@ -12,23 +12,23 @@ module sui_blog_example::article_update_tags_logic {
     friend sui_blog_example::article_aggregate;
 
     public(friend) fun verify(
-        _tag_1: &Tag,
-        _tag_2: &Tag,
-        _tag_3: &Tag,
+        tag_0: &Tag,
+        tag_1: &Tag,
+        tag_2: &Tag,
         article: &article::Article,
         ctx: &TxContext,
     ): article::ArticleTagsUpdated {
         let _ = ctx;
         let tag_names = vector::empty<String>();
-        let tag_name = tag::name(_tag_1);
+        let tag_name = tag::name(tag_0);
         if (!vector::contains(&tag_names, &tag_name)) {
             vector::push_back(&mut tag_names, tag_name)
         };
-        let tag_name = tag::name(_tag_2);
+        let tag_name = tag::name(tag_1);
         if (!vector::contains(&tag_names, &tag_name)) {
             vector::push_back(&mut tag_names, tag_name)
         };
-        let tag_name = tag::name(_tag_3);
+        let tag_name = tag::name(tag_2);
         if (!vector::contains(&tag_names, &tag_name)) {
             vector::push_back(&mut tag_names, tag_name)
         };
