@@ -20,6 +20,11 @@ aggregates:
         defaultLogic:
           Move:
             "std::vector::empty()"
+      TagsV2:
+        itemType: ID
+        defaultLogic:
+          Move:
+            "std::vector::empty()"
       Comments:
         itemType: Comment
 
@@ -78,6 +83,16 @@ aggregates:
               min: 1
               max: 3
 
+      UpdateTagsV2:
+        event:
+          name: ArticleTagsV2Updated
+        parameters:
+          Tags:
+            itemReferenceType: TagV2
+            size:
+              min: 1
+              max: 3
+
   Tag:
     metadata:
       Preprocessors: ["MOVE_CRUD_IT"]
@@ -88,6 +103,22 @@ aggregates:
       generator:
         class: assigned
         tableName: TagNameTable
+    methods:
+      Create:
+        event:
+          isObjectFrozen: true
+
+  TagV2:
+    metadata:
+      Preprocessors: ["MOVE_CRUD_IT"]
+    immutable: true
+    id:
+      name: Id
+      type: UID
+    properties:
+      Name:
+        type: String
+        length: 100
     methods:
       Create:
         event:

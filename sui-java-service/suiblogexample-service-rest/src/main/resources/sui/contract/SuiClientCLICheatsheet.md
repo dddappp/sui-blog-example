@@ -44,6 +44,14 @@ sui client call --package _PACKAGE_ID_ --module article_aggregate --function upd
 --gas-budget 100000
 ```
 
+### UpdateTagsV2 method
+
+```shell
+sui client call --package _PACKAGE_ID_ --module article_aggregate --function update_tags_v2 \
+--args article_Object_ID \"_TAG_V2_OBJECT_ID_\" \"_TAG_V2_OBJECT_ID_\" \"_TAG_V2_OBJECT_ID_\" \
+--gas-budget 100000
+```
+
 ### Create method
 
 ```shell
@@ -67,6 +75,16 @@ sui client call --package _PACKAGE_ID_ --module article_aggregate --function del
 ```shell
 sui client call --package _PACKAGE_ID_ --module tag_aggregate --function create \
 --args '"string_name"' \"_TAG_TAG_NAME_TABLE_OBJECT_ID_\" \
+--gas-budget 100000
+```
+
+## TagV2 aggregate
+
+### Create method
+
+```shell
+sui client call --package _PACKAGE_ID_ --module tag_v2_aggregate --function create \
+--args '"string_name"' \
 --gas-budget 100000
 ```
 

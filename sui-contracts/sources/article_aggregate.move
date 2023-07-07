@@ -14,7 +14,9 @@ module sui_blog_example::article_aggregate {
     use sui_blog_example::article_update_comment_logic;
     use sui_blog_example::article_update_logic;
     use sui_blog_example::article_update_tags_logic;
+    use sui_blog_example::article_update_tags_v2_logic;
     use sui_blog_example::tag::Tag;
+    use sui_blog_example::tag_v2::TagV2;
 
     public entry fun update(
         article: article::Article,
@@ -131,6 +133,30 @@ module sui_blog_example::article_aggregate {
         );
         article::update_version_and_transfer_object(updated_article, tx_context::sender(ctx));
         article::emit_article_tags_updated(article_tags_updated);
+    }
+
+
+    public entry fun update_tags_v2(
+        article: article::Article,
+        tags_0: &TagV2,
+        tags_1: &TagV2,
+        tags_2: &TagV2,
+        ctx: &mut tx_context::TxContext,
+    ) {
+        let article_tags_v2_updated = article_update_tags_v2_logic::verify(
+            tags_0,
+            tags_1,
+            tags_2,
+            &article,
+            ctx,
+        );
+        let updated_article = article_update_tags_v2_logic::mutate(
+            &article_tags_v2_updated,
+            article,
+            ctx,
+        );
+        article::update_version_and_transfer_object(updated_article, tx_context::sender(ctx));
+        article::emit_article_tags_v2_updated(article_tags_v2_updated);
     }
 
 

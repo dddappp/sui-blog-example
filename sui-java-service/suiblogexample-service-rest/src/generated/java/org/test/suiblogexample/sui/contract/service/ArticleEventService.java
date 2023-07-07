@@ -19,6 +19,7 @@ import org.test.suiblogexample.sui.contract.article.CommentUpdated;
 import org.test.suiblogexample.sui.contract.article.CommentRemoved;
 import org.test.suiblogexample.sui.contract.article.CommentAdded;
 import org.test.suiblogexample.sui.contract.article.ArticleTagsUpdated;
+import org.test.suiblogexample.sui.contract.article.ArticleTagsV2Updated;
 import org.test.suiblogexample.sui.contract.article.ArticleCreated;
 import org.test.suiblogexample.sui.contract.article.ArticleDeleted;
 import org.test.suiblogexample.sui.contract.repository.ArticleEventRepository;
@@ -249,6 +250,46 @@ public class ArticleEventService {
             return;
         }
         articleEventRepository.save(articleTagsUpdated);
+    }
+
+    @Transactional
+    public void pullArticleTagsV2UpdatedEvents() {
+        String packageId = getDefaultSuiPackageId();
+        if (packageId == null) {
+            return;
+        }
+        int limit = 1;
+        EventId cursor = getArticleTagsV2UpdatedEventNextCursor();
+        while (true) {
+            PaginatedMoveEvents<ArticleTagsV2Updated> eventPage = suiJsonRpcClient.queryMoveEvents(
+                    packageId + "::" + ContractConstants.ARTICLE_MODULE_ARTICLE_TAGS_V2_UPDATED,
+                    cursor, limit, false, ArticleTagsV2Updated.class);
+
+            if (eventPage.getData() != null && !eventPage.getData().isEmpty()) {
+                cursor = eventPage.getNextCursor();
+                for (SuiMoveEventEnvelope<ArticleTagsV2Updated> eventEnvelope : eventPage.getData()) {
+                    saveArticleTagsV2Updated(eventEnvelope);
+                }
+            } else {
+                break;
+            }
+            if (!Page.hasNextPage(eventPage)) {
+                break;
+            }
+        }
+    }
+
+    private EventId getArticleTagsV2UpdatedEventNextCursor() {
+        AbstractArticleEvent lastEvent = articleEventRepository.findFirstArticleTagsV2UpdatedByOrderBySuiTimestampDesc();
+        return lastEvent != null ? new EventId(lastEvent.getSuiTxDigest(), lastEvent.getSuiEventSeq() + "") : null;
+    }
+
+    private void saveArticleTagsV2Updated(SuiMoveEventEnvelope<ArticleTagsV2Updated> eventEnvelope) {
+        AbstractArticleEvent.ArticleTagsV2Updated articleTagsV2Updated = DomainBeanUtils.toArticleTagsV2Updated(eventEnvelope);
+        if (articleEventRepository.findById(articleTagsV2Updated.getArticleEventId()).isPresent()) {
+            return;
+        }
+        articleEventRepository.save(articleTagsV2Updated);
     }
 
     @Transactional
