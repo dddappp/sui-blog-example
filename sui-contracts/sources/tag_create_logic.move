@@ -12,7 +12,7 @@ module sui_blog_example::tag_create_logic {
         ctx: &mut TxContext,
     ): tag::TagCreated {
         let _ = ctx;
-        let _ = tag_name_table;
+        tag::asset_name_not_exists(name, tag_name_table);
         tag::new_tag_created(
             name,
         )
@@ -23,8 +23,9 @@ module sui_blog_example::tag_create_logic {
         tag_name_table: &mut tag::TagNameTable,
         ctx: &mut TxContext,
     ): tag::Tag {
+        let name = tag_created::name(tag_created);
         tag::create_tag(
-            tag_created::name(tag_created),
+            name,
             tag_name_table,
             ctx,
         )
