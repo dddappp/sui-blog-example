@@ -4,6 +4,7 @@ An example of developing a blog_example application based on the Sui platform.
 
 It only requires 30 or so lines of code (all of which is a description of the domain model) to be written by the developer, and then generates a blog example that emulates [RoR Getting Started](https://guides.rubyonrails.org/getting_started.html) in one click, without requiring the developer to write a single line of other code.
 
+
 ## Prerequisites
 
 Currently, the dddappp low-code tool is published as a Docker image for developers to experience.
@@ -30,6 +31,7 @@ sudo docker run -p 3306:3306 --name mysql \
 -e MYSQL_ROOT_PASSWORD=123456 \
 -d mysql:5.7
 ```
+
 
 ## Programming
 
@@ -78,6 +80,7 @@ aggregates:
 >
 > About DDDML, here is an introductory article: ["Introducing DDDML: The Key to Low-Code Development for Decentralized Applications"](https://github.com/wubuku/Dapp-LCDP-Demo/blob/main/IntroducingDDDML.md). 
 
+
 ### Run dddappp Project Creation Tool
 
 In repository root directory, run:
@@ -121,11 +124,11 @@ If there is no unexpected failure, the compilation should be successful.
 
 ### Implementing Business Logic
 
+If CRUD is all the business logic you need, You **don't** need to write a single line of code other than the DDDML model above. You **can skip this section** and just start testing your example application.
+
 The tool has generated some files with the suffix `_logic.move` in the directory `sui-contracts/sources`. 
 
-Generally, these files contain the scaffolding code of functions that implement business logic, namely the signature part of the functions. You just need to fill in the implementation part of the functions.
-
-However, in this example, the `MOVE_CRUD_IT` preprocessor already generates the full CRUD methods for us. If CRUD is all the business logic you need, then you don't have to write another line of code.
+Generally, these files contain the scaffolding code of functions that implement business logic, namely the signature part of the functions. You just need to fill in the implementation part of the functions. However, in this example, the `MOVE_CRUD_IT` preprocessor already generates the full CRUD methods for us.
 
 It is possible that you feel that the default generated CRUD logic does not meet your needs, for example, you may want to add comment without passing the `Owner` argument to `entry fun add_comment` and directly use the sender account address as the owner, then this requirement can currently be satisfied as follows.
 
@@ -153,11 +156,12 @@ aggregates:
             length: 500
 ```
 
-Note that the `Owner` parameter is no longer present in the method parameters above.
+Note that the `Owner` parameter is NOT present in the method parameters above.
 
 Then, delete `article_add_comment_logic.move`, run the dddappp tool again. (Since the dddappp tool does not overwrite the `*_logic.move` files by default, you will need to delete it manually.)
 
 Open the regenerated `article_add_comment_logic.move` file, find the `verify` function and fill in the body with the logic you want.
+
 
 ## Test Example
 
@@ -235,7 +239,7 @@ In the cheatsheet, the Package Id of the contracts you just published and the Ob
 
 ### CRUD Articles
 
-Here we assume that the package ID of the contracts you have published is `0xdc93d426b0a5ceaa8a883776c34370f83af72df528e8c9229a4febe2dc1b3b60`。
+Here we assume that the published package ID of the contracts is `0xdc93d426b0a5ceaa8a883776c34370f83af72df528e8c9229a4febe2dc1b3b60` (Replace it with your actual published package ID when you do your tests).
 
 #### Create Articles
 
@@ -334,6 +338,7 @@ sui client call --package 0xdc93d426b0a5ceaa8a883776c34370f83af72df528e8c9229a4f
 --args 0xf05e0623bb54630d2b78f2ae186babcd62585296a5ae2a002a2017a4eeaafd6b \"1\" \
 --gas-budget 10000000
 ```
+
 
 ## Some Tips
 
