@@ -130,7 +130,13 @@ The tool has generated some files with the suffix `_logic.move` in the directory
 
 Generally, these files contain the scaffolding code of functions that implement business logic, namely the signature part of the functions. You just need to fill in the implementation part of the functions. However, in this example, the `MOVE_CRUD_IT` preprocessor already generates the full CRUD methods for us.
 
-It is possible that you feel that the default generated CRUD logic does not meet your needs, for example, you may want to add comment without passing the `Owner` argument to `entry fun add_comment` and directly use the sender account address as the owner, then this requirement can currently be satisfied as follows.
+---
+
+It is possible that you feel that the default generated CRUD logic does not meet your needs.
+
+For example, you might want to improve the model above by adding separate `Owner` fields for `Article` and `Comment`, as shown in this file: [blog.yaml](./dddml/blog.yaml). You want to use them to control who can update/delete articles and comments. Then, you may want to add comment without passing the `Owner` argument to `entry fun add_comment` and directly use the sender account address as the owner.
+
+This requirement can currently be satisfied as follows.
 
 First, define a custom method in the model file like this:
 
