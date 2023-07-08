@@ -5,8 +5,7 @@
 
 module sui_blog_example::article_tags_v2_updated {
 
-    use sui::object;
-    use sui::object::ID;
+    use sui::object::{Self, ID};
     use sui_blog_example::article::{Self, ArticleTagsV2Updated};
 
     public fun id(article_tags_v2_updated: &ArticleTagsV2Updated): object::ID {
