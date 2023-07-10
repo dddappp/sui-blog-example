@@ -83,6 +83,21 @@ aggregates:
 
 ### Run dddappp Project Creation Tool
 
+#### Update dddappp Docker Image
+
+Since the dddappp v0.0.1 image is updated frequently, you may be required to manually delete the image and pull it again before `docker run`.
+
+```shell
+# If you have already run it, you may need to Clean Up Exited Docker Containers first
+docker rm $(docker ps -aq --filter "ancestor=wubuku/dddappp:0.0.1")
+# remove the image
+docker image rm wubuku/dddappp:0.0.1
+# pull the image
+git pull wubuku/dddappp:0.0.1
+```
+
+---
+
 In repository root directory, run:
 
 ```shell
@@ -134,7 +149,7 @@ Generally, these files contain the scaffolding code of functions that implement 
 
 It is possible that you feel that the default generated CRUD logic does not meet your needs.
 
-For example, you might want to improve the model above by adding separate `Owner` fields for `Article` and `Comment`, as shown in this file: [blog.yaml](./dddml/blog.yaml). You want to use them to control who can update/delete articles and comments. Then, you may want to add comment without passing the `Owner` argument to `entry fun add_comment` and directly use the sender account address as the owner.
+For example, you might want to use `Owner` fields of `Article` and `Comment` to control who can update/delete articles and comments. Then, you may want to add comment without passing the `Owner` argument to `entry fun add_comment` and directly use the sender account address as the owner.
 
 This requirement can currently be satisfied as follows.
 
