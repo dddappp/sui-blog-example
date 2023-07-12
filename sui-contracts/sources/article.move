@@ -22,8 +22,10 @@ module sui_blog_example::article {
     friend sui_blog_example::article_delete_logic;
     friend sui_blog_example::article_aggregate;
 
-    const EID_DATA_TOO_LONG: u64 = 102;
+    const EID_ALREADY_EXISTS: u64 = 101;
+    const EDATA_TOO_LONG: u64 = 102;
     const EINAPPROPRIATE_VERSION: u64 = 103;
+    const EID_NOT_FOUND: u64 = 106;
 
     struct Article has key {
         id: UID,
@@ -49,7 +51,7 @@ module sui_blog_example::article {
     }
 
     public(friend) fun set_title(article: &mut Article, title: String) {
-        assert!(std::string::length(&title) <= 200, EID_DATA_TOO_LONG);
+        assert!(std::string::length(&title) <= 200, EDATA_TOO_LONG);
         article.title = title;
     }
 
@@ -58,7 +60,7 @@ module sui_blog_example::article {
     }
 
     public(friend) fun set_body(article: &mut Article, body: String) {
-        assert!(std::string::length(&body) <= 2000, EID_DATA_TOO_LONG);
+        assert!(std::string::length(&body) <= 2000, EDATA_TOO_LONG);
         article.body = body;
     }
 
@@ -118,8 +120,8 @@ module sui_blog_example::article {
         owner: address,
         ctx: &mut TxContext,
     ): Article {
-        assert!(std::string::length(&title) <= 200, EID_DATA_TOO_LONG);
-        assert!(std::string::length(&body) <= 2000, EID_DATA_TOO_LONG);
+        assert!(std::string::length(&title) <= 200, EDATA_TOO_LONG);
+        assert!(std::string::length(&body) <= 2000, EDATA_TOO_LONG);
         Article {
             id: object::new(ctx),
             version: 0,

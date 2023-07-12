@@ -13,7 +13,7 @@ module sui_blog_example::tag_v2 {
     friend sui_blog_example::tag_v2_create_logic;
     friend sui_blog_example::tag_v2_aggregate;
 
-    const EID_DATA_TOO_LONG: u64 = 102;
+    const EDATA_TOO_LONG: u64 = 102;
     const EINAPPROPRIATE_VERSION: u64 = 103;
 
     struct TagV2 has key {
@@ -35,7 +35,7 @@ module sui_blog_example::tag_v2 {
     }
 
     public(friend) fun set_name(tag_v2: &mut TagV2, name: String) {
-        assert!(std::string::length(&name) <= 100, EID_DATA_TOO_LONG);
+        assert!(std::string::length(&name) <= 100, EDATA_TOO_LONG);
         tag_v2.name = name;
     }
 
@@ -43,7 +43,7 @@ module sui_blog_example::tag_v2 {
         name: String,
         ctx: &mut TxContext,
     ): TagV2 {
-        assert!(std::string::length(&name) <= 100, EID_DATA_TOO_LONG);
+        assert!(std::string::length(&name) <= 100, EDATA_TOO_LONG);
         TagV2 {
             id: object::new(ctx),
             version: 0,

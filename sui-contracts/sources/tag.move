@@ -15,7 +15,7 @@ module sui_blog_example::tag {
     friend sui_blog_example::tag_aggregate;
 
     const EID_ALREADY_EXISTS: u64 = 101;
-    const EID_DATA_TOO_LONG: u64 = 102;
+    const EDATA_TOO_LONG: u64 = 102;
     const EINAPPROPRIATE_VERSION: u64 = 103;
 
     struct TagNameTable has key {
@@ -61,7 +61,7 @@ module sui_blog_example::tag {
         name: String,
         ctx: &mut TxContext,
     ): Tag {
-        assert!(std::string::length(&name) <= 50, EID_DATA_TOO_LONG);
+        assert!(std::string::length(&name) <= 50, EDATA_TOO_LONG);
         Tag {
             id: object::new(ctx),
             name,
