@@ -377,5 +377,5 @@ If you are interested, you can find a more complex Sui Demo here: ["A Sui Demo"]
 
 ### Blog Example for Rooch
 
-Here is a Rooch version like this blog example: https://github.com/rooch-network/rooch/blob/main/examples/blog_example/README.md
+Here is a Rooch version like this blog example: https://github.com/rooch-network/rooch/blob/main/examples/blog/README.md
 
