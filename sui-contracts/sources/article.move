@@ -90,10 +90,12 @@ module sui_blog_example::article {
 
     public(friend) fun add_comment(article: &mut Article, comment: Comment) {
         let key = comment::comment_seq_id(&comment);
+        assert!(!table::contains(&article.comments, key), EID_ALREADY_EXISTS);
         table::add(&mut article.comments, key, comment);
     }
 
     public(friend) fun remove_comment(article: &mut Article, comment_seq_id: u64) {
+        assert!(table::contains(&article.comments, comment_seq_id), EID_NOT_FOUND);
         let comment = table::remove(&mut article.comments, comment_seq_id);
         comment::drop_comment(comment);
     }
