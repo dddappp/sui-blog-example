@@ -41,7 +41,6 @@ module sui_blog_example::article_aggregate {
         article::emit_article_updated(article_updated);
     }
 
-
     public entry fun update_comment(
         article: article::Article,
         comment_seq_id: u64,
@@ -67,7 +66,6 @@ module sui_blog_example::article_aggregate {
         article::emit_comment_updated(comment_updated);
     }
 
-
     public entry fun remove_comment(
         article: article::Article,
         comment_seq_id: u64,
@@ -86,7 +84,6 @@ module sui_blog_example::article_aggregate {
         article::update_version_and_transfer_object(updated_article, tx_context::sender(ctx));
         article::emit_comment_removed(comment_removed);
     }
-
 
     public entry fun add_comment(
         article: article::Article,
@@ -111,7 +108,6 @@ module sui_blog_example::article_aggregate {
         article::emit_comment_added(comment_added);
     }
 
-
     public entry fun update_tags(
         article: article::Article,
         tags_0: &Tag,
@@ -134,7 +130,6 @@ module sui_blog_example::article_aggregate {
         article::update_version_and_transfer_object(updated_article, tx_context::sender(ctx));
         article::emit_article_tags_updated(article_tags_updated);
     }
-
 
     public entry fun update_tags_v2(
         article: article::Article,
@@ -159,7 +154,6 @@ module sui_blog_example::article_aggregate {
         article::emit_article_tags_v2_updated(article_tags_v2_updated);
     }
 
-
     public entry fun create(
         title: String,
         body: String,
@@ -180,7 +174,6 @@ module sui_blog_example::article_aggregate {
         article::transfer_object(article, tx_context::sender(ctx));
         article::emit_article_created(article_created);
     }
-
 
     public entry fun delete(
         article: article::Article,
