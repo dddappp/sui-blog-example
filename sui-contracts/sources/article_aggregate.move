@@ -87,13 +87,11 @@ module sui_blog_example::article_aggregate {
 
     public entry fun add_comment(
         article: article::Article,
-        comment_seq_id: u64,
         commenter: String,
         body: String,
         ctx: &mut tx_context::TxContext,
     ) {
         let comment_added = article_add_comment_logic::verify(
-            comment_seq_id,
             commenter,
             body,
             &article,

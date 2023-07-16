@@ -32,7 +32,7 @@ sui client call --package _PACKAGE_ID_ --module article_aggregate --function rem
 
 ```shell
 sui client call --package _PACKAGE_ID_ --module article_aggregate --function add_comment \
---args article_Object_ID \"u64_comment_seq_id\" '"string_commenter"' '"string_body"' \
+--args article_Object_ID '"string_commenter"' '"string_body"' \
 --gas-budget 100000
 ```
 

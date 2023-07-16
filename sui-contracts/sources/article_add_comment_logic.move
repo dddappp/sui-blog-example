@@ -8,13 +8,13 @@ module sui_blog_example::article_add_comment_logic {
     friend sui_blog_example::article_aggregate;
 
     public(friend) fun verify(
-        comment_seq_id: u64,
         commenter: String,
         body: String,
         article: &article::Article,
         ctx: &TxContext,
     ): article::CommentAdded {
         let _ = ctx;
+        let comment_seq_id = article::current_comment_seq_id(article) + 1;
         article::new_comment_added(
             article,
             comment_seq_id,
@@ -29,7 +29,7 @@ module sui_blog_example::article_add_comment_logic {
         article: article::Article,
         ctx: &TxContext, // modify the reference to mutable if needed
     ): article::Article {
-        let comment_seq_id = comment_added::comment_seq_id(comment_added);
+        let comment_seq_id = article::next_comment_seq_id(&mut article);
         let commenter = comment_added::commenter(comment_added);
         let body = comment_added::body(comment_added);
         let owner = comment_added::owner(comment_added);

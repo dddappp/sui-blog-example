@@ -1,7 +1,7 @@
 aggregates:
   Article:
     metadata:
-      Preprocessors: ["MOVE_CRUD_IT"]
+      Preprocessors: [ "MOVE_CRUD_IT" ]
     id:
       name: Id
       type: UID
@@ -31,10 +31,13 @@ aggregates:
     entities:
       Comment:
         metadata:
-          Preprocessors: ["MOVE_CRUD_IT"]
+          Preprocessors: [ "MOVE_CRUD_IT" ]
         id:
           name: CommentSeqId
           type: u64
+          generator:
+            class: sequence
+            structName: CommentSeqIdGenerator
         properties:
           Commenter:
             type: String
@@ -64,8 +67,8 @@ aggregates:
             Owner:
               type: address
         parameters:
-          CommentSeqId:
-            type: u64
+#          CommentSeqId:
+#            type: u64
           Commenter:
             type: String
             length: 100
@@ -95,7 +98,7 @@ aggregates:
 
   Tag:
     metadata:
-      Preprocessors: ["MOVE_CRUD_IT"]
+      Preprocessors: [ "MOVE_CRUD_IT" ]
     immutable: true
     id:
       name: Name
@@ -110,7 +113,7 @@ aggregates:
 
   TagV2:
     metadata:
-      Preprocessors: ["MOVE_CRUD_IT"]
+      Preprocessors: [ "MOVE_CRUD_IT" ]
     immutable: true
     id:
       name: Id

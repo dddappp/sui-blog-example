@@ -36,6 +36,20 @@ module sui_blog_example::article {
         tags: vector<String>,
         tags_v2: vector<ID>,
         comments: table::Table<u64, Comment>,
+        comment_seq_id_generator: CommentSeqIdGenerator,
+    }
+
+    struct CommentSeqIdGenerator has store {
+        sequence: u64,
+    }
+
+    public(friend) fun current_comment_seq_id(article: &Article): u64 {
+        article.comment_seq_id_generator.sequence
+    }
+
+    public(friend) fun next_comment_seq_id(article: &mut Article): u64 {
+        article.comment_seq_id_generator.sequence = article.comment_seq_id_generator.sequence + 1;
+        article.comment_seq_id_generator.sequence
     }
 
     public fun id(article: &Article): object::ID {
@@ -133,6 +147,7 @@ module sui_blog_example::article {
             tags: std::vector::empty(),
             tags_v2: std::vector::empty(),
             comments: table::new<u64, Comment>(ctx),
+            comment_seq_id_generator: CommentSeqIdGenerator { sequence: 0, },
         }
     }
 
@@ -446,8 +461,12 @@ module sui_blog_example::article {
             tags: _tags,
             tags_v2: _tags_v2,
             comments,
+            comment_seq_id_generator,
         } = article;
         object::delete(id);
+        let CommentSeqIdGenerator {
+            sequence: _,
+        } = comment_seq_id_generator;
         table::destroy_empty(comments);
     }
 
