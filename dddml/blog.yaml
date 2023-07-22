@@ -126,3 +126,39 @@ aggregates:
       Create:
         event:
           isObjectFrozen: true
+
+
+
+singletonObjects:
+  Blog:
+    friends: [ "Article.Create", "Article.Delete" ]
+    metadata:
+      Preprocessors: [ "MOVE_CRUD_IT" ]
+      CRUD_IT_NO_DELETE: true
+    properties:
+      Name:
+        type: String
+        length: 200
+      Articles:
+        itemType: ID #ObjectID
+#    methods:
+#      AddArticle:
+#        isInternal: true
+#        #metadata:
+#        #  NoSigner: true
+#        event:
+#          name: ArticleAddedToBlog
+#        parameters:
+#          ArticleId:
+#            type: ObjectID
+#      RemoveArticle:
+#        isInternal: true
+#        #metadata:
+#        #  NoSigner: true
+#        event:
+#          name: ArticleRemovedFromBlog
+#        parameters:
+#          ArticleId:
+#            type: ID #ObjectID
+
+
