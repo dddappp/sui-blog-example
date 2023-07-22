@@ -157,6 +157,8 @@ module sui_blog_example::article {
         title: String,
         body: String,
         owner: address,
+        tags: vector<String>,
+        tags_v2: vector<ID>,
     }
 
     public fun article_updated_id(article_updated: &ArticleUpdated): object::ID {
@@ -175,11 +177,21 @@ module sui_blog_example::article {
         article_updated.owner
     }
 
+    public fun article_updated_tags(article_updated: &ArticleUpdated): vector<String> {
+        article_updated.tags
+    }
+
+    public fun article_updated_tags_v2(article_updated: &ArticleUpdated): vector<ID> {
+        article_updated.tags_v2
+    }
+
     public(friend) fun new_article_updated(
         article: &Article,
         title: String,
         body: String,
         owner: address,
+        tags: vector<String>,
+        tags_v2: vector<ID>,
     ): ArticleUpdated {
         ArticleUpdated {
             id: id(article),
@@ -187,6 +199,8 @@ module sui_blog_example::article {
             title,
             body,
             owner,
+            tags,
+            tags_v2,
         }
     }
 

@@ -6,7 +6,7 @@
 module sui_blog_example::article_updated {
 
     use std::string::String;
-    use sui::object;
+    use sui::object::{Self, ID};
     use sui_blog_example::article::{Self, ArticleUpdated};
 
     public fun id(article_updated: &ArticleUpdated): object::ID {
@@ -23,6 +23,14 @@ module sui_blog_example::article_updated {
 
     public fun owner(article_updated: &ArticleUpdated): address {
         article::article_updated_owner(article_updated)
+    }
+
+    public fun tags(article_updated: &ArticleUpdated): vector<String> {
+        article::article_updated_tags(article_updated)
+    }
+
+    public fun tags_v2(article_updated: &ArticleUpdated): vector<ID> {
+        article::article_updated_tags_v2(article_updated)
     }
 
 }

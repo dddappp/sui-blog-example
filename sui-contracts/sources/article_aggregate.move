@@ -5,6 +5,7 @@
 
 module sui_blog_example::article_aggregate {
     use std::string::String;
+    use sui::object::ID;
     use sui::tx_context;
     use sui_blog_example::article;
     use sui_blog_example::article_add_comment_logic;
@@ -23,12 +24,16 @@ module sui_blog_example::article_aggregate {
         title: String,
         body: String,
         owner: address,
+        tags: vector<String>,
+        tags_v2: vector<ID>,
         ctx: &mut tx_context::TxContext,
     ) {
         let article_updated = article_update_logic::verify(
             title,
             body,
             owner,
+            tags,
+            tags_v2,
             &article,
             ctx,
         );

@@ -139,6 +139,9 @@ singletonObjects:
       Name:
         type: String
         length: 200
+        defaultLogic:
+          Move:
+            'std::string::utf8(b"Unnamed Blog")'
       Articles:
         itemType: ID #ObjectID
 #    methods:

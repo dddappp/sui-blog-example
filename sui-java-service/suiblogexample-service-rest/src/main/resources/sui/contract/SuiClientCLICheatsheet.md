@@ -8,7 +8,7 @@
 
 ```shell
 sui client call --package _PACKAGE_ID_ --module article_aggregate --function update \
---args article_Object_ID '"string_title"' '"string_body"' address_owner \
+--args article_Object_ID '"string_title"' '"string_body"' address_owner '["string_tags_item_1","string_tags_item_2"]' '[id_tags_v2_item_1,id_tags_v2_item_2]' \
 --gas-budget 100000
 ```
 
@@ -85,6 +85,16 @@ sui client call --package _PACKAGE_ID_ --module tag_aggregate --function create 
 ```shell
 sui client call --package _PACKAGE_ID_ --module tag_v2_aggregate --function create \
 --args '"string_name"' \
+--gas-budget 100000
+```
+
+## Blog singleton object
+
+### Update method
+
+```shell
+sui client call --package _PACKAGE_ID_ --module blog_aggregate --function update \
+--args blog_Object_ID '"string_name"' '[id_articles_item_1,id_articles_item_2]' \
 --gas-budget 100000
 ```
 
