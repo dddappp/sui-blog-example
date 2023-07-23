@@ -12,6 +12,8 @@ module sui_blog_example::blog {
 
     struct BLOG has drop {}
 
+    friend sui_blog_example::blog_add_article_logic;
+    friend sui_blog_example::blog_remove_article_logic;
     friend sui_blog_example::blog_update_logic;
     friend sui_blog_example::blog_aggregate;
 
@@ -67,6 +69,56 @@ module sui_blog_example::blog {
             version: 0,
             name: std::string::utf8(b"Unnamed Blog"),
             articles: std::vector::empty(),
+        }
+    }
+
+    struct ArticleAddedToBlog has copy, drop {
+        id: object::ID,
+        version: u64,
+        article_id: ID,
+    }
+
+    public fun article_added_to_blog_id(article_added_to_blog: &ArticleAddedToBlog): object::ID {
+        article_added_to_blog.id
+    }
+
+    public fun article_added_to_blog_article_id(article_added_to_blog: &ArticleAddedToBlog): ID {
+        article_added_to_blog.article_id
+    }
+
+    public(friend) fun new_article_added_to_blog(
+        blog: &Blog,
+        article_id: ID,
+    ): ArticleAddedToBlog {
+        ArticleAddedToBlog {
+            id: id(blog),
+            version: version(blog),
+            article_id,
+        }
+    }
+
+    struct ArticleRemovedFromBlog has copy, drop {
+        id: object::ID,
+        version: u64,
+        article_id: ID,
+    }
+
+    public fun article_removed_from_blog_id(article_removed_from_blog: &ArticleRemovedFromBlog): object::ID {
+        article_removed_from_blog.id
+    }
+
+    public fun article_removed_from_blog_article_id(article_removed_from_blog: &ArticleRemovedFromBlog): ID {
+        article_removed_from_blog.article_id
+    }
+
+    public(friend) fun new_article_removed_from_blog(
+        blog: &Blog,
+        article_id: ID,
+    ): ArticleRemovedFromBlog {
+        ArticleRemovedFromBlog {
+            id: id(blog),
+            version: version(blog),
+            article_id,
         }
     }
 
@@ -146,6 +198,14 @@ module sui_blog_example::blog {
             articles: _articles,
         } = blog;
         object::delete(id);
+    }
+
+    public(friend) fun emit_article_added_to_blog(article_added_to_blog: ArticleAddedToBlog) {
+        event::emit(article_added_to_blog);
+    }
+
+    public(friend) fun emit_article_removed_from_blog(article_removed_from_blog: ArticleRemovedFromBlog) {
+        event::emit(article_removed_from_blog);
     }
 
     public(friend) fun emit_blog_updated(blog_updated: BlogUpdated) {

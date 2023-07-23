@@ -144,24 +144,24 @@ singletonObjects:
             'std::string::utf8(b"Unnamed Blog")'
       Articles:
         itemType: ID #ObjectID
-#    methods:
-#      AddArticle:
-#        isInternal: true
-#        #metadata:
-#        #  NoSigner: true
-#        event:
-#          name: ArticleAddedToBlog
-#        parameters:
-#          ArticleId:
-#            type: ObjectID
-#      RemoveArticle:
-#        isInternal: true
-#        #metadata:
-#        #  NoSigner: true
-#        event:
-#          name: ArticleRemovedFromBlog
-#        parameters:
-#          ArticleId:
-#            type: ID #ObjectID
+    methods:
+      AddArticle:
+        isInternal: true
+        #metadata:
+        #  NoSigner: true
+        event:
+          name: ArticleAddedToBlog
+        parameters:
+          ArticleId:
+            type: ID #ObjectID
+      RemoveArticle:
+        isInternal: true
+        #metadata:
+        #  NoSigner: true
+        event:
+          name: ArticleRemovedFromBlog
+        parameters:
+          ArticleId:
+            type: ID #ObjectID
 
 
