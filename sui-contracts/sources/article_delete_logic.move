@@ -20,6 +20,7 @@ module sui_blog_example::article_delete_logic {
 
     public(friend) fun mutate(
         article_deleted: &article::ArticleDeleted,
+        blog: &mut Blog,
         article: article::Article,
         ctx: &TxContext, // modify the reference to mutable if needed
     ): article::Article {
@@ -28,6 +29,7 @@ module sui_blog_example::article_delete_logic {
         let _ = ctx;
         let _ = id;
         let _ = article_deleted;
+        let _ = blog;
         article
     }
 

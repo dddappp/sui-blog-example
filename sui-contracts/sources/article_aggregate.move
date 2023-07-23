@@ -36,6 +36,7 @@ module sui_blog_example::article_aggregate {
         );
         let article = article_create_logic::mutate(
             &article_created,
+            blog,
             ctx,
         );
         article::set_article_created_id(&mut article_created, article::id(&article));
@@ -82,6 +83,7 @@ module sui_blog_example::article_aggregate {
         );
         let updated_article = article_delete_logic::mutate(
             &article_deleted,
+            blog,
             article,
             ctx,
         );

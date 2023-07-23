@@ -26,6 +26,7 @@ module sui_blog_example::article_create_logic {
 
     public(friend) fun mutate(
         article_created: &article::ArticleCreated,
+        blog: &mut Blog,
         ctx: &mut TxContext,
     ): article::Article {
         let blog_id = article_created::blog_id(article_created);
@@ -33,6 +34,7 @@ module sui_blog_example::article_create_logic {
         let body = article_created::body(article_created);
         let owner = article_created::owner(article_created);
         let _ = blog_id;
+        let _blog = blog;
         article::new_article(
             title,
             body,
