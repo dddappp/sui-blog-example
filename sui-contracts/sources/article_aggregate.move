@@ -19,6 +19,27 @@ module sui_blog_example::article_aggregate {
     use sui_blog_example::tag::Tag;
     use sui_blog_example::tag_v2::TagV2;
 
+    public entry fun create(
+        title: String,
+        body: String,
+        owner: address,
+        ctx: &mut tx_context::TxContext,
+    ) {
+        let article_created = article_create_logic::verify(
+            title,
+            body,
+            owner,
+            ctx,
+        );
+        let article = article_create_logic::mutate(
+            &article_created,
+            ctx,
+        );
+        article::set_article_created_id(&mut article_created, article::id(&article));
+        article::transfer_object(article, tx_context::sender(ctx));
+        article::emit_article_created(article_created);
+    }
+
     public entry fun update(
         article: article::Article,
         title: String,
@@ -44,6 +65,23 @@ module sui_blog_example::article_aggregate {
         );
         article::update_version_and_transfer_object(updated_article, tx_context::sender(ctx));
         article::emit_article_updated(article_updated);
+    }
+
+    public entry fun delete(
+        article: article::Article,
+        ctx: &mut tx_context::TxContext,
+    ) {
+        let article_deleted = article_delete_logic::verify(
+            &article,
+            ctx,
+        );
+        let updated_article = article_delete_logic::mutate(
+            &article_deleted,
+            article,
+            ctx,
+        );
+        article::drop_article(updated_article);
+        article::emit_article_deleted(article_deleted);
     }
 
     public entry fun update_comment(
@@ -155,44 +193,6 @@ module sui_blog_example::article_aggregate {
         );
         article::update_version_and_transfer_object(updated_article, tx_context::sender(ctx));
         article::emit_article_tags_v2_updated(article_tags_v2_updated);
-    }
-
-    public entry fun create(
-        title: String,
-        body: String,
-        owner: address,
-        ctx: &mut tx_context::TxContext,
-    ) {
-        let article_created = article_create_logic::verify(
-            title,
-            body,
-            owner,
-            ctx,
-        );
-        let article = article_create_logic::mutate(
-            &article_created,
-            ctx,
-        );
-        article::set_article_created_id(&mut article_created, article::id(&article));
-        article::transfer_object(article, tx_context::sender(ctx));
-        article::emit_article_created(article_created);
-    }
-
-    public entry fun delete(
-        article: article::Article,
-        ctx: &mut tx_context::TxContext,
-    ) {
-        let article_deleted = article_delete_logic::verify(
-            &article,
-            ctx,
-        );
-        let updated_article = article_delete_logic::mutate(
-            &article_deleted,
-            article,
-            ctx,
-        );
-        article::drop_article(updated_article);
-        article::emit_article_deleted(article_deleted);
     }
 
 }

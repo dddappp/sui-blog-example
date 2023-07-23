@@ -5,14 +5,14 @@
 
 module sui_blog_example::comment {
     use std::string::String;
+    friend sui_blog_example::article_create_logic;
     friend sui_blog_example::article_update_logic;
+    friend sui_blog_example::article_delete_logic;
     friend sui_blog_example::article_update_comment_logic;
     friend sui_blog_example::article_remove_comment_logic;
     friend sui_blog_example::article_add_comment_logic;
     friend sui_blog_example::article_update_tags_logic;
     friend sui_blog_example::article_update_tags_v2_logic;
-    friend sui_blog_example::article_create_logic;
-    friend sui_blog_example::article_delete_logic;
     friend sui_blog_example::article;
 
     const EDATA_TOO_LONG: u64 = 102;

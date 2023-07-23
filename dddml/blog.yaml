@@ -48,10 +48,17 @@ aggregates:
           Owner:
             type: address
     methods:
+      Create:
+#        parameters:
+#          Blog:
+#            referenceType: Blog
       Update:
         verificationLogic:
           Move:
             "assert!(sui::tx_context::sender(ctx) == article::owner(article), 111);"
+      Delete:
+        # todo
+
       UpdateComment:
         verificationLogic:
           Move:

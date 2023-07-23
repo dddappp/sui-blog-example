@@ -4,11 +4,27 @@
 
 ## Article aggregate
 
+### Create method
+
+```shell
+sui client call --package _PACKAGE_ID_ --module article_aggregate --function create \
+--args '"string_title"' '"string_body"' address_owner \
+--gas-budget 100000
+```
+
 ### Update method
 
 ```shell
 sui client call --package _PACKAGE_ID_ --module article_aggregate --function update \
 --args article_Object_ID '"string_title"' '"string_body"' address_owner '["string_tags_item_1","string_tags_item_2"]' '[id_tags_v2_item_1,id_tags_v2_item_2]' \
+--gas-budget 100000
+```
+
+### Delete method
+
+```shell
+sui client call --package _PACKAGE_ID_ --module article_aggregate --function delete \
+--args article_Object_ID \
 --gas-budget 100000
 ```
 
@@ -49,22 +65,6 @@ sui client call --package _PACKAGE_ID_ --module article_aggregate --function upd
 ```shell
 sui client call --package _PACKAGE_ID_ --module article_aggregate --function update_tags_v2 \
 --args article_Object_ID \"_TAG_V2_OBJECT_ID_\" \"_TAG_V2_OBJECT_ID_\" \"_TAG_V2_OBJECT_ID_\" \
---gas-budget 100000
-```
-
-### Create method
-
-```shell
-sui client call --package _PACKAGE_ID_ --module article_aggregate --function create \
---args '"string_title"' '"string_body"' address_owner \
---gas-budget 100000
-```
-
-### Delete method
-
-```shell
-sui client call --package _PACKAGE_ID_ --module article_aggregate --function delete \
---args article_Object_ID \
 --gas-budget 100000
 ```
 

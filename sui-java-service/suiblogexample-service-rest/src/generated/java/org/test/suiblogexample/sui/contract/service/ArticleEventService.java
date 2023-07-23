@@ -14,14 +14,14 @@ import org.test.suiblogexample.domain.article.AbstractArticleEvent;
 import org.test.suiblogexample.sui.contract.ContractConstants;
 import org.test.suiblogexample.sui.contract.DomainBeanUtils;
 import org.test.suiblogexample.sui.contract.SuiPackage;
+import org.test.suiblogexample.sui.contract.article.ArticleCreated;
 import org.test.suiblogexample.sui.contract.article.ArticleUpdated;
+import org.test.suiblogexample.sui.contract.article.ArticleDeleted;
 import org.test.suiblogexample.sui.contract.article.CommentUpdated;
 import org.test.suiblogexample.sui.contract.article.CommentRemoved;
 import org.test.suiblogexample.sui.contract.article.CommentAdded;
 import org.test.suiblogexample.sui.contract.article.ArticleTagsUpdated;
 import org.test.suiblogexample.sui.contract.article.ArticleTagsV2Updated;
-import org.test.suiblogexample.sui.contract.article.ArticleCreated;
-import org.test.suiblogexample.sui.contract.article.ArticleDeleted;
 import org.test.suiblogexample.sui.contract.repository.ArticleEventRepository;
 import org.test.suiblogexample.sui.contract.repository.SuiPackageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +50,46 @@ public class ArticleEventService {
     public void updateStatusToProcessed(AbstractArticleEvent event) {
         event.setStatus("D");
         articleEventRepository.save(event);
+    }
+
+    @Transactional
+    public void pullArticleCreatedEvents() {
+        String packageId = getDefaultSuiPackageId();
+        if (packageId == null) {
+            return;
+        }
+        int limit = 1;
+        EventId cursor = getArticleCreatedEventNextCursor();
+        while (true) {
+            PaginatedMoveEvents<ArticleCreated> eventPage = suiJsonRpcClient.queryMoveEvents(
+                    packageId + "::" + ContractConstants.ARTICLE_MODULE_ARTICLE_CREATED,
+                    cursor, limit, false, ArticleCreated.class);
+
+            if (eventPage.getData() != null && !eventPage.getData().isEmpty()) {
+                cursor = eventPage.getNextCursor();
+                for (SuiMoveEventEnvelope<ArticleCreated> eventEnvelope : eventPage.getData()) {
+                    saveArticleCreated(eventEnvelope);
+                }
+            } else {
+                break;
+            }
+            if (!Page.hasNextPage(eventPage)) {
+                break;
+            }
+        }
+    }
+
+    private EventId getArticleCreatedEventNextCursor() {
+        AbstractArticleEvent lastEvent = articleEventRepository.findFirstArticleCreatedByOrderBySuiTimestampDesc();
+        return lastEvent != null ? new EventId(lastEvent.getSuiTxDigest(), lastEvent.getSuiEventSeq() + "") : null;
+    }
+
+    private void saveArticleCreated(SuiMoveEventEnvelope<ArticleCreated> eventEnvelope) {
+        AbstractArticleEvent.ArticleCreated articleCreated = DomainBeanUtils.toArticleCreated(eventEnvelope);
+        if (articleEventRepository.findById(articleCreated.getArticleEventId()).isPresent()) {
+            return;
+        }
+        articleEventRepository.save(articleCreated);
     }
 
     @Transactional
@@ -90,6 +130,46 @@ public class ArticleEventService {
             return;
         }
         articleEventRepository.save(articleUpdated);
+    }
+
+    @Transactional
+    public void pullArticleDeletedEvents() {
+        String packageId = getDefaultSuiPackageId();
+        if (packageId == null) {
+            return;
+        }
+        int limit = 1;
+        EventId cursor = getArticleDeletedEventNextCursor();
+        while (true) {
+            PaginatedMoveEvents<ArticleDeleted> eventPage = suiJsonRpcClient.queryMoveEvents(
+                    packageId + "::" + ContractConstants.ARTICLE_MODULE_ARTICLE_DELETED,
+                    cursor, limit, false, ArticleDeleted.class);
+
+            if (eventPage.getData() != null && !eventPage.getData().isEmpty()) {
+                cursor = eventPage.getNextCursor();
+                for (SuiMoveEventEnvelope<ArticleDeleted> eventEnvelope : eventPage.getData()) {
+                    saveArticleDeleted(eventEnvelope);
+                }
+            } else {
+                break;
+            }
+            if (!Page.hasNextPage(eventPage)) {
+                break;
+            }
+        }
+    }
+
+    private EventId getArticleDeletedEventNextCursor() {
+        AbstractArticleEvent lastEvent = articleEventRepository.findFirstArticleDeletedByOrderBySuiTimestampDesc();
+        return lastEvent != null ? new EventId(lastEvent.getSuiTxDigest(), lastEvent.getSuiEventSeq() + "") : null;
+    }
+
+    private void saveArticleDeleted(SuiMoveEventEnvelope<ArticleDeleted> eventEnvelope) {
+        AbstractArticleEvent.ArticleDeleted articleDeleted = DomainBeanUtils.toArticleDeleted(eventEnvelope);
+        if (articleEventRepository.findById(articleDeleted.getArticleEventId()).isPresent()) {
+            return;
+        }
+        articleEventRepository.save(articleDeleted);
     }
 
     @Transactional
@@ -290,86 +370,6 @@ public class ArticleEventService {
             return;
         }
         articleEventRepository.save(articleTagsV2Updated);
-    }
-
-    @Transactional
-    public void pullArticleCreatedEvents() {
-        String packageId = getDefaultSuiPackageId();
-        if (packageId == null) {
-            return;
-        }
-        int limit = 1;
-        EventId cursor = getArticleCreatedEventNextCursor();
-        while (true) {
-            PaginatedMoveEvents<ArticleCreated> eventPage = suiJsonRpcClient.queryMoveEvents(
-                    packageId + "::" + ContractConstants.ARTICLE_MODULE_ARTICLE_CREATED,
-                    cursor, limit, false, ArticleCreated.class);
-
-            if (eventPage.getData() != null && !eventPage.getData().isEmpty()) {
-                cursor = eventPage.getNextCursor();
-                for (SuiMoveEventEnvelope<ArticleCreated> eventEnvelope : eventPage.getData()) {
-                    saveArticleCreated(eventEnvelope);
-                }
-            } else {
-                break;
-            }
-            if (!Page.hasNextPage(eventPage)) {
-                break;
-            }
-        }
-    }
-
-    private EventId getArticleCreatedEventNextCursor() {
-        AbstractArticleEvent lastEvent = articleEventRepository.findFirstArticleCreatedByOrderBySuiTimestampDesc();
-        return lastEvent != null ? new EventId(lastEvent.getSuiTxDigest(), lastEvent.getSuiEventSeq() + "") : null;
-    }
-
-    private void saveArticleCreated(SuiMoveEventEnvelope<ArticleCreated> eventEnvelope) {
-        AbstractArticleEvent.ArticleCreated articleCreated = DomainBeanUtils.toArticleCreated(eventEnvelope);
-        if (articleEventRepository.findById(articleCreated.getArticleEventId()).isPresent()) {
-            return;
-        }
-        articleEventRepository.save(articleCreated);
-    }
-
-    @Transactional
-    public void pullArticleDeletedEvents() {
-        String packageId = getDefaultSuiPackageId();
-        if (packageId == null) {
-            return;
-        }
-        int limit = 1;
-        EventId cursor = getArticleDeletedEventNextCursor();
-        while (true) {
-            PaginatedMoveEvents<ArticleDeleted> eventPage = suiJsonRpcClient.queryMoveEvents(
-                    packageId + "::" + ContractConstants.ARTICLE_MODULE_ARTICLE_DELETED,
-                    cursor, limit, false, ArticleDeleted.class);
-
-            if (eventPage.getData() != null && !eventPage.getData().isEmpty()) {
-                cursor = eventPage.getNextCursor();
-                for (SuiMoveEventEnvelope<ArticleDeleted> eventEnvelope : eventPage.getData()) {
-                    saveArticleDeleted(eventEnvelope);
-                }
-            } else {
-                break;
-            }
-            if (!Page.hasNextPage(eventPage)) {
-                break;
-            }
-        }
-    }
-
-    private EventId getArticleDeletedEventNextCursor() {
-        AbstractArticleEvent lastEvent = articleEventRepository.findFirstArticleDeletedByOrderBySuiTimestampDesc();
-        return lastEvent != null ? new EventId(lastEvent.getSuiTxDigest(), lastEvent.getSuiEventSeq() + "") : null;
-    }
-
-    private void saveArticleDeleted(SuiMoveEventEnvelope<ArticleDeleted> eventEnvelope) {
-        AbstractArticleEvent.ArticleDeleted articleDeleted = DomainBeanUtils.toArticleDeleted(eventEnvelope);
-        if (articleEventRepository.findById(articleDeleted.getArticleEventId()).isPresent()) {
-            return;
-        }
-        articleEventRepository.save(articleDeleted);
     }
 
 
