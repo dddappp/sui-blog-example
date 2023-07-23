@@ -1,5 +1,6 @@
 module sui_blog_example::article_delete_logic {
     use sui::tx_context::TxContext;
+    use sui_blog_example::blog_aggregate;
     use sui_blog_example::article_deleted;
     use sui_blog_example::article;
     use sui_blog_example::blog::{Self, Blog};
@@ -22,14 +23,17 @@ module sui_blog_example::article_delete_logic {
         article_deleted: &article::ArticleDeleted,
         blog: &mut Blog,
         article: article::Article,
-        ctx: &TxContext, // modify the reference to mutable if needed
+        ctx: &mut TxContext, // modify the reference to mutable if needed
     ): article::Article {
         let _blog_id = article_deleted::blog_id(article_deleted);
-        let id = article::id(&article);
+        let article_id = article::id(&article);
         let _ = ctx;
-        let _ = id;
         let _ = article_deleted;
-        let _ = blog;
+        blog_aggregate::remove_article(
+            blog,
+            article_id,
+            ctx,
+        );
         article
     }
 
