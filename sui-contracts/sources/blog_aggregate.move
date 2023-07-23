@@ -30,7 +30,7 @@ module sui_blog_example::blog_aggregate {
             blog,
             ctx,
         );
-        //blog::update_version_and_transfer_object(updated_blog, tx_context::sender(ctx));
+        blog::update_object_version(blog);
         blog::emit_article_added_to_blog(article_added_to_blog);
     }
 
@@ -49,7 +49,7 @@ module sui_blog_example::blog_aggregate {
             blog,
             ctx,
         );
-        //blog::update_version_and_transfer_object(updated_blog, tx_context::sender(ctx));
+        blog::update_object_version(blog);
         blog::emit_article_removed_from_blog(article_removed_from_blog);
     }
 

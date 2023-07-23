@@ -185,7 +185,7 @@ module sui_blog_example::blog {
         transfer::freeze_object(blog);
     }
 
-    fun update_object_version(blog: &mut Blog) {
+    public(friend) fun update_object_version(blog: &mut Blog) {
         blog.version = blog.version + 1;
         //assert!(blog.version != 0, EINAPPROPRIATE_VERSION);
     }
