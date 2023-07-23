@@ -8,7 +8,7 @@
 
 ```shell
 sui client call --package _PACKAGE_ID_ --module article_aggregate --function create \
---args '"string_title"' '"string_body"' address_owner \
+--args \"_BLOG_OBJECT_ID_\" '"string_title"' '"string_body"' address_owner \
 --gas-budget 100000
 ```
 
@@ -24,7 +24,7 @@ sui client call --package _PACKAGE_ID_ --module article_aggregate --function upd
 
 ```shell
 sui client call --package _PACKAGE_ID_ --module article_aggregate --function delete \
---args article_Object_ID \
+--args article_Object_ID \"_BLOG_OBJECT_ID_\" \
 --gas-budget 100000
 ```
 

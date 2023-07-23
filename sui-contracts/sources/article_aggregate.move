@@ -16,16 +16,19 @@ module sui_blog_example::article_aggregate {
     use sui_blog_example::article_update_logic;
     use sui_blog_example::article_update_tags_logic;
     use sui_blog_example::article_update_tags_v2_logic;
+    use sui_blog_example::blog::Blog;
     use sui_blog_example::tag::Tag;
     use sui_blog_example::tag_v2::TagV2;
 
     public entry fun create(
+        blog: &mut Blog,
         title: String,
         body: String,
         owner: address,
         ctx: &mut tx_context::TxContext,
     ) {
         let article_created = article_create_logic::verify(
+            blog,
             title,
             body,
             owner,
@@ -69,9 +72,11 @@ module sui_blog_example::article_aggregate {
 
     public entry fun delete(
         article: article::Article,
+        blog: &mut Blog,
         ctx: &mut tx_context::TxContext,
     ) {
         let article_deleted = article_delete_logic::verify(
+            blog,
             &article,
             ctx,
         );

@@ -5,11 +5,15 @@
 
 module sui_blog_example::article_deleted {
 
-    use sui::object;
+    use sui::object::{Self, ID};
     use sui_blog_example::article::{Self, ArticleDeleted};
 
     public fun id(article_deleted: &ArticleDeleted): object::ID {
         article::article_deleted_id(article_deleted)
+    }
+
+    public fun blog_id(article_deleted: &ArticleDeleted): ID {
+        article::article_deleted_blog_id(article_deleted)
     }
 
 }

@@ -49,15 +49,25 @@ aggregates:
             type: address
     methods:
       Create:
-#        parameters:
-#          Blog:
-#            referenceType: Blog
+        metadata:
+          CRUD_IT_EXPAND_PARAMETERS: true
+        parameters:
+          Blog:
+            referenceType: Blog
+            isMutableReference: true
+            eventPropertyName: BlogId
       Update:
         verificationLogic:
           Move:
             "assert!(sui::tx_context::sender(ctx) == article::owner(article), 111);"
       Delete:
-        # todo
+        metadata:
+          CRUD_IT_EXPAND_PARAMETERS: true
+        parameters:
+          Blog:
+            referenceType: Blog
+            isMutableReference: true
+            eventPropertyName: BlogId
 
       UpdateComment:
         verificationLogic:

@@ -153,6 +153,7 @@ module sui_blog_example::article {
 
     struct ArticleCreated has copy, drop {
         id: option::Option<object::ID>,
+        blog_id: ID,
         title: String,
         body: String,
         owner: address,
@@ -164,6 +165,10 @@ module sui_blog_example::article {
 
     public(friend) fun set_article_created_id(article_created: &mut ArticleCreated, id: object::ID) {
         article_created.id = option::some(id);
+    }
+
+    public fun article_created_blog_id(article_created: &ArticleCreated): ID {
+        article_created.blog_id
     }
 
     public fun article_created_title(article_created: &ArticleCreated): String {
@@ -179,12 +184,14 @@ module sui_blog_example::article {
     }
 
     public(friend) fun new_article_created(
+        blog_id: ID,
         title: String,
         body: String,
         owner: address,
     ): ArticleCreated {
         ArticleCreated {
             id: option::none(),
+            blog_id,
             title,
             body,
             owner,
@@ -247,18 +254,25 @@ module sui_blog_example::article {
     struct ArticleDeleted has copy, drop {
         id: object::ID,
         version: u64,
+        blog_id: ID,
     }
 
     public fun article_deleted_id(article_deleted: &ArticleDeleted): object::ID {
         article_deleted.id
     }
 
+    public fun article_deleted_blog_id(article_deleted: &ArticleDeleted): ID {
+        article_deleted.blog_id
+    }
+
     public(friend) fun new_article_deleted(
         article: &Article,
+        blog_id: ID,
     ): ArticleDeleted {
         ArticleDeleted {
             id: id(article),
             version: version(article),
+            blog_id,
         }
     }
 
