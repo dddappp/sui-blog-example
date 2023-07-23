@@ -16,40 +16,40 @@ module sui_blog_example::blog_aggregate {
     friend sui_blog_example::article_delete_logic;
 
     public(friend) fun add_article(
-        blog: blog::Blog,
+        blog: &mut blog::Blog,
         article_id: ID,
         ctx: &mut tx_context::TxContext,
     ) {
         let article_added_to_blog = blog_add_article_logic::verify(
             article_id,
-            &blog,
+            blog,
             ctx,
         );
-        let updated_blog = blog_add_article_logic::mutate(
+        blog_add_article_logic::mutate(
             &article_added_to_blog,
             blog,
             ctx,
         );
-        blog::update_version_and_transfer_object(updated_blog, tx_context::sender(ctx));
+        //blog::update_version_and_transfer_object(updated_blog, tx_context::sender(ctx));
         blog::emit_article_added_to_blog(article_added_to_blog);
     }
 
     public(friend) fun remove_article(
-        blog: blog::Blog,
+        blog: &mut blog::Blog,
         article_id: ID,
         ctx: &mut tx_context::TxContext,
     ) {
         let article_removed_from_blog = blog_remove_article_logic::verify(
             article_id,
-            &blog,
+            blog,
             ctx,
         );
-        let updated_blog = blog_remove_article_logic::mutate(
+        blog_remove_article_logic::mutate(
             &article_removed_from_blog,
             blog,
             ctx,
         );
-        blog::update_version_and_transfer_object(updated_blog, tx_context::sender(ctx));
+        //blog::update_version_and_transfer_object(updated_blog, tx_context::sender(ctx));
         blog::emit_article_removed_from_blog(article_removed_from_blog);
     }
 

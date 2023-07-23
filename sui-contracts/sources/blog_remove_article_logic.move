@@ -23,17 +23,16 @@ module sui_blog_example::blog_remove_article_logic {
 
     public(friend) fun mutate(
         article_removed_from_blog: &blog::ArticleRemovedFromBlog,
-        blog: blog::Blog,
+        blog: &mut blog::Blog,
         ctx: &TxContext, // modify the reference to mutable if needed
-    ): blog::Blog {
+    ) {
         let article_id = article_removed_from_blog::article_id(article_removed_from_blog);
         let _ = ctx;
-        let articles = blog::articles(&blog);
+        let articles = blog::articles(blog);
         let (found, idx) = vector::index_of(&articles, &article_id);
         if (found) {
             vector::remove(&mut articles, idx);
-            blog::set_articles(&mut blog, articles);
+            blog::set_articles(blog, articles);
         };
-        blog
     }
 }
