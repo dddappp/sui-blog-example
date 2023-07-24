@@ -12,4 +12,8 @@ module sui_blog_example::donation_received {
         blog::donation_received_id(donation_received)
     }
 
+    public fun amount(donation_received: &DonationReceived): u64 {
+        blog::donation_received_amount(donation_received)
+    }
+
 }

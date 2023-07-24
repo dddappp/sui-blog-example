@@ -88,18 +88,25 @@ module sui_blog_example::blog {
     struct DonationReceived has copy, drop {
         id: object::ID,
         version: u64,
+        amount: u64,
     }
 
     public fun donation_received_id(donation_received: &DonationReceived): object::ID {
         donation_received.id
     }
 
+    public fun donation_received_amount(donation_received: &DonationReceived): u64 {
+        donation_received.amount
+    }
+
     public(friend) fun new_donation_received(
         blog: &Blog,
+        amount: u64,
     ): DonationReceived {
         DonationReceived {
             id: id(blog),
             version: version(blog),
+            amount,
         }
     }
 

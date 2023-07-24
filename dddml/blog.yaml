@@ -170,11 +170,14 @@ singletonObjects:
           isObjectShared: true # Share the object after initialization.
 
       Donate:
-        event:
-          name: DonationReceived
         parameters:
           Amount:
             type: Balance<SUI>
+        event:
+          name: DonationReceived
+          properties:
+            Amount:
+              type: u64
 
       AddArticle:
         isInternal: true
