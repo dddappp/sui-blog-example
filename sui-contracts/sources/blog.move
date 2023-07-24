@@ -14,6 +14,7 @@ module sui_blog_example::blog {
 
     struct BLOG has drop {}
 
+    friend sui_blog_example::blog_donate_logic;
     friend sui_blog_example::blog_add_article_logic;
     friend sui_blog_example::blog_remove_article_logic;
     friend sui_blog_example::blog_update_logic;
@@ -81,6 +82,24 @@ module sui_blog_example::blog {
             name: std::string::utf8(b"Unnamed Blog"),
             articles: std::vector::empty(),
             vault: sui::balance::zero(),
+        }
+    }
+
+    struct DonationReceived has copy, drop {
+        id: object::ID,
+        version: u64,
+    }
+
+    public fun donation_received_id(donation_received: &DonationReceived): object::ID {
+        donation_received.id
+    }
+
+    public(friend) fun new_donation_received(
+        blog: &Blog,
+    ): DonationReceived {
+        DonationReceived {
+            id: id(blog),
+            version: version(blog),
         }
     }
 
@@ -212,6 +231,10 @@ module sui_blog_example::blog {
         } = blog;
         object::delete(id);
         sui::balance::destroy_zero(vault);
+    }
+
+    public(friend) fun emit_donation_received(donation_received: DonationReceived) {
+        event::emit(donation_received);
     }
 
     public(friend) fun emit_article_added_to_blog(article_added_to_blog: ArticleAddedToBlog) {

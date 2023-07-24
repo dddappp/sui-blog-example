@@ -5,15 +5,38 @@
 
 module sui_blog_example::blog_aggregate {
     use std::string::String;
+    use sui::balance::Balance;
     use sui::object::ID;
+    use sui::sui::SUI;
     use sui::tx_context;
     use sui_blog_example::blog;
     use sui_blog_example::blog_add_article_logic;
+    use sui_blog_example::blog_donate_logic;
     use sui_blog_example::blog_remove_article_logic;
     use sui_blog_example::blog_update_logic;
 
     friend sui_blog_example::article_create_logic;
     friend sui_blog_example::article_delete_logic;
+
+    public fun donate(
+        blog: blog::Blog,
+        amount: Balance<SUI>,
+        ctx: &mut tx_context::TxContext,
+    ) {
+        let donation_received = blog_donate_logic::verify(
+            &amount,
+            &blog,
+            ctx,
+        );
+        let updated_blog = blog_donate_logic::mutate(
+            &donation_received,
+            amount,
+            blog,
+            ctx,
+        );
+        blog::update_version_and_transfer_object(updated_blog, tx_context::sender(ctx));
+        blog::emit_donation_received(donation_received);
+    }
 
     public(friend) fun add_article(
         blog: &mut blog::Blog,

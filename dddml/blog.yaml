@@ -84,8 +84,8 @@ aggregates:
             Owner:
               type: address
         parameters:
-#          CommentSeqId:
-#            type: u64
+          #CommentSeqId:
+          #  type: u64
           Commenter:
             type: String
             length: 100
@@ -168,6 +168,14 @@ singletonObjects:
       "__Init__":
         event:
           isObjectShared: true # Share the object after initialization.
+
+      Donate:
+        event:
+          name: DonationReceived
+        parameters:
+          Amount:
+            type: Balance<SUI>
+
       AddArticle:
         isInternal: true
         #metadata:
@@ -178,6 +186,7 @@ singletonObjects:
         parameters:
           ArticleId:
             type: ID #ObjectID
+
       RemoveArticle:
         isInternal: true
         #metadata:
