@@ -63,6 +63,14 @@ module sui_blog_example::blog {
         blog.articles = articles;
     }
 
+    public(friend) fun borrow_vault(blog: &Blog): &Balance<SUI> {
+        &blog.vault
+    }
+
+    public(friend) fun borrow_mut_vault(blog: &mut Blog): &mut Balance<SUI> {
+        &mut blog.vault
+    }
+
     public(friend) fun new_blog(
         _witness: BLOG,
         ctx: &mut TxContext,
