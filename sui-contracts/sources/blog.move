@@ -8,7 +8,7 @@ module sui_blog_example::blog {
     use sui::event;
     use sui::object::{Self, ID, UID};
     use sui::transfer;
-    use sui::tx_context::{Self, TxContext};
+    use sui::tx_context::TxContext;
 
     struct BLOG has drop {}
 
@@ -25,7 +25,7 @@ module sui_blog_example::blog {
             witness,
             ctx,
         );
-        transfer_object(blog, tx_context::sender(ctx));
+        share_object(blog);
     }
 
     struct Blog has key {

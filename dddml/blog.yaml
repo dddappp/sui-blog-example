@@ -162,6 +162,9 @@ singletonObjects:
       Articles:
         itemType: ID #ObjectID
     methods:
+      "__Init__":
+        event:
+          isObjectShared: true # Share the object after initialization.
       AddArticle:
         isInternal: true
         #metadata:
