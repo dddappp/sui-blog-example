@@ -170,6 +170,7 @@ singletonObjects:
           isObjectShared: true # Share the object after initialization.
 
       Donate:
+        shouldCallByReference: true
         parameters:
           Amount:
             type: Balance<SUI>

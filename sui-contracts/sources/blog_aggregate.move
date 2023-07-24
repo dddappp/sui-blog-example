@@ -19,22 +19,22 @@ module sui_blog_example::blog_aggregate {
     friend sui_blog_example::article_delete_logic;
 
     public fun donate(
-        blog: blog::Blog,
+        blog: &mut blog::Blog,
         amount: Balance<SUI>,
         ctx: &mut tx_context::TxContext,
     ) {
         let donation_received = blog_donate_logic::verify(
             &amount,
-            &blog,
+            blog,
             ctx,
         );
-        let updated_blog = blog_donate_logic::mutate(
+        blog_donate_logic::mutate(
             &donation_received,
             amount,
             blog,
             ctx,
         );
-        blog::update_version_and_transfer_object(updated_blog, tx_context::sender(ctx));
+        blog::update_object_version(blog);
         blog::emit_donation_received(donation_received);
     }
 

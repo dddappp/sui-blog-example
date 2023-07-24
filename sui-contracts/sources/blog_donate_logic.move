@@ -3,6 +3,7 @@ module sui_blog_example::blog_donate_logic {
     use sui::balance::Balance;
     use sui::sui::SUI;
     use sui::tx_context::TxContext;
+
     use sui_blog_example::blog;
 
     friend sui_blog_example::blog_aggregate;
@@ -23,15 +24,13 @@ module sui_blog_example::blog_donate_logic {
     public(friend) fun mutate(
         donation_received: &blog::DonationReceived,
         amount: Balance<SUI>,
-        blog: blog::Blog,
+        blog: &mut blog::Blog,
         ctx: &TxContext, // modify the reference to mutable if needed
-    ): blog::Blog {
+    ) {
         //let amount_value = donation_received::amount(donation_received);
         let _ = donation_received;
         let _ = ctx;
-        let vault = blog::borrow_mut_vault(&mut blog);
+        let vault = blog::borrow_mut_vault(blog);
         sui::balance::join(vault, amount);
-        blog
     }
-
 }
