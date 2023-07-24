@@ -166,7 +166,7 @@ singletonObjects:
         isInternal: true
         #metadata:
         #  NoSigner: true
-        shouldCallByMutableReference: true
+        shouldCallByReference: true
         event:
           name: ArticleAddedToBlog
         parameters:
@@ -176,7 +176,7 @@ singletonObjects:
         isInternal: true
         #metadata:
         #  NoSigner: true
-        shouldCallByMutableReference: true
+        shouldCallByReference: true
         event:
           name: ArticleRemovedFromBlog
         parameters:
