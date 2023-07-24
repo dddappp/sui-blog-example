@@ -45,6 +45,16 @@ public abstract class AbstractArticleState implements ArticleState.SqlArticleSta
         this.body = body;
     }
 
+    private String owner;
+
+    public String getOwner() {
+        return this.owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
     private BigInteger version;
 
     public BigInteger getVersion() {
@@ -123,6 +133,26 @@ public abstract class AbstractArticleState implements ArticleState.SqlArticleSta
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
+    }
+
+    private Set<String> tags;
+
+    public Set<String> getTags() {
+        return this.tags;
+    }
+
+    public void setTags(Set<String> tags) {
+        this.tags = tags;
+    }
+
+    private Set<String> tagsV2;
+
+    public Set<String> getTagsV2() {
+        return this.tagsV2;
+    }
+
+    public void setTagsV2(Set<String> tagsV2) {
+        this.tagsV2 = tagsV2;
     }
 
     public boolean isStateUnsaved() {
@@ -216,12 +246,16 @@ public abstract class AbstractArticleState implements ArticleState.SqlArticleSta
             when((AbstractArticleEvent.ArticleUpdated)e);
         } else if (e instanceof AbstractArticleEvent.ArticleDeleted) {
             when((AbstractArticleEvent.ArticleDeleted)e);
-        } else if (e instanceof AbstractArticleEvent.CommentAdded) {
-            when((AbstractArticleEvent.CommentAdded)e);
-        } else if (e instanceof AbstractArticleEvent.CommentRemoved) {
-            when((AbstractArticleEvent.CommentRemoved)e);
         } else if (e instanceof AbstractArticleEvent.CommentUpdated) {
             when((AbstractArticleEvent.CommentUpdated)e);
+        } else if (e instanceof AbstractArticleEvent.CommentRemoved) {
+            when((AbstractArticleEvent.CommentRemoved)e);
+        } else if (e instanceof AbstractArticleEvent.CommentAdded) {
+            when((AbstractArticleEvent.CommentAdded)e);
+        } else if (e instanceof AbstractArticleEvent.ArticleTagsUpdated) {
+            when((AbstractArticleEvent.ArticleTagsUpdated)e);
+        } else if (e instanceof AbstractArticleEvent.ArticleTagsV2Updated) {
+            when((AbstractArticleEvent.ArticleTagsV2Updated)e);
         } else {
             throw new UnsupportedOperationException(String.format("Unsupported event type: %1$s", e.getClass().getName()));
         }
@@ -233,6 +267,9 @@ public abstract class AbstractArticleState implements ArticleState.SqlArticleSta
         }
         this.setTitle(s.getTitle());
         this.setBody(s.getBody());
+        this.setOwner(s.getOwner());
+        this.setTags(s.getTags());
+        this.setTagsV2(s.getTagsV2());
         this.setVersion(s.getVersion());
         this.setActive(s.getActive());
 
@@ -274,10 +311,14 @@ public abstract class AbstractArticleState implements ArticleState.SqlArticleSta
     public void when(AbstractArticleEvent.ArticleCreated e) {
         throwOnWrongEvent(e);
 
+        String blogId = e.getBlogId();
+        String BlogId = blogId;
         String title = e.getTitle();
         String Title = title;
         String body = e.getBody();
         String Body = body;
+        String owner = e.getOwner();
+        String Owner = owner;
         Long suiTimestamp = e.getSuiTimestamp();
         Long SuiTimestamp = suiTimestamp;
         String suiTxDigest = e.getSuiTxDigest();
@@ -307,14 +348,14 @@ public abstract class AbstractArticleState implements ArticleState.SqlArticleSta
         ArticleState updatedArticleState = (ArticleState) ReflectUtils.invokeStaticMethod(
                     "org.test.suiblogexample.domain.article.CreateLogic",
                     "mutate",
-                    new Class[]{ArticleState.class, String.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
-                    new Object[]{this, title, body, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
+                    new Class[]{ArticleState.class, String.class, String.class, String.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new Object[]{this, blogId, title, body, owner, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
             );
 
 //package org.test.suiblogexample.domain.article;
 //
 //public class CreateLogic {
-//    public static ArticleState mutate(ArticleState articleState, String title, String body, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<ArticleState, ArticleState.MutableArticleState> mutationContext) {
+//    public static ArticleState mutate(ArticleState articleState, String blogId, String title, String body, String owner, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<ArticleState, ArticleState.MutableArticleState> mutationContext) {
 //    }
 //}
 
@@ -329,6 +370,12 @@ public abstract class AbstractArticleState implements ArticleState.SqlArticleSta
         String Title = title;
         String body = e.getBody();
         String Body = body;
+        String owner = e.getOwner();
+        String Owner = owner;
+        String[] tags = e.getTags();
+        String[] Tags = tags;
+        String[] tagsV2 = e.getTagsV2();
+        String[] TagsV2 = tagsV2;
         Long suiTimestamp = e.getSuiTimestamp();
         Long SuiTimestamp = suiTimestamp;
         String suiTxDigest = e.getSuiTxDigest();
@@ -358,14 +405,14 @@ public abstract class AbstractArticleState implements ArticleState.SqlArticleSta
         ArticleState updatedArticleState = (ArticleState) ReflectUtils.invokeStaticMethod(
                     "org.test.suiblogexample.domain.article.UpdateLogic",
                     "mutate",
-                    new Class[]{ArticleState.class, String.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
-                    new Object[]{this, title, body, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
+                    new Class[]{ArticleState.class, String.class, String.class, String.class, String[].class, String[].class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new Object[]{this, title, body, owner, tags, tagsV2, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
             );
 
 //package org.test.suiblogexample.domain.article;
 //
 //public class UpdateLogic {
-//    public static ArticleState mutate(ArticleState articleState, String title, String body, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<ArticleState, ArticleState.MutableArticleState> mutationContext) {
+//    public static ArticleState mutate(ArticleState articleState, String title, String body, String owner, String[] tags, String[] tagsV2, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<ArticleState, ArticleState.MutableArticleState> mutationContext) {
 //    }
 //}
 
@@ -376,6 +423,8 @@ public abstract class AbstractArticleState implements ArticleState.SqlArticleSta
     public void when(AbstractArticleEvent.ArticleDeleted e) {
         throwOnWrongEvent(e);
 
+        String blogId = e.getBlogId();
+        String BlogId = blogId;
         Long suiTimestamp = e.getSuiTimestamp();
         Long SuiTimestamp = suiTimestamp;
         String suiTxDigest = e.getSuiTxDigest();
@@ -405,14 +454,14 @@ public abstract class AbstractArticleState implements ArticleState.SqlArticleSta
         ArticleState updatedArticleState = (ArticleState) ReflectUtils.invokeStaticMethod(
                     "org.test.suiblogexample.domain.article.DeleteLogic",
                     "mutate",
-                    new Class[]{ArticleState.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
-                    new Object[]{this, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
+                    new Class[]{ArticleState.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new Object[]{this, blogId, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
             );
 
 //package org.test.suiblogexample.domain.article;
 //
 //public class DeleteLogic {
-//    public static ArticleState mutate(ArticleState articleState, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<ArticleState, ArticleState.MutableArticleState> mutationContext) {
+//    public static ArticleState mutate(ArticleState articleState, String blogId, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<ArticleState, ArticleState.MutableArticleState> mutationContext) {
 //    }
 //}
 
@@ -420,7 +469,7 @@ public abstract class AbstractArticleState implements ArticleState.SqlArticleSta
 
     }
 
-    public void when(AbstractArticleEvent.CommentAdded e) {
+    public void when(AbstractArticleEvent.CommentUpdated e) {
         throwOnWrongEvent(e);
 
         BigInteger commentSeqId = e.getCommentSeqId();
@@ -429,6 +478,8 @@ public abstract class AbstractArticleState implements ArticleState.SqlArticleSta
         String Commenter = commenter;
         String body = e.getBody();
         String Body = body;
+        String owner = e.getOwner();
+        String Owner = owner;
         Long suiTimestamp = e.getSuiTimestamp();
         Long SuiTimestamp = suiTimestamp;
         String suiTxDigest = e.getSuiTxDigest();
@@ -456,16 +507,16 @@ public abstract class AbstractArticleState implements ArticleState.SqlArticleSta
         this.setUpdatedAt(e.getCreatedAt());
 
         ArticleState updatedArticleState = (ArticleState) ReflectUtils.invokeStaticMethod(
-                    "org.test.suiblogexample.domain.article.AddCommentLogic",
+                    "org.test.suiblogexample.domain.article.UpdateCommentLogic",
                     "mutate",
-                    new Class[]{ArticleState.class, BigInteger.class, String.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
-                    new Object[]{this, commentSeqId, commenter, body, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
+                    new Class[]{ArticleState.class, BigInteger.class, String.class, String.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new Object[]{this, commentSeqId, commenter, body, owner, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
             );
 
 //package org.test.suiblogexample.domain.article;
 //
-//public class AddCommentLogic {
-//    public static ArticleState mutate(ArticleState articleState, BigInteger commentSeqId, String commenter, String body, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<ArticleState, ArticleState.MutableArticleState> mutationContext) {
+//public class UpdateCommentLogic {
+//    public static ArticleState mutate(ArticleState articleState, BigInteger commentSeqId, String commenter, String body, String owner, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<ArticleState, ArticleState.MutableArticleState> mutationContext) {
 //    }
 //}
 
@@ -522,7 +573,7 @@ public abstract class AbstractArticleState implements ArticleState.SqlArticleSta
 
     }
 
-    public void when(AbstractArticleEvent.CommentUpdated e) {
+    public void when(AbstractArticleEvent.CommentAdded e) {
         throwOnWrongEvent(e);
 
         BigInteger commentSeqId = e.getCommentSeqId();
@@ -531,6 +582,8 @@ public abstract class AbstractArticleState implements ArticleState.SqlArticleSta
         String Commenter = commenter;
         String body = e.getBody();
         String Body = body;
+        String owner = e.getOwner();
+        String Owner = owner;
         Long suiTimestamp = e.getSuiTimestamp();
         Long SuiTimestamp = suiTimestamp;
         String suiTxDigest = e.getSuiTxDigest();
@@ -558,16 +611,114 @@ public abstract class AbstractArticleState implements ArticleState.SqlArticleSta
         this.setUpdatedAt(e.getCreatedAt());
 
         ArticleState updatedArticleState = (ArticleState) ReflectUtils.invokeStaticMethod(
-                    "org.test.suiblogexample.domain.article.UpdateCommentLogic",
+                    "org.test.suiblogexample.domain.article.AddCommentLogic",
                     "mutate",
-                    new Class[]{ArticleState.class, BigInteger.class, String.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
-                    new Object[]{this, commentSeqId, commenter, body, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
+                    new Class[]{ArticleState.class, BigInteger.class, String.class, String.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new Object[]{this, commentSeqId, commenter, body, owner, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
             );
 
 //package org.test.suiblogexample.domain.article;
 //
-//public class UpdateCommentLogic {
-//    public static ArticleState mutate(ArticleState articleState, BigInteger commentSeqId, String commenter, String body, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<ArticleState, ArticleState.MutableArticleState> mutationContext) {
+//public class AddCommentLogic {
+//    public static ArticleState mutate(ArticleState articleState, BigInteger commentSeqId, String commenter, String body, String owner, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<ArticleState, ArticleState.MutableArticleState> mutationContext) {
+//    }
+//}
+
+        if (this != updatedArticleState) { merge(updatedArticleState); } //else do nothing
+
+    }
+
+    public void when(AbstractArticleEvent.ArticleTagsUpdated e) {
+        throwOnWrongEvent(e);
+
+        String[] tags = e.getTags();
+        String[] Tags = tags;
+        Long suiTimestamp = e.getSuiTimestamp();
+        Long SuiTimestamp = suiTimestamp;
+        String suiTxDigest = e.getSuiTxDigest();
+        String SuiTxDigest = suiTxDigest;
+        BigInteger suiEventSeq = e.getSuiEventSeq();
+        BigInteger SuiEventSeq = suiEventSeq;
+        String suiPackageId = e.getSuiPackageId();
+        String SuiPackageId = suiPackageId;
+        String suiTransactionModule = e.getSuiTransactionModule();
+        String SuiTransactionModule = suiTransactionModule;
+        String suiSender = e.getSuiSender();
+        String SuiSender = suiSender;
+        String suiType = e.getSuiType();
+        String SuiType = suiType;
+        String status = e.getStatus();
+        String Status = status;
+
+        if (this.getCreatedBy() == null){
+            this.setCreatedBy(e.getCreatedBy());
+        }
+        if (this.getCreatedAt() == null){
+            this.setCreatedAt(e.getCreatedAt());
+        }
+        this.setUpdatedBy(e.getCreatedBy());
+        this.setUpdatedAt(e.getCreatedAt());
+
+        ArticleState updatedArticleState = (ArticleState) ReflectUtils.invokeStaticMethod(
+                    "org.test.suiblogexample.domain.article.UpdateTagsLogic",
+                    "mutate",
+                    new Class[]{ArticleState.class, String[].class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new Object[]{this, tags, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
+            );
+
+//package org.test.suiblogexample.domain.article;
+//
+//public class UpdateTagsLogic {
+//    public static ArticleState mutate(ArticleState articleState, String[] tags, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<ArticleState, ArticleState.MutableArticleState> mutationContext) {
+//    }
+//}
+
+        if (this != updatedArticleState) { merge(updatedArticleState); } //else do nothing
+
+    }
+
+    public void when(AbstractArticleEvent.ArticleTagsV2Updated e) {
+        throwOnWrongEvent(e);
+
+        String[] tags = e.getTags();
+        String[] Tags = tags;
+        Long suiTimestamp = e.getSuiTimestamp();
+        Long SuiTimestamp = suiTimestamp;
+        String suiTxDigest = e.getSuiTxDigest();
+        String SuiTxDigest = suiTxDigest;
+        BigInteger suiEventSeq = e.getSuiEventSeq();
+        BigInteger SuiEventSeq = suiEventSeq;
+        String suiPackageId = e.getSuiPackageId();
+        String SuiPackageId = suiPackageId;
+        String suiTransactionModule = e.getSuiTransactionModule();
+        String SuiTransactionModule = suiTransactionModule;
+        String suiSender = e.getSuiSender();
+        String SuiSender = suiSender;
+        String suiType = e.getSuiType();
+        String SuiType = suiType;
+        String status = e.getStatus();
+        String Status = status;
+
+        if (this.getCreatedBy() == null){
+            this.setCreatedBy(e.getCreatedBy());
+        }
+        if (this.getCreatedAt() == null){
+            this.setCreatedAt(e.getCreatedAt());
+        }
+        this.setUpdatedBy(e.getCreatedBy());
+        this.setUpdatedAt(e.getCreatedAt());
+
+        ArticleState updatedArticleState = (ArticleState) ReflectUtils.invokeStaticMethod(
+                    "org.test.suiblogexample.domain.article.UpdateTagsV2Logic",
+                    "mutate",
+                    new Class[]{ArticleState.class, String[].class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new Object[]{this, tags, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
+            );
+
+//package org.test.suiblogexample.domain.article;
+//
+//public class UpdateTagsV2Logic {
+//    public static ArticleState mutate(ArticleState articleState, String[] tags, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<ArticleState, ArticleState.MutableArticleState> mutationContext) {
 //    }
 //}
 

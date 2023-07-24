@@ -31,9 +31,9 @@ public class PullArticleEventsTaskService {
         articleEventService.pullArticleDeletedEvents();
     }
 
-    @Scheduled(fixedDelayString = "${sui.contract.pull-article-events.comment-added.fixed-delay:5000}")
-    public void pullCommentAddedEvents() {
-        articleEventService.pullCommentAddedEvents();
+    @Scheduled(fixedDelayString = "${sui.contract.pull-article-events.comment-updated.fixed-delay:5000}")
+    public void pullCommentUpdatedEvents() {
+        articleEventService.pullCommentUpdatedEvents();
     }
 
     @Scheduled(fixedDelayString = "${sui.contract.pull-article-events.comment-removed.fixed-delay:5000}")
@@ -41,9 +41,19 @@ public class PullArticleEventsTaskService {
         articleEventService.pullCommentRemovedEvents();
     }
 
-    @Scheduled(fixedDelayString = "${sui.contract.pull-article-events.comment-updated.fixed-delay:5000}")
-    public void pullCommentUpdatedEvents() {
-        articleEventService.pullCommentUpdatedEvents();
+    @Scheduled(fixedDelayString = "${sui.contract.pull-article-events.comment-added.fixed-delay:5000}")
+    public void pullCommentAddedEvents() {
+        articleEventService.pullCommentAddedEvents();
+    }
+
+    @Scheduled(fixedDelayString = "${sui.contract.pull-article-events.article-tags-updated.fixed-delay:5000}")
+    public void pullArticleTagsUpdatedEvents() {
+        articleEventService.pullArticleTagsUpdatedEvents();
+    }
+
+    @Scheduled(fixedDelayString = "${sui.contract.pull-article-events.article-tags-v2-updated.fixed-delay:5000}")
+    public void pullArticleTagsV2UpdatedEvents() {
+        articleEventService.pullArticleTagsV2UpdatedEvents();
     }
 
 }

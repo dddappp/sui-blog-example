@@ -21,11 +21,15 @@ public interface ArticleApplicationService {
 
     void when(ArticleCommands.Delete c);
 
-    void when(ArticleCommands.AddComment c);
+    void when(ArticleCommands.UpdateComment c);
 
     void when(ArticleCommands.RemoveComment c);
 
-    void when(ArticleCommands.UpdateComment c);
+    void when(ArticleCommands.AddComment c);
+
+    void when(ArticleCommands.UpdateTags c);
+
+    void when(ArticleCommands.UpdateTagsV2 c);
 
     ArticleState get(String id);
 

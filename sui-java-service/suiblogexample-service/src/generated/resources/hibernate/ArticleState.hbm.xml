@@ -18,6 +18,9 @@
     <property name="body">
       <column name="body" length="2000" />
     </property>
+    <property name="owner">
+      <column name="owner" sql-type="VARCHAR(66)" />
+    </property>
     <property name="version">
       <column name="version" sql-type="DECIMAL(20,0)" />
     </property>
@@ -35,5 +38,13 @@
     </property>
     <property name="createdAt" column="created_at" />
     <property name="updatedAt" column="updated_at" />
+    <set name="tags" table="article_tags" lazy="false">
+      <key column="Id" />
+      <element column="tags_item" type="string" not-null="true" />
+    </set>
+    <set name="tagsV2" table="article_tags_v2" lazy="false">
+      <key column="Id" />
+      <element column="tags_v2_item" type="string" not-null="true" />
+    </set>
   </class>
 </hibernate-mapping>

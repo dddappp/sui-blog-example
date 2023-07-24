@@ -225,11 +225,11 @@ public class ArticleResource {
     }
 
 
-    @PutMapping("{id}/_commands/AddComment")
-    public void addComment(@PathVariable("id") String id, @RequestBody ArticleCommands.AddComment content) {
+    @PutMapping("{id}/_commands/UpdateComment")
+    public void updateComment(@PathVariable("id") String id, @RequestBody ArticleCommands.UpdateComment content) {
         try {
 
-            ArticleCommands.AddComment cmd = content;//.toAddComment();
+            ArticleCommands.UpdateComment cmd = content;//.toUpdateComment();
             String idObj = id;
             if (cmd.getId() == null) {
                 cmd.setId(idObj);
@@ -261,11 +261,47 @@ public class ArticleResource {
     }
 
 
-    @PutMapping("{id}/_commands/UpdateComment")
-    public void updateComment(@PathVariable("id") String id, @RequestBody ArticleCommands.UpdateComment content) {
+    @PutMapping("{id}/_commands/AddComment")
+    public void addComment(@PathVariable("id") String id, @RequestBody ArticleCommands.AddComment content) {
         try {
 
-            ArticleCommands.UpdateComment cmd = content;//.toUpdateComment();
+            ArticleCommands.AddComment cmd = content;//.toAddComment();
+            String idObj = id;
+            if (cmd.getId() == null) {
+                cmd.setId(idObj);
+            } else if (!cmd.getId().equals(idObj)) {
+                throw DomainError.named("inconsistentId", "Argument Id %1$s NOT equals body Id %2$s", id, cmd.getId());
+            }
+            cmd.setRequesterId(SecurityContextUtil.getRequesterId());
+            articleApplicationService.when(cmd);
+
+        } catch (Exception ex) { logger.info(ex.getMessage(), ex); throw DomainErrorUtils.convertException(ex); }
+    }
+
+
+    @PutMapping("{id}/_commands/UpdateTags")
+    public void updateTags(@PathVariable("id") String id, @RequestBody ArticleCommands.UpdateTags content) {
+        try {
+
+            ArticleCommands.UpdateTags cmd = content;//.toUpdateTags();
+            String idObj = id;
+            if (cmd.getId() == null) {
+                cmd.setId(idObj);
+            } else if (!cmd.getId().equals(idObj)) {
+                throw DomainError.named("inconsistentId", "Argument Id %1$s NOT equals body Id %2$s", id, cmd.getId());
+            }
+            cmd.setRequesterId(SecurityContextUtil.getRequesterId());
+            articleApplicationService.when(cmd);
+
+        } catch (Exception ex) { logger.info(ex.getMessage(), ex); throw DomainErrorUtils.convertException(ex); }
+    }
+
+
+    @PutMapping("{id}/_commands/UpdateTagsV2")
+    public void updateTagsV2(@PathVariable("id") String id, @RequestBody ArticleCommands.UpdateTagsV2 content) {
+        try {
+
+            ArticleCommands.UpdateTagsV2 cmd = content;//.toUpdateTagsV2();
             String idObj = id;
             if (cmd.getId() == null) {
                 cmd.setId(idObj);

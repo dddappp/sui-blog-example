@@ -245,6 +245,18 @@ public abstract class AbstractArticleEvent extends AbstractEvent implements Arti
             return "ArticleCreated";
         }
 
+        public String getBlogId() {
+            Object val = getDynamicProperties().get("blogId");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setBlogId(String value) {
+            getDynamicProperties().put("blogId", value);
+        }
+
         public String getTitle() {
             Object val = getDynamicProperties().get("title");
             if (val instanceof String) {
@@ -267,6 +279,18 @@ public abstract class AbstractArticleEvent extends AbstractEvent implements Arti
 
         public void setBody(String value) {
             getDynamicProperties().put("body", value);
+        }
+
+        public String getOwner() {
+            Object val = getDynamicProperties().get("owner");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setOwner(String value) {
+            getDynamicProperties().put("owner", value);
         }
 
     }
@@ -302,6 +326,42 @@ public abstract class AbstractArticleEvent extends AbstractEvent implements Arti
             getDynamicProperties().put("body", value);
         }
 
+        public String getOwner() {
+            Object val = getDynamicProperties().get("owner");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setOwner(String value) {
+            getDynamicProperties().put("owner", value);
+        }
+
+        public String[] getTags() {
+            Object val = getDynamicProperties().get("tags");
+            if (val instanceof String[]) {
+                return (String[]) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String[].class);
+        }
+
+        public void setTags(String[] value) {
+            getDynamicProperties().put("tags", value);
+        }
+
+        public String[] getTagsV2() {
+            Object val = getDynamicProperties().get("tagsV2");
+            if (val instanceof String[]) {
+                return (String[]) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String[].class);
+        }
+
+        public void setTagsV2(String[] value) {
+            getDynamicProperties().put("tagsV2", value);
+        }
+
     }
 
     public static class ArticleDeleted extends ArticleClobEvent {
@@ -309,6 +369,96 @@ public abstract class AbstractArticleEvent extends AbstractEvent implements Arti
         @Override
         public String getEventType() {
             return "ArticleDeleted";
+        }
+
+        public String getBlogId() {
+            Object val = getDynamicProperties().get("blogId");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setBlogId(String value) {
+            getDynamicProperties().put("blogId", value);
+        }
+
+    }
+
+    public static class CommentUpdated extends ArticleClobEvent {
+
+        @Override
+        public String getEventType() {
+            return "CommentUpdated";
+        }
+
+        public BigInteger getCommentSeqId() {
+            Object val = getDynamicProperties().get("commentSeqId");
+            if (val instanceof BigInteger) {
+                return (BigInteger) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
+        }
+
+        public void setCommentSeqId(BigInteger value) {
+            getDynamicProperties().put("commentSeqId", value);
+        }
+
+        public String getCommenter() {
+            Object val = getDynamicProperties().get("commenter");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setCommenter(String value) {
+            getDynamicProperties().put("commenter", value);
+        }
+
+        public String getBody() {
+            Object val = getDynamicProperties().get("body");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setBody(String value) {
+            getDynamicProperties().put("body", value);
+        }
+
+        public String getOwner() {
+            Object val = getDynamicProperties().get("owner");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setOwner(String value) {
+            getDynamicProperties().put("owner", value);
+        }
+
+    }
+
+    public static class CommentRemoved extends ArticleClobEvent {
+
+        @Override
+        public String getEventType() {
+            return "CommentRemoved";
+        }
+
+        public BigInteger getCommentSeqId() {
+            Object val = getDynamicProperties().get("commentSeqId");
+            if (val instanceof BigInteger) {
+                return (BigInteger) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
+        }
+
+        public void setCommentSeqId(BigInteger value) {
+            getDynamicProperties().put("commentSeqId", value);
         }
 
     }
@@ -356,70 +506,58 @@ public abstract class AbstractArticleEvent extends AbstractEvent implements Arti
             getDynamicProperties().put("body", value);
         }
 
-    }
-
-    public static class CommentRemoved extends ArticleClobEvent {
-
-        @Override
-        public String getEventType() {
-            return "CommentRemoved";
-        }
-
-        public BigInteger getCommentSeqId() {
-            Object val = getDynamicProperties().get("commentSeqId");
-            if (val instanceof BigInteger) {
-                return (BigInteger) val;
-            }
-            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
-        }
-
-        public void setCommentSeqId(BigInteger value) {
-            getDynamicProperties().put("commentSeqId", value);
-        }
-
-    }
-
-    public static class CommentUpdated extends ArticleClobEvent {
-
-        @Override
-        public String getEventType() {
-            return "CommentUpdated";
-        }
-
-        public BigInteger getCommentSeqId() {
-            Object val = getDynamicProperties().get("commentSeqId");
-            if (val instanceof BigInteger) {
-                return (BigInteger) val;
-            }
-            return ApplicationContext.current.getTypeConverter().convertValue(val, BigInteger.class);
-        }
-
-        public void setCommentSeqId(BigInteger value) {
-            getDynamicProperties().put("commentSeqId", value);
-        }
-
-        public String getCommenter() {
-            Object val = getDynamicProperties().get("commenter");
+        public String getOwner() {
+            Object val = getDynamicProperties().get("owner");
             if (val instanceof String) {
                 return (String) val;
             }
             return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
         }
 
-        public void setCommenter(String value) {
-            getDynamicProperties().put("commenter", value);
+        public void setOwner(String value) {
+            getDynamicProperties().put("owner", value);
         }
 
-        public String getBody() {
-            Object val = getDynamicProperties().get("body");
-            if (val instanceof String) {
-                return (String) val;
+    }
+
+    public static class ArticleTagsUpdated extends ArticleClobEvent {
+
+        @Override
+        public String getEventType() {
+            return "ArticleTagsUpdated";
+        }
+
+        public String[] getTags() {
+            Object val = getDynamicProperties().get("tags");
+            if (val instanceof String[]) {
+                return (String[]) val;
             }
-            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String[].class);
         }
 
-        public void setBody(String value) {
-            getDynamicProperties().put("body", value);
+        public void setTags(String[] value) {
+            getDynamicProperties().put("tags", value);
+        }
+
+    }
+
+    public static class ArticleTagsV2Updated extends ArticleClobEvent {
+
+        @Override
+        public String getEventType() {
+            return "ArticleTagsV2Updated";
+        }
+
+        public String[] getTags() {
+            Object val = getDynamicProperties().get("tags");
+            if (val instanceof String[]) {
+                return (String[]) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String[].class);
+        }
+
+        public void setTags(String[] value) {
+            getDynamicProperties().put("tags", value);
         }
 
     }

@@ -50,6 +50,9 @@ public class SuiArticleStateRetriever {
         articleState.setVersion(article.getVersion());
         articleState.setTitle(article.getTitle());
         articleState.setBody(article.getBody());
+        articleState.setOwner(article.getOwner());
+        articleState.setTags(new HashSet<>(Arrays.asList(article.getTags())));
+        articleState.setTagsV2(new HashSet<>(Arrays.asList(article.getTagsV2())));
         if (article.getComments() != null) {
             String commentTableId = article.getComments().getFields().getId().getId();
             List<Comment> comments = getComments(commentTableId);
@@ -65,6 +68,7 @@ public class SuiArticleStateRetriever {
         CommentState.MutableCommentState commentState = commentStateFactory.apply(articleState, comment.getCommentSeqId());
         commentState.setCommenter(comment.getCommenter());
         commentState.setBody(comment.getBody());
+        commentState.setOwner(comment.getOwner());
         return commentState;
     }
 

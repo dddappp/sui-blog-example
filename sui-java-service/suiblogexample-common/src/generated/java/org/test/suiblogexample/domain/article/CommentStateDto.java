@@ -51,6 +51,18 @@ public class CommentStateDto {
         this.body = body;
     }
 
+    private String owner;
+
+    public String getOwner()
+    {
+        return this.owner;
+    }
+
+    public void setOwner(String owner)
+    {
+        this.owner = owner;
+    }
+
     private Boolean active;
 
     public Boolean getActive()
@@ -172,6 +184,9 @@ public class CommentStateDto {
             }
             if (returnedFieldsContains("Body")) {
                 dto.setBody(state.getBody());
+            }
+            if (returnedFieldsContains("Owner")) {
+                dto.setOwner(state.getOwner());
             }
             if (returnedFieldsContains("Active")) {
                 dto.setActive(state.getActive());

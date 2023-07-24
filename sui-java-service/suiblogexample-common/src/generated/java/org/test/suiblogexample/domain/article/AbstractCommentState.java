@@ -81,6 +81,16 @@ public abstract class AbstractCommentState implements CommentState.SqlCommentSta
         this.body = body;
     }
 
+    private String owner;
+
+    public String getOwner() {
+        return this.owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
     private Long offChainVersion;
 
     public Long getOffChainVersion() {
@@ -215,6 +225,7 @@ public abstract class AbstractCommentState implements CommentState.SqlCommentSta
         }
         this.setCommenter(s.getCommenter());
         this.setBody(s.getBody());
+        this.setOwner(s.getOwner());
         this.setActive(s.getActive());
     }
 

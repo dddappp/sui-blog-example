@@ -24,6 +24,8 @@ public interface CommentState
 
     String getBody();
 
+    String getOwner();
+
     Long getOffChainVersion();
 
     String getCreatedBy();
@@ -46,6 +48,8 @@ public interface CommentState
         void setCommenter(String commenter);
 
         void setBody(String body);
+
+        void setOwner(String owner);
 
         void setOffChainVersion(Long offChainVersion);
 

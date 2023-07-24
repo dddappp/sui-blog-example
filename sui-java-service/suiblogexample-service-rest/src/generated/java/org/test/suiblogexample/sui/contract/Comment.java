@@ -21,6 +21,8 @@ public class Comment {
 
     private String body;
 
+    private String owner;
+
     public BigInteger getCommentSeqId() {
         return commentSeqId;
     }
@@ -45,12 +47,21 @@ public class Comment {
         this.body = body;
     }
 
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
     @Override
     public String toString() {
         return "Comment{" +
                 "commentSeqId=" + commentSeqId +
                 ", commenter=" + '\'' + commenter + '\'' +
                 ", body=" + '\'' + body + '\'' +
+                ", owner=" + '\'' + owner + '\'' +
                 '}';
     }
 }

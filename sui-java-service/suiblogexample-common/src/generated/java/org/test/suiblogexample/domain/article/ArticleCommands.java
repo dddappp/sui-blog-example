@@ -38,6 +38,19 @@ public class ArticleCommands {
         }
 
         /**
+         * Blog
+         */
+        private String blog;
+
+        public String getBlog() {
+            return this.blog;
+        }
+
+        public void setBlog(String blog) {
+            this.blog = blog;
+        }
+
+        /**
          * Title
          */
         private String title;
@@ -61,6 +74,19 @@ public class ArticleCommands {
 
         public void setBody(String body) {
             this.body = body;
+        }
+
+        /**
+         * Owner
+         */
+        private String owner;
+
+        public String getOwner() {
+            return this.owner;
+        }
+
+        public void setOwner(String owner) {
+            this.owner = owner;
         }
 
         /**
@@ -128,6 +154,45 @@ public class ArticleCommands {
         }
 
         /**
+         * Owner
+         */
+        private String owner;
+
+        public String getOwner() {
+            return this.owner;
+        }
+
+        public void setOwner(String owner) {
+            this.owner = owner;
+        }
+
+        /**
+         * Tags
+         */
+        private String[] tags;
+
+        public String[] getTags() {
+            return this.tags;
+        }
+
+        public void setTags(String[] tags) {
+            this.tags = tags;
+        }
+
+        /**
+         * Tags V2
+         */
+        private String[] tagsV2;
+
+        public String[] getTagsV2() {
+            return this.tagsV2;
+        }
+
+        public void setTagsV2(String[] tagsV2) {
+            this.tagsV2 = tagsV2;
+        }
+
+        /**
          * Off Chain Version
          */
         private Long offChainVersion;
@@ -166,131 +231,16 @@ public class ArticleCommands {
         }
 
         /**
-         * Off Chain Version
+         * Blog
          */
-        private Long offChainVersion;
+        private String blog;
 
-        public Long getOffChainVersion() {
-            return this.offChainVersion;
+        public String getBlog() {
+            return this.blog;
         }
 
-        public void setOffChainVersion(Long offChainVersion) {
-            this.offChainVersion = offChainVersion;
-        }
-
-    }
-
-    public static class AddComment extends AbstractArticleCommand implements ArticleCommand {
-
-        public String getCommandType() {
-            return "AddComment";
-        }
-
-        public void setCommandType(String commandType) {
-            //do nothing
-        }
-
-        /**
-         * Id
-         */
-        private String id;
-
-        public String getId() {
-            return this.id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        /**
-         * Comment Seq Id
-         */
-        private BigInteger commentSeqId;
-
-        public BigInteger getCommentSeqId() {
-            return this.commentSeqId;
-        }
-
-        public void setCommentSeqId(BigInteger commentSeqId) {
-            this.commentSeqId = commentSeqId;
-        }
-
-        /**
-         * Commenter
-         */
-        private String commenter;
-
-        public String getCommenter() {
-            return this.commenter;
-        }
-
-        public void setCommenter(String commenter) {
-            this.commenter = commenter;
-        }
-
-        /**
-         * Body
-         */
-        private String body;
-
-        public String getBody() {
-            return this.body;
-        }
-
-        public void setBody(String body) {
-            this.body = body;
-        }
-
-        /**
-         * Off Chain Version
-         */
-        private Long offChainVersion;
-
-        public Long getOffChainVersion() {
-            return this.offChainVersion;
-        }
-
-        public void setOffChainVersion(Long offChainVersion) {
-            this.offChainVersion = offChainVersion;
-        }
-
-    }
-
-    public static class RemoveComment extends AbstractArticleCommand implements ArticleCommand {
-
-        public String getCommandType() {
-            return "RemoveComment";
-        }
-
-        public void setCommandType(String commandType) {
-            //do nothing
-        }
-
-        /**
-         * Id
-         */
-        private String id;
-
-        public String getId() {
-            return this.id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        /**
-         * Comment Seq Id
-         */
-        private BigInteger commentSeqId;
-
-        public BigInteger getCommentSeqId() {
-            return this.commentSeqId;
-        }
-
-        public void setCommentSeqId(BigInteger commentSeqId) {
-            this.commentSeqId = commentSeqId;
+        public void setBlog(String blog) {
+            this.blog = blog;
         }
 
         /**
@@ -368,6 +318,236 @@ public class ArticleCommands {
 
         public void setBody(String body) {
             this.body = body;
+        }
+
+        /**
+         * Owner
+         */
+        private String owner;
+
+        public String getOwner() {
+            return this.owner;
+        }
+
+        public void setOwner(String owner) {
+            this.owner = owner;
+        }
+
+        /**
+         * Off Chain Version
+         */
+        private Long offChainVersion;
+
+        public Long getOffChainVersion() {
+            return this.offChainVersion;
+        }
+
+        public void setOffChainVersion(Long offChainVersion) {
+            this.offChainVersion = offChainVersion;
+        }
+
+    }
+
+    public static class RemoveComment extends AbstractArticleCommand implements ArticleCommand {
+
+        public String getCommandType() {
+            return "RemoveComment";
+        }
+
+        public void setCommandType(String commandType) {
+            //do nothing
+        }
+
+        /**
+         * Id
+         */
+        private String id;
+
+        public String getId() {
+            return this.id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        /**
+         * Comment Seq Id
+         */
+        private BigInteger commentSeqId;
+
+        public BigInteger getCommentSeqId() {
+            return this.commentSeqId;
+        }
+
+        public void setCommentSeqId(BigInteger commentSeqId) {
+            this.commentSeqId = commentSeqId;
+        }
+
+        /**
+         * Off Chain Version
+         */
+        private Long offChainVersion;
+
+        public Long getOffChainVersion() {
+            return this.offChainVersion;
+        }
+
+        public void setOffChainVersion(Long offChainVersion) {
+            this.offChainVersion = offChainVersion;
+        }
+
+    }
+
+    public static class AddComment extends AbstractArticleCommand implements ArticleCommand {
+
+        public String getCommandType() {
+            return "AddComment";
+        }
+
+        public void setCommandType(String commandType) {
+            //do nothing
+        }
+
+        /**
+         * Id
+         */
+        private String id;
+
+        public String getId() {
+            return this.id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        /**
+         * Commenter
+         */
+        private String commenter;
+
+        public String getCommenter() {
+            return this.commenter;
+        }
+
+        public void setCommenter(String commenter) {
+            this.commenter = commenter;
+        }
+
+        /**
+         * Body
+         */
+        private String body;
+
+        public String getBody() {
+            return this.body;
+        }
+
+        public void setBody(String body) {
+            this.body = body;
+        }
+
+        /**
+         * Off Chain Version
+         */
+        private Long offChainVersion;
+
+        public Long getOffChainVersion() {
+            return this.offChainVersion;
+        }
+
+        public void setOffChainVersion(Long offChainVersion) {
+            this.offChainVersion = offChainVersion;
+        }
+
+    }
+
+    public static class UpdateTags extends AbstractArticleCommand implements ArticleCommand {
+
+        public String getCommandType() {
+            return "UpdateTags";
+        }
+
+        public void setCommandType(String commandType) {
+            //do nothing
+        }
+
+        /**
+         * Id
+         */
+        private String id;
+
+        public String getId() {
+            return this.id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        /**
+         * Tags
+         */
+        private String[] tags;
+
+        public String[] getTags() {
+            return this.tags;
+        }
+
+        public void setTags(String[] tags) {
+            this.tags = tags;
+        }
+
+        /**
+         * Off Chain Version
+         */
+        private Long offChainVersion;
+
+        public Long getOffChainVersion() {
+            return this.offChainVersion;
+        }
+
+        public void setOffChainVersion(Long offChainVersion) {
+            this.offChainVersion = offChainVersion;
+        }
+
+    }
+
+    public static class UpdateTagsV2 extends AbstractArticleCommand implements ArticleCommand {
+
+        public String getCommandType() {
+            return "UpdateTagsV2";
+        }
+
+        public void setCommandType(String commandType) {
+            //do nothing
+        }
+
+        /**
+         * Id
+         */
+        private String id;
+
+        public String getId() {
+            return this.id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        /**
+         * Tags
+         */
+        private String[] tags;
+
+        public String[] getTags() {
+            return this.tags;
+        }
+
+        public void setTags(String[] tags) {
+            this.tags = tags;
         }
 
         /**

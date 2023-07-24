@@ -51,6 +51,18 @@ public class ArticleStateDto {
         this.body = body;
     }
 
+    private String owner;
+
+    public String getOwner()
+    {
+        return this.owner;
+    }
+
+    public void setOwner(String owner)
+    {
+        this.owner = owner;
+    }
+
     private BigInteger version;
 
     public BigInteger getVersion()
@@ -147,6 +159,26 @@ public class ArticleStateDto {
         this.comments = comments;
     }
 
+    private String[] tags;
+
+    public String[] getTags() {
+        return this.tags;
+    }
+
+    public void setTags(String[] tags) {
+        this.tags = tags;
+    }
+
+    private String[] tagsV2;
+
+    public String[] getTagsV2() {
+        return this.tagsV2;
+    }
+
+    public void setTagsV2(String[] tagsV2) {
+        this.tagsV2 = tagsV2;
+    }
+
 
     public static class DtoConverter extends AbstractStateDtoConverter
     {
@@ -185,6 +217,9 @@ public class ArticleStateDto {
             if (returnedFieldsContains("Body")) {
                 dto.setBody(state.getBody());
             }
+            if (returnedFieldsContains("Owner")) {
+                dto.setOwner(state.getOwner());
+            }
             if (returnedFieldsContains("Version")) {
                 dto.setVersion(state.getVersion());
             }
@@ -205,6 +240,24 @@ public class ArticleStateDto {
             }
             if (returnedFieldsContains("UpdatedAt")) {
                 dto.setUpdatedAt(state.getUpdatedAt());
+            }
+            if (returnedFieldsContains("Tags")) {
+                ArrayList<String> arrayList = new ArrayList();
+                if (state.getTags() != null) {
+                    for (String s : state.getTags()) {
+                        arrayList.add(s);
+                    }
+                }
+                dto.setTags(arrayList.toArray(new String[0]));
+            }
+            if (returnedFieldsContains("TagsV2")) {
+                ArrayList<String> arrayList = new ArrayList();
+                if (state.getTagsV2() != null) {
+                    for (String s : state.getTagsV2()) {
+                        arrayList.add(s);
+                    }
+                }
+                dto.setTagsV2(arrayList.toArray(new String[0]));
             }
             if (returnedFieldsContains("Comments")) {
                 ArrayList<CommentStateDto> arrayList = new ArrayList();

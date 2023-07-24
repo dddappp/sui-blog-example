@@ -23,6 +23,12 @@ public class ArticleUpdated {
 
     private String body;
 
+    private String owner;
+
+    private String[] tags;
+
+    private String[] tagsV2;
+
     public String getId() {
         return id;
     }
@@ -55,6 +61,30 @@ public class ArticleUpdated {
         this.body = body;
     }
 
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public String[] getTags() {
+        return tags;
+    }
+
+    public void setTags(String[] tags) {
+        this.tags = tags;
+    }
+
+    public String[] getTagsV2() {
+        return tagsV2;
+    }
+
+    public void setTagsV2(String[] tagsV2) {
+        this.tagsV2 = tagsV2;
+    }
+
     @Override
     public String toString() {
         return "ArticleUpdated{" +
@@ -62,6 +92,9 @@ public class ArticleUpdated {
                 ", version=" + version +
                 ", title=" + '\'' + title + '\'' +
                 ", body=" + '\'' + body + '\'' +
+                ", owner=" + '\'' + owner + '\'' +
+                ", tags=" + Arrays.toString(tags) +
+                ", tagsV2=" + Arrays.toString(tagsV2) +
                 '}';
     }
 

@@ -24,6 +24,8 @@ public interface ArticleState extends VersionedSuiMoveObject
 
     String getBody();
 
+    String getOwner();
+
     Long getOffChainVersion();
 
     String getCreatedBy();
@@ -38,6 +40,10 @@ public interface ArticleState extends VersionedSuiMoveObject
 
     Boolean getDeleted();
 
+    Set<String> getTags();
+
+    Set<String> getTagsV2();
+
     EntityStateCollection<BigInteger, CommentState> getComments();
 
     interface MutableArticleState extends ArticleState, VersionedSuiMoveObject.MutableVersionedSuiMoveObject {
@@ -46,6 +52,8 @@ public interface ArticleState extends VersionedSuiMoveObject
         void setTitle(String title);
 
         void setBody(String body);
+
+        void setOwner(String owner);
 
         void setOffChainVersion(Long offChainVersion);
 
@@ -60,6 +68,10 @@ public interface ArticleState extends VersionedSuiMoveObject
         void setActive(Boolean active);
 
         void setDeleted(Boolean deleted);
+
+        void setTags(Set<String> tags);
+
+        void setTagsV2(Set<String> tagsV2);
 
 
         void mutate(Event e);

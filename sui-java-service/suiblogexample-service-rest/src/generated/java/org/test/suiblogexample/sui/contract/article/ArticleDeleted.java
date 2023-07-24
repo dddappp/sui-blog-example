@@ -19,6 +19,8 @@ public class ArticleDeleted {
 
     private BigInteger version;
 
+    private String blogId;
+
     public String getId() {
         return id;
     }
@@ -35,11 +37,20 @@ public class ArticleDeleted {
         this.version = version;
     }
 
+    public String getBlogId() {
+        return blogId;
+    }
+
+    public void setBlogId(String blogId) {
+        this.blogId = blogId;
+    }
+
     @Override
     public String toString() {
         return "ArticleDeleted{" +
                 "id='" + id + '\'' +
                 ", version=" + version +
+                ", blogId=" + '\'' + blogId + '\'' +
                 '}';
     }
 

@@ -25,6 +25,8 @@ public class CommentUpdated {
 
     private String body;
 
+    private String owner;
+
     public String getId() {
         return id;
     }
@@ -65,6 +67,14 @@ public class CommentUpdated {
         this.body = body;
     }
 
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
     @Override
     public String toString() {
         return "CommentUpdated{" +
@@ -73,6 +83,7 @@ public class CommentUpdated {
                 ", commentSeqId=" + commentSeqId +
                 ", commenter=" + '\'' + commenter + '\'' +
                 ", body=" + '\'' + body + '\'' +
+                ", owner=" + '\'' + owner + '\'' +
                 '}';
     }
 

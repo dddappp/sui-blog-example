@@ -8,21 +8,32 @@ package org.test.suiblogexample.sui.contract;
 public class ContractConstants {
     public static final String DEFAULT_SUI_PACKAGE_NAME = "DEFAULT_SUI_PACKAGE";
 
+    public static final String TAG_MODULE_TAG_NAME_TABLE = "tag::TagNameTable";
+
     public static final String ARTICLE_MODULE_ARTICLE_CREATED = "article::ArticleCreated";
 
     public static final String ARTICLE_MODULE_ARTICLE_UPDATED = "article::ArticleUpdated";
 
     public static final String ARTICLE_MODULE_ARTICLE_DELETED = "article::ArticleDeleted";
 
-    public static final String ARTICLE_MODULE_COMMENT_ADDED = "article::CommentAdded";
+    public static final String ARTICLE_MODULE_COMMENT_UPDATED = "article::CommentUpdated";
 
     public static final String ARTICLE_MODULE_COMMENT_REMOVED = "article::CommentRemoved";
 
-    public static final String ARTICLE_MODULE_COMMENT_UPDATED = "article::CommentUpdated";
+    public static final String ARTICLE_MODULE_COMMENT_ADDED = "article::CommentAdded";
+
+    public static final String ARTICLE_MODULE_ARTICLE_TAGS_UPDATED = "article::ArticleTagsUpdated";
+
+    public static final String ARTICLE_MODULE_ARTICLE_TAGS_V2_UPDATED = "article::ArticleTagsV2Updated";
+
+    public static final String TAG_MODULE_TAG_CREATED = "tag::TagCreated";
+
+    public static final String TAG_V2_MODULE_TAG_V2_CREATED = "tag_v2::TagV2Created";
 
 
     public static String[] getMoveObjectIdGeneratorObjectTypes(String packageId) {
         return new String[]{
+                packageId + "::" + TAG_MODULE_TAG_NAME_TABLE,
         };
     }
 }

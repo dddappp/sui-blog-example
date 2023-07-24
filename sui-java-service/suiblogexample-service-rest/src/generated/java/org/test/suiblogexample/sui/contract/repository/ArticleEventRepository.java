@@ -19,10 +19,14 @@ public interface ArticleEventRepository extends JpaRepository<AbstractArticleEve
 
     AbstractArticleEvent.ArticleDeleted findFirstArticleDeletedByOrderBySuiTimestampDesc();
 
-    AbstractArticleEvent.CommentAdded findFirstCommentAddedByOrderBySuiTimestampDesc();
+    AbstractArticleEvent.CommentUpdated findFirstCommentUpdatedByOrderBySuiTimestampDesc();
 
     AbstractArticleEvent.CommentRemoved findFirstCommentRemovedByOrderBySuiTimestampDesc();
 
-    AbstractArticleEvent.CommentUpdated findFirstCommentUpdatedByOrderBySuiTimestampDesc();
+    AbstractArticleEvent.CommentAdded findFirstCommentAddedByOrderBySuiTimestampDesc();
+
+    AbstractArticleEvent.ArticleTagsUpdated findFirstArticleTagsUpdatedByOrderBySuiTimestampDesc();
+
+    AbstractArticleEvent.ArticleTagsV2Updated findFirstArticleTagsV2UpdatedByOrderBySuiTimestampDesc();
 
 }

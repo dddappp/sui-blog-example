@@ -51,27 +51,35 @@ public abstract class AbstractArticleApplicationService implements ArticleApplic
     }
 
     public void when(ArticleCommands.Create c) {
-        update(c, ar -> ar.create(c.getTitle(), c.getBody(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
+        update(c, ar -> ar.create(c.getBlog(), c.getTitle(), c.getBody(), c.getOwner(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
     }
 
     public void when(ArticleCommands.Update c) {
-        update(c, ar -> ar.update(c.getTitle(), c.getBody(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
+        update(c, ar -> ar.update(c.getTitle(), c.getBody(), c.getOwner(), c.getTags(), c.getTagsV2(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
     }
 
     public void when(ArticleCommands.Delete c) {
-        update(c, ar -> ar.delete(c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
+        update(c, ar -> ar.delete(c.getBlog(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
     }
 
-    public void when(ArticleCommands.AddComment c) {
-        update(c, ar -> ar.addComment(c.getCommentSeqId(), c.getCommenter(), c.getBody(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
+    public void when(ArticleCommands.UpdateComment c) {
+        update(c, ar -> ar.updateComment(c.getCommentSeqId(), c.getCommenter(), c.getBody(), c.getOwner(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
     }
 
     public void when(ArticleCommands.RemoveComment c) {
         update(c, ar -> ar.removeComment(c.getCommentSeqId(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
     }
 
-    public void when(ArticleCommands.UpdateComment c) {
-        update(c, ar -> ar.updateComment(c.getCommentSeqId(), c.getCommenter(), c.getBody(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
+    public void when(ArticleCommands.AddComment c) {
+        update(c, ar -> ar.addComment(c.getCommenter(), c.getBody(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
+    }
+
+    public void when(ArticleCommands.UpdateTags c) {
+        update(c, ar -> ar.updateTags(c.getTags(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
+    }
+
+    public void when(ArticleCommands.UpdateTagsV2 c) {
+        update(c, ar -> ar.updateTagsV2(c.getTags(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
     }
 
     public ArticleState get(String id) {

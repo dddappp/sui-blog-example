@@ -17,9 +17,13 @@ import java.util.*;
 public class ArticleCreated {
     private String id;
 
+    private String blogId;
+
     private String title;
 
     private String body;
+
+    private String owner;
 
     public String getId() {
         return id;
@@ -27,6 +31,14 @@ public class ArticleCreated {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getBlogId() {
+        return blogId;
+    }
+
+    public void setBlogId(String blogId) {
+        this.blogId = blogId;
     }
 
     public String getTitle() {
@@ -45,12 +57,22 @@ public class ArticleCreated {
         this.body = body;
     }
 
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
     @Override
     public String toString() {
         return "ArticleCreated{" +
                 "id='" + id + '\'' +
+                ", blogId=" + '\'' + blogId + '\'' +
                 ", title=" + '\'' + title + '\'' +
                 ", body=" + '\'' + body + '\'' +
+                ", owner=" + '\'' + owner + '\'' +
                 '}';
     }
 

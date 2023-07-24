@@ -13,9 +13,15 @@ import org.test.suiblogexample.domain.article.AbstractArticleEvent;
 import org.test.suiblogexample.sui.contract.article.ArticleCreated;
 import org.test.suiblogexample.sui.contract.article.ArticleUpdated;
 import org.test.suiblogexample.sui.contract.article.ArticleDeleted;
-import org.test.suiblogexample.sui.contract.article.CommentAdded;
-import org.test.suiblogexample.sui.contract.article.CommentRemoved;
 import org.test.suiblogexample.sui.contract.article.CommentUpdated;
+import org.test.suiblogexample.sui.contract.article.CommentRemoved;
+import org.test.suiblogexample.sui.contract.article.CommentAdded;
+import org.test.suiblogexample.sui.contract.article.ArticleTagsUpdated;
+import org.test.suiblogexample.sui.contract.article.ArticleTagsV2Updated;
+import org.test.suiblogexample.domain.tag.AbstractTagEvent;
+import org.test.suiblogexample.sui.contract.tag.TagCreated;
+import org.test.suiblogexample.domain.tagv2.AbstractTagV2Event;
+import org.test.suiblogexample.sui.contract.tagv2.TagV2Created;
 
 /**
  * Utils that convert beans in the contract package to domain beans.
@@ -30,8 +36,10 @@ public class DomainBeanUtils {
 
         AbstractArticleEvent.ArticleCreated articleCreated = new AbstractArticleEvent.ArticleCreated();
         articleCreated.setId(contractEvent.getId());
+        articleCreated.setBlogId(contractEvent.getBlogId());
         articleCreated.setTitle(contractEvent.getTitle());
         articleCreated.setBody(contractEvent.getBody());
+        articleCreated.setOwner(contractEvent.getOwner());
         articleCreated.setVersion(BigInteger.valueOf(-1));
 
         articleCreated.setSuiTimestamp(eventEnvelope.getTimestampMs());
@@ -52,6 +60,9 @@ public class DomainBeanUtils {
         articleUpdated.setId(contractEvent.getId());
         articleUpdated.setTitle(contractEvent.getTitle());
         articleUpdated.setBody(contractEvent.getBody());
+        articleUpdated.setOwner(contractEvent.getOwner());
+        articleUpdated.setTags(contractEvent.getTags());
+        articleUpdated.setTagsV2(contractEvent.getTagsV2());
         articleUpdated.setVersion(contractEvent.getVersion());
 
         articleUpdated.setSuiTimestamp(eventEnvelope.getTimestampMs());
@@ -70,6 +81,7 @@ public class DomainBeanUtils {
 
         AbstractArticleEvent.ArticleDeleted articleDeleted = new AbstractArticleEvent.ArticleDeleted();
         articleDeleted.setId(contractEvent.getId());
+        articleDeleted.setBlogId(contractEvent.getBlogId());
         articleDeleted.setVersion(contractEvent.getVersion());
 
         articleDeleted.setSuiTimestamp(eventEnvelope.getTimestampMs());
@@ -83,25 +95,26 @@ public class DomainBeanUtils {
         return articleDeleted;
     }
 
-    public static AbstractArticleEvent.CommentAdded toCommentAdded(SuiMoveEventEnvelope<CommentAdded> eventEnvelope) {
-        CommentAdded contractEvent = eventEnvelope.getParsedJson();
+    public static AbstractArticleEvent.CommentUpdated toCommentUpdated(SuiMoveEventEnvelope<CommentUpdated> eventEnvelope) {
+        CommentUpdated contractEvent = eventEnvelope.getParsedJson();
 
-        AbstractArticleEvent.CommentAdded commentAdded = new AbstractArticleEvent.CommentAdded();
-        commentAdded.setId(contractEvent.getId());
-        commentAdded.setCommentSeqId(contractEvent.getCommentSeqId());
-        commentAdded.setCommenter(contractEvent.getCommenter());
-        commentAdded.setBody(contractEvent.getBody());
-        commentAdded.setVersion(contractEvent.getVersion());
+        AbstractArticleEvent.CommentUpdated commentUpdated = new AbstractArticleEvent.CommentUpdated();
+        commentUpdated.setId(contractEvent.getId());
+        commentUpdated.setCommentSeqId(contractEvent.getCommentSeqId());
+        commentUpdated.setCommenter(contractEvent.getCommenter());
+        commentUpdated.setBody(contractEvent.getBody());
+        commentUpdated.setOwner(contractEvent.getOwner());
+        commentUpdated.setVersion(contractEvent.getVersion());
 
-        commentAdded.setSuiTimestamp(eventEnvelope.getTimestampMs());
-        commentAdded.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
-        commentAdded.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+        commentUpdated.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        commentUpdated.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        commentUpdated.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
 
-        commentAdded.setSuiPackageId(eventEnvelope.getPackageId());
-        commentAdded.setSuiTransactionModule(eventEnvelope.getTransactionModule());
-        commentAdded.setSuiSender(eventEnvelope.getSender());
+        commentUpdated.setSuiPackageId(eventEnvelope.getPackageId());
+        commentUpdated.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        commentUpdated.setSuiSender(eventEnvelope.getSender());
 
-        return commentAdded;
+        return commentUpdated;
     }
 
     public static AbstractArticleEvent.CommentRemoved toCommentRemoved(SuiMoveEventEnvelope<CommentRemoved> eventEnvelope) {
@@ -123,25 +136,102 @@ public class DomainBeanUtils {
         return commentRemoved;
     }
 
-    public static AbstractArticleEvent.CommentUpdated toCommentUpdated(SuiMoveEventEnvelope<CommentUpdated> eventEnvelope) {
-        CommentUpdated contractEvent = eventEnvelope.getParsedJson();
+    public static AbstractArticleEvent.CommentAdded toCommentAdded(SuiMoveEventEnvelope<CommentAdded> eventEnvelope) {
+        CommentAdded contractEvent = eventEnvelope.getParsedJson();
 
-        AbstractArticleEvent.CommentUpdated commentUpdated = new AbstractArticleEvent.CommentUpdated();
-        commentUpdated.setId(contractEvent.getId());
-        commentUpdated.setCommentSeqId(contractEvent.getCommentSeqId());
-        commentUpdated.setCommenter(contractEvent.getCommenter());
-        commentUpdated.setBody(contractEvent.getBody());
-        commentUpdated.setVersion(contractEvent.getVersion());
+        AbstractArticleEvent.CommentAdded commentAdded = new AbstractArticleEvent.CommentAdded();
+        commentAdded.setId(contractEvent.getId());
+        commentAdded.setCommentSeqId(contractEvent.getCommentSeqId());
+        commentAdded.setCommenter(contractEvent.getCommenter());
+        commentAdded.setBody(contractEvent.getBody());
+        commentAdded.setOwner(contractEvent.getOwner());
+        commentAdded.setVersion(contractEvent.getVersion());
 
-        commentUpdated.setSuiTimestamp(eventEnvelope.getTimestampMs());
-        commentUpdated.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
-        commentUpdated.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+        commentAdded.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        commentAdded.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        commentAdded.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
 
-        commentUpdated.setSuiPackageId(eventEnvelope.getPackageId());
-        commentUpdated.setSuiTransactionModule(eventEnvelope.getTransactionModule());
-        commentUpdated.setSuiSender(eventEnvelope.getSender());
+        commentAdded.setSuiPackageId(eventEnvelope.getPackageId());
+        commentAdded.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        commentAdded.setSuiSender(eventEnvelope.getSender());
 
-        return commentUpdated;
+        return commentAdded;
+    }
+
+    public static AbstractArticleEvent.ArticleTagsUpdated toArticleTagsUpdated(SuiMoveEventEnvelope<ArticleTagsUpdated> eventEnvelope) {
+        ArticleTagsUpdated contractEvent = eventEnvelope.getParsedJson();
+
+        AbstractArticleEvent.ArticleTagsUpdated articleTagsUpdated = new AbstractArticleEvent.ArticleTagsUpdated();
+        articleTagsUpdated.setId(contractEvent.getId());
+        articleTagsUpdated.setTags(contractEvent.getTags());
+        articleTagsUpdated.setVersion(contractEvent.getVersion());
+
+        articleTagsUpdated.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        articleTagsUpdated.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        articleTagsUpdated.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+
+        articleTagsUpdated.setSuiPackageId(eventEnvelope.getPackageId());
+        articleTagsUpdated.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        articleTagsUpdated.setSuiSender(eventEnvelope.getSender());
+
+        return articleTagsUpdated;
+    }
+
+    public static AbstractArticleEvent.ArticleTagsV2Updated toArticleTagsV2Updated(SuiMoveEventEnvelope<ArticleTagsV2Updated> eventEnvelope) {
+        ArticleTagsV2Updated contractEvent = eventEnvelope.getParsedJson();
+
+        AbstractArticleEvent.ArticleTagsV2Updated articleTagsV2Updated = new AbstractArticleEvent.ArticleTagsV2Updated();
+        articleTagsV2Updated.setId(contractEvent.getId());
+        articleTagsV2Updated.setTags(contractEvent.getTags());
+        articleTagsV2Updated.setVersion(contractEvent.getVersion());
+
+        articleTagsV2Updated.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        articleTagsV2Updated.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        articleTagsV2Updated.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+
+        articleTagsV2Updated.setSuiPackageId(eventEnvelope.getPackageId());
+        articleTagsV2Updated.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        articleTagsV2Updated.setSuiSender(eventEnvelope.getSender());
+
+        return articleTagsV2Updated;
+    }
+
+    public static AbstractTagEvent.TagCreated toTagCreated(SuiMoveEventEnvelope<TagCreated> eventEnvelope) {
+        TagCreated contractEvent = eventEnvelope.getParsedJson();
+
+        AbstractTagEvent.TagCreated tagCreated = new AbstractTagEvent.TagCreated();
+        tagCreated.setName(contractEvent.getName());
+        tagCreated.setId_(contractEvent.getId());
+        tagCreated.setVersion(BigInteger.valueOf(-1));
+
+        tagCreated.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        tagCreated.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        tagCreated.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+
+        tagCreated.setSuiPackageId(eventEnvelope.getPackageId());
+        tagCreated.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        tagCreated.setSuiSender(eventEnvelope.getSender());
+
+        return tagCreated;
+    }
+
+    public static AbstractTagV2Event.TagV2Created toTagV2Created(SuiMoveEventEnvelope<TagV2Created> eventEnvelope) {
+        TagV2Created contractEvent = eventEnvelope.getParsedJson();
+
+        AbstractTagV2Event.TagV2Created tagV2Created = new AbstractTagV2Event.TagV2Created();
+        tagV2Created.setId(contractEvent.getId());
+        tagV2Created.setName(contractEvent.getName());
+        tagV2Created.setVersion(BigInteger.valueOf(-1));
+
+        tagV2Created.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        tagV2Created.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        tagV2Created.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+
+        tagV2Created.setSuiPackageId(eventEnvelope.getPackageId());
+        tagV2Created.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        tagV2Created.setSuiSender(eventEnvelope.getSender());
+
+        return tagV2Created;
     }
 
 }

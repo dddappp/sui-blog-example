@@ -17,17 +17,21 @@ public interface ArticleAggregate {
 
     List<Event> getChanges();
 
-    void create(String title, String body, Long offChainVersion, String commandId, String requesterId, ArticleCommands.Create c);
+    void create(String blog, String title, String body, String owner, Long offChainVersion, String commandId, String requesterId, ArticleCommands.Create c);
 
-    void update(String title, String body, Long offChainVersion, String commandId, String requesterId, ArticleCommands.Update c);
+    void update(String title, String body, String owner, String[] tags, String[] tagsV2, Long offChainVersion, String commandId, String requesterId, ArticleCommands.Update c);
 
-    void delete(Long offChainVersion, String commandId, String requesterId, ArticleCommands.Delete c);
+    void delete(String blog, Long offChainVersion, String commandId, String requesterId, ArticleCommands.Delete c);
 
-    void addComment(BigInteger commentSeqId, String commenter, String body, Long offChainVersion, String commandId, String requesterId, ArticleCommands.AddComment c);
+    void updateComment(BigInteger commentSeqId, String commenter, String body, String owner, Long offChainVersion, String commandId, String requesterId, ArticleCommands.UpdateComment c);
 
     void removeComment(BigInteger commentSeqId, Long offChainVersion, String commandId, String requesterId, ArticleCommands.RemoveComment c);
 
-    void updateComment(BigInteger commentSeqId, String commenter, String body, Long offChainVersion, String commandId, String requesterId, ArticleCommands.UpdateComment c);
+    void addComment(String commenter, String body, Long offChainVersion, String commandId, String requesterId, ArticleCommands.AddComment c);
+
+    void updateTags(String[] tags, Long offChainVersion, String commandId, String requesterId, ArticleCommands.UpdateTags c);
+
+    void updateTagsV2(String[] tags, Long offChainVersion, String commandId, String requesterId, ArticleCommands.UpdateTagsV2 c);
 
     void throwOnInvalidStateTransition(Command c);
 }

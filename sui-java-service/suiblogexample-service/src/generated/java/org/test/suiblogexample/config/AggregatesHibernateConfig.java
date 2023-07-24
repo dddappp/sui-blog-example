@@ -8,6 +8,12 @@ package org.test.suiblogexample.config;
 import org.test.suiblogexample.domain.article.*;
 import org.test.suiblogexample.domain.*;
 import org.test.suiblogexample.domain.article.hibernate.*;
+import org.test.suiblogexample.domain.tag.*;
+import org.test.suiblogexample.domain.*;
+import org.test.suiblogexample.domain.tag.hibernate.*;
+import org.test.suiblogexample.domain.tagv2.*;
+import org.test.suiblogexample.domain.*;
+import org.test.suiblogexample.domain.tagv2.hibernate.*;
 import org.test.suiblogexample.specialization.AggregateEventListener;
 import org.test.suiblogexample.specialization.EventStore;
 import org.test.suiblogexample.specialization.IdGenerator;
@@ -67,6 +73,96 @@ public class AggregatesHibernateConfig {
                 articleEventStore,
                 articleStateRepository,
                 articleStateQueryRepository
+        );
+        return applicationService;
+    }
+
+
+
+    @Bean
+    public TagStateRepository tagStateRepository(
+            SessionFactory hibernateSessionFactory,
+            ReadOnlyProxyGenerator stateReadOnlyProxyGenerator
+    ) {
+        HibernateTagStateRepository repository = new HibernateTagStateRepository();
+        repository.setSessionFactory(hibernateSessionFactory);
+        repository.setReadOnlyProxyGenerator(stateReadOnlyProxyGenerator);
+        return repository;
+    }
+
+    @Bean
+    public TagStateQueryRepository tagStateQueryRepository(
+            SessionFactory hibernateSessionFactory,
+            ReadOnlyProxyGenerator stateReadOnlyProxyGenerator
+    ) {
+        HibernateTagStateQueryRepository repository = new HibernateTagStateQueryRepository();
+        repository.setSessionFactory(hibernateSessionFactory);
+        repository.setReadOnlyProxyGenerator(stateReadOnlyProxyGenerator);
+        return repository;
+    }
+
+    @Bean
+    public HibernateTagEventStore tagEventStore(SessionFactory hibernateSessionFactory) {
+        HibernateTagEventStore eventStore = new HibernateTagEventStore();
+        eventStore.setSessionFactory(hibernateSessionFactory);
+        return eventStore;
+    }
+
+    @Bean
+    public AbstractTagApplicationService.SimpleTagApplicationService tagApplicationService(
+            @Qualifier("tagEventStore") EventStore tagEventStore,
+            TagStateRepository tagStateRepository,
+            TagStateQueryRepository tagStateQueryRepository
+    ) {
+        AbstractTagApplicationService.SimpleTagApplicationService applicationService = new AbstractTagApplicationService.SimpleTagApplicationService(
+                tagEventStore,
+                tagStateRepository,
+                tagStateQueryRepository
+        );
+        return applicationService;
+    }
+
+
+
+    @Bean
+    public TagV2StateRepository tagV2StateRepository(
+            SessionFactory hibernateSessionFactory,
+            ReadOnlyProxyGenerator stateReadOnlyProxyGenerator
+    ) {
+        HibernateTagV2StateRepository repository = new HibernateTagV2StateRepository();
+        repository.setSessionFactory(hibernateSessionFactory);
+        repository.setReadOnlyProxyGenerator(stateReadOnlyProxyGenerator);
+        return repository;
+    }
+
+    @Bean
+    public TagV2StateQueryRepository tagV2StateQueryRepository(
+            SessionFactory hibernateSessionFactory,
+            ReadOnlyProxyGenerator stateReadOnlyProxyGenerator
+    ) {
+        HibernateTagV2StateQueryRepository repository = new HibernateTagV2StateQueryRepository();
+        repository.setSessionFactory(hibernateSessionFactory);
+        repository.setReadOnlyProxyGenerator(stateReadOnlyProxyGenerator);
+        return repository;
+    }
+
+    @Bean
+    public HibernateTagV2EventStore tagV2EventStore(SessionFactory hibernateSessionFactory) {
+        HibernateTagV2EventStore eventStore = new HibernateTagV2EventStore();
+        eventStore.setSessionFactory(hibernateSessionFactory);
+        return eventStore;
+    }
+
+    @Bean
+    public AbstractTagV2ApplicationService.SimpleTagV2ApplicationService tagV2ApplicationService(
+            @Qualifier("tagV2EventStore") EventStore tagV2EventStore,
+            TagV2StateRepository tagV2StateRepository,
+            TagV2StateQueryRepository tagV2StateQueryRepository
+    ) {
+        AbstractTagV2ApplicationService.SimpleTagV2ApplicationService applicationService = new AbstractTagV2ApplicationService.SimpleTagV2ApplicationService(
+                tagV2EventStore,
+                tagV2StateRepository,
+                tagV2StateQueryRepository
         );
         return applicationService;
     }
