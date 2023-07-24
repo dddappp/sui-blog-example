@@ -161,6 +161,9 @@ singletonObjects:
             'std::string::utf8(b"Unnamed Blog")'
       Articles:
         itemType: ID #ObjectID
+      Vault:
+        type: "Balance<SUI>"
+
     methods:
       "__Init__":
         event:
@@ -185,5 +188,17 @@ singletonObjects:
         parameters:
           ArticleId:
             type: ID #ObjectID
+
+
+#typeDefinitions:
+#  Balance:
+#    moveType: "sui::balance::Balance"
+#    isResource: true
+#    defaultLogic:
+#      Move:
+#        'sui::balance::zero()'
+
+#  SUI:
+#    moveType: "sui::sui::SUI"
 
 

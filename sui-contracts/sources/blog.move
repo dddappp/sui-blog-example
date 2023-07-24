@@ -5,8 +5,10 @@
 
 module sui_blog_example::blog {
     use std::string::String;
+    use sui::balance::Balance;
     use sui::event;
     use sui::object::{Self, ID, UID};
+    use sui::sui::SUI;
     use sui::transfer;
     use sui::tx_context::TxContext;
 
@@ -33,6 +35,7 @@ module sui_blog_example::blog {
         version: u64,
         name: String,
         articles: vector<ID>,
+        vault: Balance<SUI>,
     }
 
     public fun id(blog: &Blog): object::ID {
@@ -69,6 +72,7 @@ module sui_blog_example::blog {
             version: 0,
             name: std::string::utf8(b"Unnamed Blog"),
             articles: std::vector::empty(),
+            vault: sui::balance::zero(),
         }
     }
 
@@ -196,8 +200,10 @@ module sui_blog_example::blog {
             version: _version,
             name: _name,
             articles: _articles,
+            vault,
         } = blog;
         object::delete(id);
+        sui::balance::destroy_zero(vault);
     }
 
     public(friend) fun emit_article_added_to_blog(article_added_to_blog: ArticleAddedToBlog) {
