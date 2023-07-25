@@ -2,3 +2,5 @@ Move.lock
 sui-contracts/build
 sui.log.*
 sui-java-service/scripts
+sui-contracts/.idea
+.idea

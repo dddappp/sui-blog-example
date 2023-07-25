@@ -14,6 +14,7 @@ module sui_blog_example::blog_aggregate {
     use sui_blog_example::blog_donate_logic;
     use sui_blog_example::blog_remove_article_logic;
     use sui_blog_example::blog_update_logic;
+    use sui_blog_example::blog_withdraw_logic;
 
     friend sui_blog_example::article_create_logic;
     friend sui_blog_example::article_delete_logic;
@@ -36,6 +37,26 @@ module sui_blog_example::blog_aggregate {
         );
         blog::update_object_version(blog);
         blog::emit_donation_received(donation_received);
+    }
+
+    public fun withdraw(
+        blog: &mut blog::Blog,
+        amount: u64,
+        ctx: &mut tx_context::TxContext,
+    ): Balance<SUI> {
+        let vault_withdrawn = blog_withdraw_logic::verify(
+            amount,
+            blog,
+            ctx,
+        );
+        let withdraw_return = blog_withdraw_logic::mutate(
+            &vault_withdrawn,
+            blog,
+            ctx,
+        );
+        blog::update_object_version(blog);
+        blog::emit_vault_withdrawn(vault_withdrawn);
+        withdraw_return
     }
 
     public(friend) fun add_article(

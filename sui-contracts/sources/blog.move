@@ -15,6 +15,7 @@ module sui_blog_example::blog {
     struct BLOG has drop {}
 
     friend sui_blog_example::blog_donate_logic;
+    friend sui_blog_example::blog_withdraw_logic;
     friend sui_blog_example::blog_add_article_logic;
     friend sui_blog_example::blog_remove_article_logic;
     friend sui_blog_example::blog_update_logic;
@@ -104,6 +105,31 @@ module sui_blog_example::blog {
         amount: u64,
     ): DonationReceived {
         DonationReceived {
+            id: id(blog),
+            version: version(blog),
+            amount,
+        }
+    }
+
+    struct VaultWithdrawn has copy, drop {
+        id: object::ID,
+        version: u64,
+        amount: u64,
+    }
+
+    public fun vault_withdrawn_id(vault_withdrawn: &VaultWithdrawn): object::ID {
+        vault_withdrawn.id
+    }
+
+    public fun vault_withdrawn_amount(vault_withdrawn: &VaultWithdrawn): u64 {
+        vault_withdrawn.amount
+    }
+
+    public(friend) fun new_vault_withdrawn(
+        blog: &Blog,
+        amount: u64,
+    ): VaultWithdrawn {
+        VaultWithdrawn {
             id: id(blog),
             version: version(blog),
             amount,
@@ -242,6 +268,10 @@ module sui_blog_example::blog {
 
     public(friend) fun emit_donation_received(donation_received: DonationReceived) {
         event::emit(donation_received);
+    }
+
+    public(friend) fun emit_vault_withdrawn(vault_withdrawn: VaultWithdrawn) {
+        event::emit(vault_withdrawn);
     }
 
     public(friend) fun emit_article_added_to_blog(article_added_to_blog: ArticleAddedToBlog) {

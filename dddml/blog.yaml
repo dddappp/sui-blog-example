@@ -179,6 +179,15 @@ singletonObjects:
           properties:
             Amount:
               type: u64
+      Withdraw:
+        shouldCallByReference: true
+        parameters:
+          Amount:
+            type: u64
+        result:
+          type: Balance<SUI>
+        event:
+          name: VaultWithdrawn
 
       AddArticle:
         isInternal: true
