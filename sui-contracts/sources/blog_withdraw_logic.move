@@ -1,7 +1,9 @@
 module sui_blog_example::blog_withdraw_logic {
     use sui::balance::Balance;
     use sui::sui::SUI;
+    use sui::tx_context;
     use sui::tx_context::TxContext;
+
     use sui_blog_example::blog;
     use sui_blog_example::vault_withdrawn;
 
@@ -13,6 +15,7 @@ module sui_blog_example::blog_withdraw_logic {
         ctx: &TxContext,
     ): blog::VaultWithdrawn {
         let _ = ctx;
+        assert!(@admin_addr == tx_context::sender(ctx), 111);
         blog::new_vault_withdrawn(
             blog,
             amount,
@@ -30,5 +33,4 @@ module sui_blog_example::blog_withdraw_logic {
         let w = sui::balance::split(balance, amount);
         w
     }
-
 }

@@ -8,4 +8,5 @@ Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-fram
 
 [addresses]
 sui_blog_example = "0x0"
+admin_addr = "0xa69d7a397231d4d0003d78e3b2e65490f4c0a9ef2294499d57a046d6970ff6f2"
 #sui = "0000000000000000000000000000000000000000000000000000000000000002"
