@@ -29,6 +29,7 @@ module sui_blog_example::blog {
             witness,
             ctx,
         );
+        event::emit(new_init_blog_event(&blog));
         share_object(blog);
     }
 
@@ -83,6 +84,22 @@ module sui_blog_example::blog {
             name: std::string::utf8(b"Unnamed Blog"),
             articles: std::vector::empty(),
             vault: sui::balance::zero(),
+        }
+    }
+
+    struct InitBlogEvent has copy, drop {
+        id: object::ID,
+    }
+
+    public fun init_blog_event_id(init_blog_event: &InitBlogEvent): object::ID {
+        init_blog_event.id
+    }
+
+    public(friend) fun new_init_blog_event(
+        blog: &Blog,
+    ): InitBlogEvent {
+        InitBlogEvent {
+            id: id(blog),
         }
     }
 
