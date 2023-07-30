@@ -17,8 +17,6 @@ import java.util.*;
 public class InitBlogEvent {
     private String id;
 
-    private BigInteger version;
-
     public String getId() {
         return id;
     }
@@ -27,19 +25,10 @@ public class InitBlogEvent {
         this.id = id;
     }
 
-    public BigInteger getVersion() {
-        return version;
-    }
-
-    public void setVersion(BigInteger version) {
-        this.version = version;
-    }
-
     @Override
     public String toString() {
         return "InitBlogEvent{" +
                 "id='" + id + '\'' +
-                ", version=" + version +
                 '}';
     }
 

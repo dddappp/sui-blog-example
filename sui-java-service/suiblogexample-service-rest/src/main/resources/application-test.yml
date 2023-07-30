@@ -17,10 +17,10 @@ server:
 sui:
   contract:
     jsonrpc:
-      #url: "https://fullnode.devnet.sui.io/"
-      url: "https://fullnode.testnet.sui.io/"
+      url: "https://fullnode.devnet.sui.io/"
+      #url: "https://fullnode.testnet.sui.io/"
       #url: "http://localhost:9000"
-    package-publish-transaction: "3yydwTgzKJ9nQ6bEXQaacHQFyDRaMi924mWMGoFFat83"
+    package-publish-transaction: "3EXiwLCFjNrbL6gUR6pzhe1J7qby3qQM2imEBD4TyJMx"
 #    pull-day-summary-events:
 #      day-summary-created:
 #        fixed-delay: 6000

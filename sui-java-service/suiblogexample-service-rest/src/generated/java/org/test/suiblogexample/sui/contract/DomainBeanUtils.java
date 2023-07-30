@@ -245,7 +245,7 @@ public class DomainBeanUtils {
 
         AbstractBlogEvent.InitBlogEvent initBlogEvent = new AbstractBlogEvent.InitBlogEvent();
         initBlogEvent.setId(contractEvent.getId());
-        initBlogEvent.setVersion(contractEvent.getVersion());
+        initBlogEvent.setVersion(BigInteger.valueOf(-1));
 
         initBlogEvent.setSuiTimestamp(eventEnvelope.getTimestampMs());
         initBlogEvent.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
