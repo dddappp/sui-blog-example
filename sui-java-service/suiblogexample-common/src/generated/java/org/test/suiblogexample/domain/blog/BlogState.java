@@ -7,8 +7,8 @@ package org.test.suiblogexample.domain.blog;
 
 import java.util.*;
 import java.math.*;
-import java.math.BigInteger;
 import java.util.Date;
+import java.math.BigInteger;
 import org.test.suiblogexample.domain.*;
 import org.test.suiblogexample.specialization.Event;
 
@@ -19,6 +19,8 @@ public interface BlogState extends VersionedSuiMoveObject
     Long VERSION_NULL = VERSION_ZERO - 1;
 
     String getId();
+
+    String getName();
 
     Long getOffChainVersion();
 
@@ -34,8 +36,12 @@ public interface BlogState extends VersionedSuiMoveObject
 
     Boolean getDeleted();
 
+    Set<String> getArticles();
+
     interface MutableBlogState extends BlogState, VersionedSuiMoveObject.MutableVersionedSuiMoveObject {
         void setId(String id);
+
+        void setName(String name);
 
         void setOffChainVersion(Long offChainVersion);
 
@@ -50,6 +56,8 @@ public interface BlogState extends VersionedSuiMoveObject
         void setActive(Boolean active);
 
         void setDeleted(Boolean deleted);
+
+        void setArticles(Set<String> articles);
 
 
         void mutate(Event e);

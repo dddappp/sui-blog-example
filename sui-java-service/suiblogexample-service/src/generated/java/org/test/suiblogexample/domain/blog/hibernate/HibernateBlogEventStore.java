@@ -7,8 +7,8 @@ package org.test.suiblogexample.domain.blog.hibernate;
 
 import java.io.Serializable;
 import java.util.*;
-import java.math.BigInteger;
 import java.util.Date;
+import java.math.BigInteger;
 import org.test.suiblogexample.domain.*;
 import org.test.suiblogexample.specialization.*;
 import org.test.suiblogexample.specialization.hibernate.AbstractHibernateEventStore;

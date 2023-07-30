@@ -43,6 +43,8 @@ public class SuiBlogStateRetriever {
     private BlogState toBlogState(Blog blog) {
         BlogState.MutableBlogState blogState = blogStateFactory.apply(blog.getId().getId());
         blogState.setVersion(blog.getVersion());
+        blogState.setName(blog.getName());
+        blogState.setArticles(new HashSet<>(Arrays.asList(blog.getArticles())));
         return blogState;
     }
 

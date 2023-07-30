@@ -499,7 +499,8 @@ public class M {
 
     public static final String[] propertyNames = new String[] {
             "id",
-            "version",
+            "name",
+            "vault",
             "offChainVersion",
             "createdBy",
             "createdAt",
@@ -507,11 +508,12 @@ public class M {
             "updatedAt",
             "active",
             "deleted",
+            "version",
     };
 
     public static final String[] propertyTypes = new String[] {
             "String",
-            "BigInteger",
+            "String",
             "Long",
             "String",
             "Date",
@@ -519,6 +521,7 @@ public class M {
             "Date",
             "Boolean",
             "Boolean",
+            "BigInteger",
     };
 
     public static final Map<String, String> propertyTypeMap;
@@ -535,8 +538,10 @@ public class M {
     private static  void initAliasMap() {
         aliasMap.put("id", "id");
         aliasMap.put("Id", "id");
-        aliasMap.put("version", "version");
-        aliasMap.put("Version", "version");
+        aliasMap.put("name", "name");
+        aliasMap.put("Name", "name");
+        aliasMap.put("vault", "vault");
+        aliasMap.put("Vault", "vault");
         aliasMap.put("offChainVersion", "offChainVersion");
         aliasMap.put("OffChainVersion", "offChainVersion");
         aliasMap.put("createdBy", "createdBy");
@@ -551,6 +556,8 @@ public class M {
         aliasMap.put("Active", "active");
         aliasMap.put("deleted", "deleted");
         aliasMap.put("Deleted", "deleted");
+        aliasMap.put("version", "version");
+        aliasMap.put("Version", "version");
     }
 
     private static void initPropertyTypeMap() {

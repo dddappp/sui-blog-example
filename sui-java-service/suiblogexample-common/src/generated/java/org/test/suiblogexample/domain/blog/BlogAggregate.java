@@ -6,8 +6,8 @@
 package org.test.suiblogexample.domain.blog;
 
 import java.util.List;
-import java.math.BigInteger;
 import java.util.Date;
+import java.math.BigInteger;
 import org.test.suiblogexample.domain.*;
 import org.test.suiblogexample.specialization.Event;
 import org.test.suiblogexample.domain.Command;

@@ -6,8 +6,8 @@
 package org.test.suiblogexample.domain.blog.hibernate;
 
 import java.util.*;
-import java.math.BigInteger;
 import java.util.Date;
+import java.math.BigInteger;
 import org.test.suiblogexample.domain.*;
 import org.hibernate.Session;
 import org.hibernate.Criteria;
@@ -31,7 +31,7 @@ public class HibernateBlogStateQueryRepository implements BlogStateQueryReposito
         return this.sessionFactory.getCurrentSession();
     }
     
-    private static final Set<String> readOnlyPropertyPascalCaseNames = new HashSet<String>(Arrays.asList("Id", "Version", "OffChainVersion", "CreatedBy", "CreatedAt", "UpdatedBy", "UpdatedAt", "Active", "Deleted"));
+    private static final Set<String> readOnlyPropertyPascalCaseNames = new HashSet<String>(Arrays.asList("Id", "Name", "Articles", "Vault", "OffChainVersion", "CreatedBy", "CreatedAt", "UpdatedBy", "UpdatedAt", "Active", "Deleted", "Version"));
     
     private ReadOnlyProxyGenerator readOnlyProxyGenerator;
     

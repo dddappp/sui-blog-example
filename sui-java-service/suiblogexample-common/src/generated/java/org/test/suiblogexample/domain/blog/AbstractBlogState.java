@@ -7,8 +7,8 @@ package org.test.suiblogexample.domain.blog;
 
 import java.util.*;
 import java.math.*;
-import java.math.BigInteger;
 import java.util.Date;
+import java.math.BigInteger;
 import org.test.suiblogexample.domain.*;
 import org.test.suiblogexample.specialization.*;
 import org.test.suiblogexample.domain.blog.BlogEvent.*;
@@ -25,14 +25,14 @@ public abstract class AbstractBlogState implements BlogState.SqlBlogState {
         this.id = id;
     }
 
-    private BigInteger version;
+    private String name;
 
-    public BigInteger getVersion() {
-        return this.version;
+    public String getName() {
+        return this.name;
     }
 
-    public void setVersion(BigInteger version) {
-        this.version = version;
+    public void setName(String name) {
+        this.name = name;
     }
 
     private Long offChainVersion;
@@ -103,6 +103,26 @@ public abstract class AbstractBlogState implements BlogState.SqlBlogState {
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
+    }
+
+    private BigInteger version;
+
+    public BigInteger getVersion() {
+        return this.version;
+    }
+
+    public void setVersion(BigInteger version) {
+        this.version = version;
+    }
+
+    private Set<String> articles;
+
+    public Set<String> getArticles() {
+        return this.articles;
+    }
+
+    public void setArticles(Set<String> articles) {
+        this.articles = articles;
     }
 
     public boolean isStateUnsaved() {
@@ -184,8 +204,10 @@ public abstract class AbstractBlogState implements BlogState.SqlBlogState {
         if (s == this) {
             return;
         }
-        this.setVersion(s.getVersion());
+        this.setName(s.getName());
+        this.setArticles(s.getArticles());
         this.setActive(s.getActive());
+        this.setVersion(s.getVersion());
     }
 
     public void when(AbstractBlogEvent.InitBlogEvent e) {

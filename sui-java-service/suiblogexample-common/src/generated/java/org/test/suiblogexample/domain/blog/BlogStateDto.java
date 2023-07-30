@@ -7,8 +7,8 @@ package org.test.suiblogexample.domain.blog;
 
 import java.util.*;
 import java.math.*;
-import java.math.BigInteger;
 import java.util.Date;
+import java.math.BigInteger;
 import org.test.suiblogexample.domain.*;
 import org.test.suiblogexample.specialization.*;
 
@@ -27,16 +27,16 @@ public class BlogStateDto {
         this.id = id;
     }
 
-    private BigInteger version;
+    private String name;
 
-    public BigInteger getVersion()
+    public String getName()
     {
-        return this.version;
+        return this.name;
     }
 
-    public void setVersion(BigInteger version)
+    public void setName(String name)
     {
-        this.version = version;
+        this.name = name;
     }
 
     private Boolean active;
@@ -49,6 +49,18 @@ public class BlogStateDto {
     public void setActive(Boolean active)
     {
         this.active = active;
+    }
+
+    private BigInteger version;
+
+    public BigInteger getVersion()
+    {
+        return this.version;
+    }
+
+    public void setVersion(BigInteger version)
+    {
+        this.version = version;
     }
 
     private Long offChainVersion;
@@ -111,6 +123,16 @@ public class BlogStateDto {
         this.updatedAt = updatedAt;
     }
 
+    private String[] articles;
+
+    public String[] getArticles() {
+        return this.articles;
+    }
+
+    public void setArticles(String[] articles) {
+        this.articles = articles;
+    }
+
 
     public static class DtoConverter extends AbstractStateDtoConverter
     {
@@ -143,11 +165,14 @@ public class BlogStateDto {
             if (returnedFieldsContains("Id")) {
                 dto.setId(state.getId());
             }
-            if (returnedFieldsContains("Version")) {
-                dto.setVersion(state.getVersion());
+            if (returnedFieldsContains("Name")) {
+                dto.setName(state.getName());
             }
             if (returnedFieldsContains("Active")) {
                 dto.setActive(state.getActive());
+            }
+            if (returnedFieldsContains("Version")) {
+                dto.setVersion(state.getVersion());
             }
             if (returnedFieldsContains("OffChainVersion")) {
                 dto.setOffChainVersion(state.getOffChainVersion());
@@ -163,6 +188,15 @@ public class BlogStateDto {
             }
             if (returnedFieldsContains("UpdatedAt")) {
                 dto.setUpdatedAt(state.getUpdatedAt());
+            }
+            if (returnedFieldsContains("Articles")) {
+                ArrayList<String> arrayList = new ArrayList();
+                if (state.getArticles() != null) {
+                    for (String s : state.getArticles()) {
+                        arrayList.add(s);
+                    }
+                }
+                dto.setArticles(arrayList.toArray(new String[0]));
             }
             return dto;
         }

@@ -7,8 +7,8 @@ package org.test.suiblogexample.domain.blog;
 
 import java.util.*;
 import org.dddml.support.criterion.Criterion;
-import java.math.BigInteger;
 import java.util.Date;
+import java.math.BigInteger;
 import org.test.suiblogexample.domain.*;
 
 public interface BlogStateRepository {

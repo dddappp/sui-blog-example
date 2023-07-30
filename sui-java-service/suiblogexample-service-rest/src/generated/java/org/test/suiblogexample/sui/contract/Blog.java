@@ -19,6 +19,10 @@ public class Blog {
 
     private Long offChainVersion;
 
+    private String name;
+
+    private String[] articles;
+
     private BigInteger version;
 
     public UID getId() {
@@ -37,6 +41,22 @@ public class Blog {
         this.offChainVersion = offChainVersion;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String[] getArticles() {
+        return articles;
+    }
+
+    public void setArticles(String[] articles) {
+        this.articles = articles;
+    }
+
     public BigInteger getVersion() {
         return version;
     }
@@ -50,6 +70,8 @@ public class Blog {
         return "Blog{" +
                 "id=" + id +
                 ", offChainVersion=" + offChainVersion +
+                ", name=" + '\'' + name + '\'' +
+                ", articles=" + Arrays.toString(articles) +
                 ", version=" + version +
                 '}';
     }
