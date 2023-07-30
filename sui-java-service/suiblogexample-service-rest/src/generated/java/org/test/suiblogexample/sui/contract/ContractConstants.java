@@ -30,6 +30,16 @@ public class ContractConstants {
 
     public static final String TAG_V2_MODULE_TAG_V2_CREATED = "tag_v2::TagV2Created";
 
+    public static final String BLOG_MODULE_INIT_BLOG_EVENT = "blog::InitBlogEvent";
+
+    public static final String BLOG_MODULE_DONATION_RECEIVED = "blog::DonationReceived";
+
+    public static final String BLOG_MODULE_VAULT_WITHDRAWN = "blog::VaultWithdrawn";
+
+    public static final String BLOG_MODULE_ARTICLE_ADDED_TO_BLOG = "blog::ArticleAddedToBlog";
+
+    public static final String BLOG_MODULE_ARTICLE_REMOVED_FROM_BLOG = "blog::ArticleRemovedFromBlog";
+
 
     public static String[] getMoveObjectIdGeneratorObjectTypes(String packageId) {
         return new String[]{

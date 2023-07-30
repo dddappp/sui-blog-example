@@ -22,6 +22,12 @@ import org.test.suiblogexample.domain.tag.AbstractTagEvent;
 import org.test.suiblogexample.sui.contract.tag.TagCreated;
 import org.test.suiblogexample.domain.tagv2.AbstractTagV2Event;
 import org.test.suiblogexample.sui.contract.tagv2.TagV2Created;
+import org.test.suiblogexample.domain.blog.AbstractBlogEvent;
+import org.test.suiblogexample.sui.contract.blog.InitBlogEvent;
+import org.test.suiblogexample.sui.contract.blog.DonationReceived;
+import org.test.suiblogexample.sui.contract.blog.VaultWithdrawn;
+import org.test.suiblogexample.sui.contract.blog.ArticleAddedToBlog;
+import org.test.suiblogexample.sui.contract.blog.ArticleRemovedFromBlog;
 
 /**
  * Utils that convert beans in the contract package to domain beans.
@@ -232,6 +238,100 @@ public class DomainBeanUtils {
         tagV2Created.setSuiSender(eventEnvelope.getSender());
 
         return tagV2Created;
+    }
+
+    public static AbstractBlogEvent.InitBlogEvent toInitBlogEvent(SuiMoveEventEnvelope<InitBlogEvent> eventEnvelope) {
+        InitBlogEvent contractEvent = eventEnvelope.getParsedJson();
+
+        AbstractBlogEvent.InitBlogEvent initBlogEvent = new AbstractBlogEvent.InitBlogEvent();
+        initBlogEvent.setId(contractEvent.getId());
+        initBlogEvent.setVersion(contractEvent.getVersion());
+
+        initBlogEvent.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        initBlogEvent.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        initBlogEvent.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+
+        initBlogEvent.setSuiPackageId(eventEnvelope.getPackageId());
+        initBlogEvent.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        initBlogEvent.setSuiSender(eventEnvelope.getSender());
+
+        return initBlogEvent;
+    }
+
+    public static AbstractBlogEvent.DonationReceived toDonationReceived(SuiMoveEventEnvelope<DonationReceived> eventEnvelope) {
+        DonationReceived contractEvent = eventEnvelope.getParsedJson();
+
+        AbstractBlogEvent.DonationReceived donationReceived = new AbstractBlogEvent.DonationReceived();
+        donationReceived.setId(contractEvent.getId());
+        donationReceived.setAmount(contractEvent.getAmount());
+        donationReceived.setVersion(contractEvent.getVersion());
+
+        donationReceived.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        donationReceived.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        donationReceived.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+
+        donationReceived.setSuiPackageId(eventEnvelope.getPackageId());
+        donationReceived.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        donationReceived.setSuiSender(eventEnvelope.getSender());
+
+        return donationReceived;
+    }
+
+    public static AbstractBlogEvent.VaultWithdrawn toVaultWithdrawn(SuiMoveEventEnvelope<VaultWithdrawn> eventEnvelope) {
+        VaultWithdrawn contractEvent = eventEnvelope.getParsedJson();
+
+        AbstractBlogEvent.VaultWithdrawn vaultWithdrawn = new AbstractBlogEvent.VaultWithdrawn();
+        vaultWithdrawn.setId(contractEvent.getId());
+        vaultWithdrawn.setAmount(contractEvent.getAmount());
+        vaultWithdrawn.setVersion(contractEvent.getVersion());
+
+        vaultWithdrawn.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        vaultWithdrawn.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        vaultWithdrawn.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+
+        vaultWithdrawn.setSuiPackageId(eventEnvelope.getPackageId());
+        vaultWithdrawn.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        vaultWithdrawn.setSuiSender(eventEnvelope.getSender());
+
+        return vaultWithdrawn;
+    }
+
+    public static AbstractBlogEvent.ArticleAddedToBlog toArticleAddedToBlog(SuiMoveEventEnvelope<ArticleAddedToBlog> eventEnvelope) {
+        ArticleAddedToBlog contractEvent = eventEnvelope.getParsedJson();
+
+        AbstractBlogEvent.ArticleAddedToBlog articleAddedToBlog = new AbstractBlogEvent.ArticleAddedToBlog();
+        articleAddedToBlog.setId(contractEvent.getId());
+        articleAddedToBlog.setArticleId(contractEvent.getArticleId());
+        articleAddedToBlog.setVersion(contractEvent.getVersion());
+
+        articleAddedToBlog.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        articleAddedToBlog.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        articleAddedToBlog.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+
+        articleAddedToBlog.setSuiPackageId(eventEnvelope.getPackageId());
+        articleAddedToBlog.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        articleAddedToBlog.setSuiSender(eventEnvelope.getSender());
+
+        return articleAddedToBlog;
+    }
+
+    public static AbstractBlogEvent.ArticleRemovedFromBlog toArticleRemovedFromBlog(SuiMoveEventEnvelope<ArticleRemovedFromBlog> eventEnvelope) {
+        ArticleRemovedFromBlog contractEvent = eventEnvelope.getParsedJson();
+
+        AbstractBlogEvent.ArticleRemovedFromBlog articleRemovedFromBlog = new AbstractBlogEvent.ArticleRemovedFromBlog();
+        articleRemovedFromBlog.setId(contractEvent.getId());
+        articleRemovedFromBlog.setArticleId(contractEvent.getArticleId());
+        articleRemovedFromBlog.setVersion(contractEvent.getVersion());
+
+        articleRemovedFromBlog.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        articleRemovedFromBlog.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        articleRemovedFromBlog.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+
+        articleRemovedFromBlog.setSuiPackageId(eventEnvelope.getPackageId());
+        articleRemovedFromBlog.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        articleRemovedFromBlog.setSuiSender(eventEnvelope.getSender());
+
+        return articleRemovedFromBlog;
     }
 
 }

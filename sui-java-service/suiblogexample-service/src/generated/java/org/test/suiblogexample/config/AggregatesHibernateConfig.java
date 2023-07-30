@@ -14,6 +14,9 @@ import org.test.suiblogexample.domain.tag.hibernate.*;
 import org.test.suiblogexample.domain.tagv2.*;
 import org.test.suiblogexample.domain.*;
 import org.test.suiblogexample.domain.tagv2.hibernate.*;
+import org.test.suiblogexample.domain.blog.*;
+import org.test.suiblogexample.domain.*;
+import org.test.suiblogexample.domain.blog.hibernate.*;
 import org.test.suiblogexample.specialization.AggregateEventListener;
 import org.test.suiblogexample.specialization.EventStore;
 import org.test.suiblogexample.specialization.IdGenerator;
@@ -163,6 +166,51 @@ public class AggregatesHibernateConfig {
                 tagV2EventStore,
                 tagV2StateRepository,
                 tagV2StateQueryRepository
+        );
+        return applicationService;
+    }
+
+
+
+    @Bean
+    public BlogStateRepository blogStateRepository(
+            SessionFactory hibernateSessionFactory,
+            ReadOnlyProxyGenerator stateReadOnlyProxyGenerator
+    ) {
+        HibernateBlogStateRepository repository = new HibernateBlogStateRepository();
+        repository.setSessionFactory(hibernateSessionFactory);
+        repository.setReadOnlyProxyGenerator(stateReadOnlyProxyGenerator);
+        return repository;
+    }
+
+    @Bean
+    public BlogStateQueryRepository blogStateQueryRepository(
+            SessionFactory hibernateSessionFactory,
+            ReadOnlyProxyGenerator stateReadOnlyProxyGenerator
+    ) {
+        HibernateBlogStateQueryRepository repository = new HibernateBlogStateQueryRepository();
+        repository.setSessionFactory(hibernateSessionFactory);
+        repository.setReadOnlyProxyGenerator(stateReadOnlyProxyGenerator);
+        return repository;
+    }
+
+    @Bean
+    public HibernateBlogEventStore blogEventStore(SessionFactory hibernateSessionFactory) {
+        HibernateBlogEventStore eventStore = new HibernateBlogEventStore();
+        eventStore.setSessionFactory(hibernateSessionFactory);
+        return eventStore;
+    }
+
+    @Bean
+    public AbstractBlogApplicationService.SimpleBlogApplicationService blogApplicationService(
+            @Qualifier("blogEventStore") EventStore blogEventStore,
+            BlogStateRepository blogStateRepository,
+            BlogStateQueryRepository blogStateQueryRepository
+    ) {
+        AbstractBlogApplicationService.SimpleBlogApplicationService applicationService = new AbstractBlogApplicationService.SimpleBlogApplicationService(
+                blogEventStore,
+                blogStateRepository,
+                blogStateQueryRepository
         );
         return applicationService;
     }

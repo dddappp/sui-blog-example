@@ -14,6 +14,7 @@ import java.util.Date;
 import org.test.suiblogexample.domain.*;
 import org.test.suiblogexample.domain.tag.*;
 import org.test.suiblogexample.domain.tagv2.*;
+import org.test.suiblogexample.domain.blog.*;
 
 public class StaticMethodConstraints {
 
@@ -100,6 +101,46 @@ public class StaticMethodConstraints {
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiblogexample.domain.blog.__Init__Logic",
+                    "verify",
+                    new Class[]{BlogState.class, VerificationContext.class},
+                    new String[]{"_"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiblogexample.domain.blog.DonateLogic",
+                    "verify",
+                    new Class[]{BlogState.class, VerificationContext.class},
+                    new String[]{"_"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiblogexample.domain.blog.WithdrawLogic",
+                    "verify",
+                    new Class[]{BlogState.class, BigInteger.class, VerificationContext.class},
+                    new String[]{"_", "amount"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiblogexample.domain.blog.AddArticleLogic",
+                    "verify",
+                    new Class[]{BlogState.class, String.class, VerificationContext.class},
+                    new String[]{"_", "articleId"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiblogexample.domain.blog.RemoveArticleLogic",
+                    "verify",
+                    new Class[]{BlogState.class, String.class, VerificationContext.class},
+                    new String[]{"_", "articleId"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiblogexample.domain.article.CreateLogic",
                     "mutate",
                     new Class[]{ArticleState.class, String.class, String.class, String.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
@@ -176,6 +217,30 @@ public class StaticMethodConstraints {
                     "mutate",
                     new Class[]{TagV2State.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
                     new String[]{"_", "name", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiblogexample.domain.blog.__Init__Logic",
+                    "mutate",
+                    new Class[]{BlogState.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new String[]{"_", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiblogexample.domain.blog.AddArticleLogic",
+                    "mutate",
+                    new Class[]{BlogState.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new String[]{"_", "articleId", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiblogexample.domain.blog.RemoveArticleLogic",
+                    "mutate",
+                    new Class[]{BlogState.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new String[]{"_", "articleId", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
             );
 
 
