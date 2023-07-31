@@ -105,6 +105,16 @@ public class Article {
         this.comments = comments;
     }
 
+    private java.util.Map<String, Object> commentSeqIdGenerator;
+
+    public java.util.Map<String, Object> getCommentSeqIdGenerator() {
+        return commentSeqIdGenerator;
+    }
+
+    public void setCommentSeqIdGenerator(java.util.Map<String, Object> commentSeqIdGenerator) {
+        this.commentSeqIdGenerator = commentSeqIdGenerator;
+    }
+
     @Override
     public String toString() {
         return "Article{" +
