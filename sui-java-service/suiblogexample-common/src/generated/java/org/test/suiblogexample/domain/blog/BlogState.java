@@ -22,7 +22,7 @@ public interface BlogState extends VersionedSuiMoveObject
 
     String getName();
 
-    Balance getVault();
+    java.math.BigInteger getVault();
 
     Long getOffChainVersion();
 
@@ -45,7 +45,7 @@ public interface BlogState extends VersionedSuiMoveObject
 
         void setName(String name);
 
-        void setVault(Balance vault);
+        void setVault(java.math.BigInteger vault);
 
         void setOffChainVersion(Long offChainVersion);
 

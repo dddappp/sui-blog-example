@@ -39,14 +39,14 @@ public class BlogStateDto {
         this.name = name;
     }
 
-    private Balance vault;
+    private java.math.BigInteger vault;
 
-    public Balance getVault()
+    public java.math.BigInteger getVault()
     {
         return this.vault;
     }
 
-    public void setVault(Balance vault)
+    public void setVault(java.math.BigInteger vault)
     {
         this.vault = vault;
     }

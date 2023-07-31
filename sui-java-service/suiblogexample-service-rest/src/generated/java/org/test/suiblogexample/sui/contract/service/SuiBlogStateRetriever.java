@@ -45,7 +45,7 @@ public class SuiBlogStateRetriever {
         blogState.setVersion(blog.getVersion());
         blogState.setName(blog.getName());
         blogState.setArticles(new HashSet<>(Arrays.asList(blog.getArticles())));
-        blogState.setVault(DomainBeanUtils.toBalance(blog.getVault()));
+        blogState.setVault(blog.getVault());
         return blogState;
     }
 

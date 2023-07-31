@@ -23,7 +23,7 @@ public class Blog {
 
     private String[] articles;
 
-    private Balance vault;
+    private java.math.BigInteger vault;
 
     private BigInteger version;
 
@@ -59,11 +59,11 @@ public class Blog {
         this.articles = articles;
     }
 
-    public Balance getVault() {
+    public java.math.BigInteger getVault() {
         return vault;
     }
 
-    public void setVault(Balance vault) {
+    public void setVault(java.math.BigInteger vault) {
         this.vault = vault;
     }
 
