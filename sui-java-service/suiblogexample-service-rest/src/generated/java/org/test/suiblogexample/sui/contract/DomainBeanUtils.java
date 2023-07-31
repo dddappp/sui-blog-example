@@ -36,6 +36,24 @@ public class DomainBeanUtils {
     private DomainBeanUtils() {
     }
 
+    public static org.test.suiblogexample.domain.Balance toBalance(Balance contractBalance) {
+        if (contractBalance == null) {
+            return null;
+        }
+        org.test.suiblogexample.domain.Balance balance = new org.test.suiblogexample.domain.Balance();
+        balance.setValue(contractBalance.getFields().getValue());
+        return balance;
+    }
+
+    public static org.test.suiblogexample.domain.Balance toBalance(BalanceForEvent contractBalance) {
+        if (contractBalance == null) {
+            return null;
+        }
+        org.test.suiblogexample.domain.Balance balance = new org.test.suiblogexample.domain.Balance();
+        balance.setValue(contractBalance.getValue());
+        return balance;
+    }
+
 
     public static AbstractArticleEvent.ArticleCreated toArticleCreated(SuiMoveEventEnvelope<ArticleCreated> eventEnvelope) {
         ArticleCreated contractEvent = eventEnvelope.getParsedJson();

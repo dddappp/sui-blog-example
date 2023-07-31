@@ -22,6 +22,8 @@ public interface BlogState extends VersionedSuiMoveObject
 
     String getName();
 
+    Balance getVault();
+
     Long getOffChainVersion();
 
     String getCreatedBy();
@@ -42,6 +44,8 @@ public interface BlogState extends VersionedSuiMoveObject
         void setId(String id);
 
         void setName(String name);
+
+        void setVault(Balance vault);
 
         void setOffChainVersion(Long offChainVersion);
 

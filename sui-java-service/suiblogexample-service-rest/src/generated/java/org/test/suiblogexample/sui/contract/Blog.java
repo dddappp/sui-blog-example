@@ -5,7 +5,6 @@
 
 package org.test.suiblogexample.sui.contract;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.github.wubuku.sui.bean.*;
@@ -14,7 +13,6 @@ import java.math.*;
 import java.util.*;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Blog {
 
     private UID id;
@@ -24,6 +22,8 @@ public class Blog {
     private String name;
 
     private String[] articles;
+
+    private Balance vault;
 
     private BigInteger version;
 
@@ -59,6 +59,14 @@ public class Blog {
         this.articles = articles;
     }
 
+    public Balance getVault() {
+        return vault;
+    }
+
+    public void setVault(Balance vault) {
+        this.vault = vault;
+    }
+
     public BigInteger getVersion() {
         return version;
     }
@@ -74,6 +82,7 @@ public class Blog {
                 ", offChainVersion=" + offChainVersion +
                 ", name=" + '\'' + name + '\'' +
                 ", articles=" + Arrays.toString(articles) +
+                ", vault=" + vault +
                 ", version=" + version +
                 '}';
     }

@@ -9,6 +9,11 @@
     <property name="name">
       <column name="name" length="200" />
     </property>
+    <component name="vault" class="org.test.suiblogexample.domain.Balance">
+      <property name="value">
+        <column name="vault_value" sql-type="DECIMAL(20,0)" />
+      </property>
+    </component>
     <property name="createdBy">
       <column name="created_by" />
     </property>

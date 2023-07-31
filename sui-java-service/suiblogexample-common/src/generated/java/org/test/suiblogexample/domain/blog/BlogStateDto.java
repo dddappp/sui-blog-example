@@ -39,6 +39,18 @@ public class BlogStateDto {
         this.name = name;
     }
 
+    private Balance vault;
+
+    public Balance getVault()
+    {
+        return this.vault;
+    }
+
+    public void setVault(Balance vault)
+    {
+        this.vault = vault;
+    }
+
     private Boolean active;
 
     public Boolean getActive()
@@ -167,6 +179,9 @@ public class BlogStateDto {
             }
             if (returnedFieldsContains("Name")) {
                 dto.setName(state.getName());
+            }
+            if (returnedFieldsContains("Vault")) {
+                dto.setVault(state.getVault());
             }
             if (returnedFieldsContains("Active")) {
                 dto.setActive(state.getActive());

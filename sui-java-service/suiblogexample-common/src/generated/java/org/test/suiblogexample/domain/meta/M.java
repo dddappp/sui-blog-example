@@ -514,6 +514,7 @@ public class M {
     public static final String[] propertyTypes = new String[] {
             "String",
             "String",
+            "Balance",
             "Long",
             "String",
             "Date",

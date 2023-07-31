@@ -35,6 +35,16 @@ public abstract class AbstractBlogState implements BlogState.SqlBlogState {
         this.name = name;
     }
 
+    private Balance vault;
+
+    public Balance getVault() {
+        return this.vault;
+    }
+
+    public void setVault(Balance vault) {
+        this.vault = vault;
+    }
+
     private Long offChainVersion;
 
     public Long getOffChainVersion() {
@@ -206,6 +216,7 @@ public abstract class AbstractBlogState implements BlogState.SqlBlogState {
         }
         this.setName(s.getName());
         this.setArticles(s.getArticles());
+        this.setVault(s.getVault());
         this.setActive(s.getActive());
         this.setVersion(s.getVersion());
     }
