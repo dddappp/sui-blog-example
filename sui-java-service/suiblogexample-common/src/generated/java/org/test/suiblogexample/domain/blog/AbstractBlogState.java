@@ -125,13 +125,13 @@ public abstract class AbstractBlogState implements BlogState.SqlBlogState {
         this.version = version;
     }
 
-    private Set<String> articles;
+    private List<String> articles;
 
-    public Set<String> getArticles() {
+    public List<String> getArticles() {
         return this.articles;
     }
 
-    public void setArticles(Set<String> articles) {
+    public void setArticles(List<String> articles) {
         this.articles = articles;
     }
 

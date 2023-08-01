@@ -20,7 +20,7 @@ sui:
       url: "https://fullnode.devnet.sui.io/"
       #url: "https://fullnode.testnet.sui.io/"
       #url: "http://localhost:9000"
-    package-publish-transaction: "3EXiwLCFjNrbL6gUR6pzhe1J7qby3qQM2imEBD4TyJMx"
+    package-publish-transaction: "FE9c2a7UAwefd4AhCh19sdGkpzChaaQ3eEScrjY1WrzP"
 #    pull-day-summary-events:
 #      day-summary-created:
 #        fixed-delay: 6000

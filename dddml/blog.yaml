@@ -161,6 +161,7 @@ singletonObjects:
             'std::string::utf8(b"Unnamed Blog")'
       Articles:
         itemType: ID #ObjectID
+        isList: true
       Vault:
         type: "Balance<SUI>"
 

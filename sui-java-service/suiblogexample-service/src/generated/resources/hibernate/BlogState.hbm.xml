@@ -29,9 +29,10 @@
     </property>
     <property name="createdAt" column="created_at" />
     <property name="updatedAt" column="updated_at" />
-    <set name="articles" table="blog_articles" lazy="false">
+    <list name="articles" table="blog_articles" lazy="false">
       <key column="Id" />
+      <index column="articles_index" />
       <element column="articles_item" type="string" not-null="true" />
-    </set>
+    </list>
   </class>
 </hibernate-mapping>

@@ -38,7 +38,7 @@ public interface BlogState extends VersionedSuiMoveObject
 
     Boolean getDeleted();
 
-    Set<String> getArticles();
+    List<String> getArticles();
 
     interface MutableBlogState extends BlogState, VersionedSuiMoveObject.MutableVersionedSuiMoveObject {
         void setId(String id);
@@ -61,7 +61,7 @@ public interface BlogState extends VersionedSuiMoveObject
 
         void setDeleted(Boolean deleted);
 
-        void setArticles(Set<String> articles);
+        void setArticles(List<String> articles);
 
 
         void mutate(Event e);
