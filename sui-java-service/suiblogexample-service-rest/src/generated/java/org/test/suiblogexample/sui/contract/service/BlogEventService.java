@@ -19,6 +19,8 @@ import org.test.suiblogexample.sui.contract.blog.DonationReceived;
 import org.test.suiblogexample.sui.contract.blog.VaultWithdrawn;
 import org.test.suiblogexample.sui.contract.blog.ArticleAddedToBlog;
 import org.test.suiblogexample.sui.contract.blog.ArticleRemovedFromBlog;
+import org.test.suiblogexample.sui.contract.blog.BlogCreated;
+import org.test.suiblogexample.sui.contract.blog.BlogUpdated;
 import org.test.suiblogexample.sui.contract.repository.BlogEventRepository;
 import org.test.suiblogexample.sui.contract.repository.SuiPackageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -241,6 +243,86 @@ public class BlogEventService {
             return;
         }
         blogEventRepository.save(articleRemovedFromBlog);
+    }
+
+    @Transactional
+    public void pullBlogCreatedEvents() {
+        String packageId = getDefaultSuiPackageId();
+        if (packageId == null) {
+            return;
+        }
+        int limit = 1;
+        EventId cursor = getBlogCreatedEventNextCursor();
+        while (true) {
+            PaginatedMoveEvents<BlogCreated> eventPage = suiJsonRpcClient.queryMoveEvents(
+                    packageId + "::" + ContractConstants.BLOG_MODULE_BLOG_CREATED,
+                    cursor, limit, false, BlogCreated.class);
+
+            if (eventPage.getData() != null && !eventPage.getData().isEmpty()) {
+                cursor = eventPage.getNextCursor();
+                for (SuiMoveEventEnvelope<BlogCreated> eventEnvelope : eventPage.getData()) {
+                    saveBlogCreated(eventEnvelope);
+                }
+            } else {
+                break;
+            }
+            if (!Page.hasNextPage(eventPage)) {
+                break;
+            }
+        }
+    }
+
+    private EventId getBlogCreatedEventNextCursor() {
+        AbstractBlogEvent lastEvent = blogEventRepository.findFirstBlogCreatedByOrderBySuiTimestampDesc();
+        return lastEvent != null ? new EventId(lastEvent.getSuiTxDigest(), lastEvent.getSuiEventSeq() + "") : null;
+    }
+
+    private void saveBlogCreated(SuiMoveEventEnvelope<BlogCreated> eventEnvelope) {
+        AbstractBlogEvent.BlogCreated blogCreated = DomainBeanUtils.toBlogCreated(eventEnvelope);
+        if (blogEventRepository.findById(blogCreated.getBlogEventId()).isPresent()) {
+            return;
+        }
+        blogEventRepository.save(blogCreated);
+    }
+
+    @Transactional
+    public void pullBlogUpdatedEvents() {
+        String packageId = getDefaultSuiPackageId();
+        if (packageId == null) {
+            return;
+        }
+        int limit = 1;
+        EventId cursor = getBlogUpdatedEventNextCursor();
+        while (true) {
+            PaginatedMoveEvents<BlogUpdated> eventPage = suiJsonRpcClient.queryMoveEvents(
+                    packageId + "::" + ContractConstants.BLOG_MODULE_BLOG_UPDATED,
+                    cursor, limit, false, BlogUpdated.class);
+
+            if (eventPage.getData() != null && !eventPage.getData().isEmpty()) {
+                cursor = eventPage.getNextCursor();
+                for (SuiMoveEventEnvelope<BlogUpdated> eventEnvelope : eventPage.getData()) {
+                    saveBlogUpdated(eventEnvelope);
+                }
+            } else {
+                break;
+            }
+            if (!Page.hasNextPage(eventPage)) {
+                break;
+            }
+        }
+    }
+
+    private EventId getBlogUpdatedEventNextCursor() {
+        AbstractBlogEvent lastEvent = blogEventRepository.findFirstBlogUpdatedByOrderBySuiTimestampDesc();
+        return lastEvent != null ? new EventId(lastEvent.getSuiTxDigest(), lastEvent.getSuiEventSeq() + "") : null;
+    }
+
+    private void saveBlogUpdated(SuiMoveEventEnvelope<BlogUpdated> eventEnvelope) {
+        AbstractBlogEvent.BlogUpdated blogUpdated = DomainBeanUtils.toBlogUpdated(eventEnvelope);
+        if (blogEventRepository.findById(blogUpdated.getBlogEventId()).isPresent()) {
+            return;
+        }
+        blogEventRepository.save(blogUpdated);
     }
 
 

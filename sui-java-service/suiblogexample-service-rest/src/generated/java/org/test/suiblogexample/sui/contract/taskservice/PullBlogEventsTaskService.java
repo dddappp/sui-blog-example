@@ -41,4 +41,14 @@ public class PullBlogEventsTaskService {
         blogEventService.pullArticleRemovedFromBlogEvents();
     }
 
+    @Scheduled(fixedDelayString = "${sui.contract.pull-blog-events.blog-created.fixed-delay:5000}")
+    public void pullBlogCreatedEvents() {
+        blogEventService.pullBlogCreatedEvents();
+    }
+
+    @Scheduled(fixedDelayString = "${sui.contract.pull-blog-events.blog-updated.fixed-delay:5000}")
+    public void pullBlogUpdatedEvents() {
+        blogEventService.pullBlogUpdatedEvents();
+    }
+
 }

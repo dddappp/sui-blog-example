@@ -243,5 +243,120 @@ public class BlogCommands {
 
     }
 
+    public static class Create extends AbstractBlogCommand implements BlogCommand {
+
+        public String getCommandType() {
+            return "Create";
+        }
+
+        public void setCommandType(String commandType) {
+            //do nothing
+        }
+
+        /**
+         * Id
+         */
+        private String id;
+
+        public String getId() {
+            return this.id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        /**
+         * Articles
+         */
+        private String[] articles;
+
+        public String[] getArticles() {
+            return this.articles;
+        }
+
+        public void setArticles(String[] articles) {
+            this.articles = articles;
+        }
+
+        /**
+         * Off Chain Version
+         */
+        private Long offChainVersion;
+
+        public Long getOffChainVersion() {
+            return this.offChainVersion;
+        }
+
+        public void setOffChainVersion(Long offChainVersion) {
+            this.offChainVersion = offChainVersion;
+        }
+
+    }
+
+    public static class Update extends AbstractBlogCommand implements BlogCommand {
+
+        public String getCommandType() {
+            return "Update";
+        }
+
+        public void setCommandType(String commandType) {
+            //do nothing
+        }
+
+        /**
+         * Id
+         */
+        private String id;
+
+        public String getId() {
+            return this.id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        /**
+         * Name
+         */
+        private String name;
+
+        public String getName() {
+            return this.name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        /**
+         * Articles
+         */
+        private String[] articles;
+
+        public String[] getArticles() {
+            return this.articles;
+        }
+
+        public void setArticles(String[] articles) {
+            this.articles = articles;
+        }
+
+        /**
+         * Off Chain Version
+         */
+        private Long offChainVersion;
+
+        public Long getOffChainVersion() {
+            return this.offChainVersion;
+        }
+
+        public void setOffChainVersion(Long offChainVersion) {
+            this.offChainVersion = offChainVersion;
+        }
+
+    }
+
 }
 

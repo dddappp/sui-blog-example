@@ -305,6 +305,60 @@ public abstract class AbstractBlogEvent extends AbstractEvent implements BlogEve
 
     }
 
+    public static class BlogCreated extends BlogClobEvent {
+
+        @Override
+        public String getEventType() {
+            return "BlogCreated";
+        }
+
+        public String[] getArticles() {
+            Object val = getDynamicProperties().get("articles");
+            if (val instanceof String[]) {
+                return (String[]) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String[].class);
+        }
+
+        public void setArticles(String[] value) {
+            getDynamicProperties().put("articles", value);
+        }
+
+    }
+
+    public static class BlogUpdated extends BlogClobEvent {
+
+        @Override
+        public String getEventType() {
+            return "BlogUpdated";
+        }
+
+        public String getName() {
+            Object val = getDynamicProperties().get("name");
+            if (val instanceof String) {
+                return (String) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String.class);
+        }
+
+        public void setName(String value) {
+            getDynamicProperties().put("name", value);
+        }
+
+        public String[] getArticles() {
+            Object val = getDynamicProperties().get("articles");
+            if (val instanceof String[]) {
+                return (String[]) val;
+            }
+            return ApplicationContext.current.getTypeConverter().convertValue(val, String[].class);
+        }
+
+        public void setArticles(String[] value) {
+            getDynamicProperties().put("articles", value);
+        }
+
+    }
+
 
 }
 

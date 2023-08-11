@@ -21,6 +21,10 @@ public interface BlogAggregate {
 
     void removeArticle(String articleId, Long offChainVersion, String commandId, String requesterId, BlogCommands.RemoveArticle c);
 
+    void create(String[] articles, Long offChainVersion, String commandId, String requesterId, BlogCommands.Create c);
+
+    void update(String name, String[] articles, Long offChainVersion, String commandId, String requesterId, BlogCommands.Update c);
+
     void throwOnInvalidStateTransition(Command c);
 }
 

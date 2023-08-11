@@ -70,6 +70,30 @@ public abstract class AbstractBlogAggregate extends AbstractAggregate implements
             apply(e);
         }
 
+        @Override
+        public void create(String[] articles, Long offChainVersion, String commandId, String requesterId, BlogCommands.Create c) {
+            try {
+                verifyCreate(articles, c);
+            } catch (Exception ex) {
+                throw new DomainError("VerificationFailed", ex);
+            }
+
+            Event e = newBlogCreated(articles, offChainVersion, commandId, requesterId);
+            apply(e);
+        }
+
+        @Override
+        public void update(String name, String[] articles, Long offChainVersion, String commandId, String requesterId, BlogCommands.Update c) {
+            try {
+                verifyUpdate(name, articles, c);
+            } catch (Exception ex) {
+                throw new DomainError("VerificationFailed", ex);
+            }
+
+            Event e = newBlogUpdated(name, articles, offChainVersion, commandId, requesterId);
+            apply(e);
+        }
+
         protected void verify__Init__(BlogCommands.__Init__ c) {
 
             ReflectUtils.invokeStaticMethod(
@@ -168,6 +192,47 @@ public abstract class AbstractBlogAggregate extends AbstractAggregate implements
         }
            
 
+        protected void verifyCreate(String[] articles, BlogCommands.Create c) {
+            String[] Articles = articles;
+
+            ReflectUtils.invokeStaticMethod(
+                    "org.test.suiblogexample.domain.blog.CreateLogic",
+                    "verify",
+                    new Class[]{BlogState.class, String[].class, VerificationContext.class},
+                    new Object[]{getState(), articles, VerificationContext.forCommand(c)}
+            );
+
+//package org.test.suiblogexample.domain.blog;
+//
+//public class CreateLogic {
+//    public static void verify(BlogState blogState, String[] articles, VerificationContext verificationContext) {
+//    }
+//}
+
+        }
+           
+
+        protected void verifyUpdate(String name, String[] articles, BlogCommands.Update c) {
+            String Name = name;
+            String[] Articles = articles;
+
+            ReflectUtils.invokeStaticMethod(
+                    "org.test.suiblogexample.domain.blog.UpdateLogic",
+                    "verify",
+                    new Class[]{BlogState.class, String.class, String[].class, VerificationContext.class},
+                    new Object[]{getState(), name, articles, VerificationContext.forCommand(c)}
+            );
+
+//package org.test.suiblogexample.domain.blog;
+//
+//public class UpdateLogic {
+//    public static void verify(BlogState blogState, String name, String[] articles, VerificationContext verificationContext) {
+//    }
+//}
+
+        }
+           
+
         protected AbstractBlogEvent.InitBlogEvent newInitBlogEvent(Long offChainVersion, String commandId, String requesterId) {
             BlogEventId eventId = new BlogEventId(getState().getId(), null);
             AbstractBlogEvent.InitBlogEvent e = new AbstractBlogEvent.InitBlogEvent();
@@ -216,6 +281,51 @@ public abstract class AbstractBlogAggregate extends AbstractAggregate implements
             AbstractBlogEvent.ArticleRemovedFromBlog e = new AbstractBlogEvent.ArticleRemovedFromBlog();
 
             e.setArticleId(articleId);
+            e.setSuiTimestamp(null); // todo Need to update 'verify' method to return event properties.
+            e.setSuiTxDigest(null); // todo Need to update 'verify' method to return event properties.
+            e.setSuiEventSeq(null); // todo Need to update 'verify' method to return event properties.
+            e.setSuiPackageId(null); // todo Need to update 'verify' method to return event properties.
+            e.setSuiTransactionModule(null); // todo Need to update 'verify' method to return event properties.
+            e.setSuiSender(null); // todo Need to update 'verify' method to return event properties.
+            e.setSuiType(null); // todo Need to update 'verify' method to return event properties.
+            e.setStatus(null); // todo Need to update 'verify' method to return event properties.
+
+            e.setCommandId(commandId);
+            e.setCreatedBy(requesterId);
+            e.setCreatedAt((java.util.Date)ApplicationContext.current.getTimestampService().now(java.util.Date.class));
+
+            e.setBlogEventId(eventId);
+            return e;
+        }
+
+        protected AbstractBlogEvent.BlogCreated newBlogCreated(String[] articles, Long offChainVersion, String commandId, String requesterId) {
+            BlogEventId eventId = new BlogEventId(getState().getId(), null);
+            AbstractBlogEvent.BlogCreated e = new AbstractBlogEvent.BlogCreated();
+
+            e.setArticles(articles);
+            e.setSuiTimestamp(null); // todo Need to update 'verify' method to return event properties.
+            e.setSuiTxDigest(null); // todo Need to update 'verify' method to return event properties.
+            e.setSuiEventSeq(null); // todo Need to update 'verify' method to return event properties.
+            e.setSuiPackageId(null); // todo Need to update 'verify' method to return event properties.
+            e.setSuiTransactionModule(null); // todo Need to update 'verify' method to return event properties.
+            e.setSuiSender(null); // todo Need to update 'verify' method to return event properties.
+            e.setSuiType(null); // todo Need to update 'verify' method to return event properties.
+            e.setStatus(null); // todo Need to update 'verify' method to return event properties.
+
+            e.setCommandId(commandId);
+            e.setCreatedBy(requesterId);
+            e.setCreatedAt((java.util.Date)ApplicationContext.current.getTimestampService().now(java.util.Date.class));
+
+            e.setBlogEventId(eventId);
+            return e;
+        }
+
+        protected AbstractBlogEvent.BlogUpdated newBlogUpdated(String name, String[] articles, Long offChainVersion, String commandId, String requesterId) {
+            BlogEventId eventId = new BlogEventId(getState().getId(), null);
+            AbstractBlogEvent.BlogUpdated e = new AbstractBlogEvent.BlogUpdated();
+
+            e.setName(name);
+            e.setArticles(articles);
             e.setSuiTimestamp(null); // todo Need to update 'verify' method to return event properties.
             e.setSuiTxDigest(null); // todo Need to update 'verify' method to return event properties.
             e.setSuiEventSeq(null); // todo Need to update 'verify' method to return event properties.

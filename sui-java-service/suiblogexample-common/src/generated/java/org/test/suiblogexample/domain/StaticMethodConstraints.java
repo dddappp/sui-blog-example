@@ -141,6 +141,22 @@ public class StaticMethodConstraints {
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiblogexample.domain.blog.CreateLogic",
+                    "verify",
+                    new Class[]{BlogState.class, String[].class, VerificationContext.class},
+                    new String[]{"_", "articles"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiblogexample.domain.blog.UpdateLogic",
+                    "verify",
+                    new Class[]{BlogState.class, String.class, String[].class, VerificationContext.class},
+                    new String[]{"_", "name", "articles"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiblogexample.domain.article.CreateLogic",
                     "mutate",
                     new Class[]{ArticleState.class, String.class, String.class, String.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
@@ -241,6 +257,22 @@ public class StaticMethodConstraints {
                     "mutate",
                     new Class[]{BlogState.class, String.class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
                     new String[]{"_", "articleId", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiblogexample.domain.blog.CreateLogic",
+                    "mutate",
+                    new Class[]{BlogState.class, String[].class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new String[]{"_", "articles", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
+            );
+
+
+        ReflectUtils.assertStaticMethodIfClassExists(
+                    "org.test.suiblogexample.domain.blog.UpdateLogic",
+                    "mutate",
+                    new Class[]{BlogState.class, String.class, String[].class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new String[]{"_", "name", "articles", "suiTimestamp", "suiTxDigest", "suiEventSeq", "suiPackageId", "suiTransactionModule", "suiSender", "suiType", "status"}
             );
 
 

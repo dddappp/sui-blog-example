@@ -23,4 +23,8 @@ public interface BlogEventRepository extends JpaRepository<AbstractBlogEvent, Bl
 
     AbstractBlogEvent.ArticleRemovedFromBlog findFirstArticleRemovedFromBlogByOrderBySuiTimestampDesc();
 
+    AbstractBlogEvent.BlogCreated findFirstBlogCreatedByOrderBySuiTimestampDesc();
+
+    AbstractBlogEvent.BlogUpdated findFirstBlogUpdatedByOrderBySuiTimestampDesc();
+
 }

@@ -205,6 +205,10 @@ public abstract class AbstractBlogState implements BlogState.SqlBlogState {
             when((AbstractBlogEvent.ArticleAddedToBlog)e);
         } else if (e instanceof AbstractBlogEvent.ArticleRemovedFromBlog) {
             when((AbstractBlogEvent.ArticleRemovedFromBlog)e);
+        } else if (e instanceof AbstractBlogEvent.BlogCreated) {
+            when((AbstractBlogEvent.BlogCreated)e);
+        } else if (e instanceof AbstractBlogEvent.BlogUpdated) {
+            when((AbstractBlogEvent.BlogUpdated)e);
         } else {
             throw new UnsupportedOperationException(String.format("Unsupported event type: %1$s", e.getClass().getName()));
         }
@@ -408,6 +412,106 @@ public abstract class AbstractBlogState implements BlogState.SqlBlogState {
 //
 //public class RemoveArticleLogic {
 //    public static BlogState mutate(BlogState blogState, String articleId, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<BlogState, BlogState.MutableBlogState> mutationContext) {
+//    }
+//}
+
+        if (this != updatedBlogState) { merge(updatedBlogState); } //else do nothing
+
+    }
+
+    public void when(AbstractBlogEvent.BlogCreated e) {
+        throwOnWrongEvent(e);
+
+        String[] articles = e.getArticles();
+        String[] Articles = articles;
+        Long suiTimestamp = e.getSuiTimestamp();
+        Long SuiTimestamp = suiTimestamp;
+        String suiTxDigest = e.getSuiTxDigest();
+        String SuiTxDigest = suiTxDigest;
+        BigInteger suiEventSeq = e.getSuiEventSeq();
+        BigInteger SuiEventSeq = suiEventSeq;
+        String suiPackageId = e.getSuiPackageId();
+        String SuiPackageId = suiPackageId;
+        String suiTransactionModule = e.getSuiTransactionModule();
+        String SuiTransactionModule = suiTransactionModule;
+        String suiSender = e.getSuiSender();
+        String SuiSender = suiSender;
+        String suiType = e.getSuiType();
+        String SuiType = suiType;
+        String status = e.getStatus();
+        String Status = status;
+
+        if (this.getCreatedBy() == null){
+            this.setCreatedBy(e.getCreatedBy());
+        }
+        if (this.getCreatedAt() == null){
+            this.setCreatedAt(e.getCreatedAt());
+        }
+        this.setUpdatedBy(e.getCreatedBy());
+        this.setUpdatedAt(e.getCreatedAt());
+
+        BlogState updatedBlogState = (BlogState) ReflectUtils.invokeStaticMethod(
+                    "org.test.suiblogexample.domain.blog.CreateLogic",
+                    "mutate",
+                    new Class[]{BlogState.class, String[].class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new Object[]{this, articles, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
+            );
+
+//package org.test.suiblogexample.domain.blog;
+//
+//public class CreateLogic {
+//    public static BlogState mutate(BlogState blogState, String[] articles, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<BlogState, BlogState.MutableBlogState> mutationContext) {
+//    }
+//}
+
+        if (this != updatedBlogState) { merge(updatedBlogState); } //else do nothing
+
+    }
+
+    public void when(AbstractBlogEvent.BlogUpdated e) {
+        throwOnWrongEvent(e);
+
+        String name = e.getName();
+        String Name = name;
+        String[] articles = e.getArticles();
+        String[] Articles = articles;
+        Long suiTimestamp = e.getSuiTimestamp();
+        Long SuiTimestamp = suiTimestamp;
+        String suiTxDigest = e.getSuiTxDigest();
+        String SuiTxDigest = suiTxDigest;
+        BigInteger suiEventSeq = e.getSuiEventSeq();
+        BigInteger SuiEventSeq = suiEventSeq;
+        String suiPackageId = e.getSuiPackageId();
+        String SuiPackageId = suiPackageId;
+        String suiTransactionModule = e.getSuiTransactionModule();
+        String SuiTransactionModule = suiTransactionModule;
+        String suiSender = e.getSuiSender();
+        String SuiSender = suiSender;
+        String suiType = e.getSuiType();
+        String SuiType = suiType;
+        String status = e.getStatus();
+        String Status = status;
+
+        if (this.getCreatedBy() == null){
+            this.setCreatedBy(e.getCreatedBy());
+        }
+        if (this.getCreatedAt() == null){
+            this.setCreatedAt(e.getCreatedAt());
+        }
+        this.setUpdatedBy(e.getCreatedBy());
+        this.setUpdatedAt(e.getCreatedAt());
+
+        BlogState updatedBlogState = (BlogState) ReflectUtils.invokeStaticMethod(
+                    "org.test.suiblogexample.domain.blog.UpdateLogic",
+                    "mutate",
+                    new Class[]{BlogState.class, String.class, String[].class, Long.class, String.class, BigInteger.class, String.class, String.class, String.class, String.class, String.class, MutationContext.class},
+                    new Object[]{this, name, articles, suiTimestamp, suiTxDigest, suiEventSeq, suiPackageId, suiTransactionModule, suiSender, suiType, status, MutationContext.forEvent(e, s -> {if (s == this) {return this;} else {throw new UnsupportedOperationException();}})}
+            );
+
+//package org.test.suiblogexample.domain.blog;
+//
+//public class UpdateLogic {
+//    public static BlogState mutate(BlogState blogState, String name, String[] articles, Long suiTimestamp, String suiTxDigest, BigInteger suiEventSeq, String suiPackageId, String suiTransactionModule, String suiSender, String suiType, String status, MutationContext<BlogState, BlogState.MutableBlogState> mutationContext) {
 //    }
 //}
 

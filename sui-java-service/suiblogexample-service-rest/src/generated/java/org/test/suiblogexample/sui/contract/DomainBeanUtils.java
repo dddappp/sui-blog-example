@@ -28,6 +28,8 @@ import org.test.suiblogexample.sui.contract.blog.DonationReceived;
 import org.test.suiblogexample.sui.contract.blog.VaultWithdrawn;
 import org.test.suiblogexample.sui.contract.blog.ArticleAddedToBlog;
 import org.test.suiblogexample.sui.contract.blog.ArticleRemovedFromBlog;
+import org.test.suiblogexample.sui.contract.blog.BlogCreated;
+import org.test.suiblogexample.sui.contract.blog.BlogUpdated;
 
 /**
  * Utils that convert beans in the contract package to domain beans.
@@ -332,6 +334,45 @@ public class DomainBeanUtils {
         articleRemovedFromBlog.setSuiSender(eventEnvelope.getSender());
 
         return articleRemovedFromBlog;
+    }
+
+    public static AbstractBlogEvent.BlogCreated toBlogCreated(SuiMoveEventEnvelope<BlogCreated> eventEnvelope) {
+        BlogCreated contractEvent = eventEnvelope.getParsedJson();
+
+        AbstractBlogEvent.BlogCreated blogCreated = new AbstractBlogEvent.BlogCreated();
+        blogCreated.setId(contractEvent.getId());
+        blogCreated.setArticles(contractEvent.getArticles());
+        blogCreated.setVersion(BigInteger.valueOf(-1));
+
+        blogCreated.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        blogCreated.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        blogCreated.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+
+        blogCreated.setSuiPackageId(eventEnvelope.getPackageId());
+        blogCreated.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        blogCreated.setSuiSender(eventEnvelope.getSender());
+
+        return blogCreated;
+    }
+
+    public static AbstractBlogEvent.BlogUpdated toBlogUpdated(SuiMoveEventEnvelope<BlogUpdated> eventEnvelope) {
+        BlogUpdated contractEvent = eventEnvelope.getParsedJson();
+
+        AbstractBlogEvent.BlogUpdated blogUpdated = new AbstractBlogEvent.BlogUpdated();
+        blogUpdated.setId(contractEvent.getId());
+        blogUpdated.setName(contractEvent.getName());
+        blogUpdated.setArticles(contractEvent.getArticles());
+        blogUpdated.setVersion(contractEvent.getVersion());
+
+        blogUpdated.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        blogUpdated.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        blogUpdated.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+
+        blogUpdated.setSuiPackageId(eventEnvelope.getPackageId());
+        blogUpdated.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        blogUpdated.setSuiSender(eventEnvelope.getSender());
+
+        return blogUpdated;
     }
 
 }

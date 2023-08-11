@@ -40,6 +40,10 @@ public class ContractConstants {
 
     public static final String BLOG_MODULE_ARTICLE_REMOVED_FROM_BLOG = "blog::ArticleRemovedFromBlog";
 
+    public static final String BLOG_MODULE_BLOG_CREATED = "blog::BlogCreated";
+
+    public static final String BLOG_MODULE_BLOG_UPDATED = "blog::BlogUpdated";
+
 
     public static String[] getMoveObjectIdGeneratorObjectTypes(String packageId) {
         return new String[]{

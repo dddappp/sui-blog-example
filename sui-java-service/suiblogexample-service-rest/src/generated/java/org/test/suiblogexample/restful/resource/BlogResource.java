@@ -170,6 +170,42 @@ public class BlogResource {
         } catch (Exception ex) { logger.info(ex.getMessage(), ex); throw DomainErrorUtils.convertException(ex); }
     }
 
+
+    @PutMapping("{id}/_commands/Create")
+    public void create(@PathVariable("id") String id, @RequestBody BlogCommands.Create content) {
+        try {
+
+            BlogCommands.Create cmd = content;//.toCreate();
+            String idObj = id;
+            if (cmd.getId() == null) {
+                cmd.setId(idObj);
+            } else if (!cmd.getId().equals(idObj)) {
+                throw DomainError.named("inconsistentId", "Argument Id %1$s NOT equals body Id %2$s", id, cmd.getId());
+            }
+            cmd.setRequesterId(SecurityContextUtil.getRequesterId());
+            blogApplicationService.when(cmd);
+
+        } catch (Exception ex) { logger.info(ex.getMessage(), ex); throw DomainErrorUtils.convertException(ex); }
+    }
+
+
+    @PutMapping("{id}/_commands/Update")
+    public void update(@PathVariable("id") String id, @RequestBody BlogCommands.Update content) {
+        try {
+
+            BlogCommands.Update cmd = content;//.toUpdate();
+            String idObj = id;
+            if (cmd.getId() == null) {
+                cmd.setId(idObj);
+            } else if (!cmd.getId().equals(idObj)) {
+                throw DomainError.named("inconsistentId", "Argument Id %1$s NOT equals body Id %2$s", id, cmd.getId());
+            }
+            cmd.setRequesterId(SecurityContextUtil.getRequesterId());
+            blogApplicationService.when(cmd);
+
+        } catch (Exception ex) { logger.info(ex.getMessage(), ex); throw DomainErrorUtils.convertException(ex); }
+    }
+
     @GetMapping("_metadata/filteringFields")
     public List<PropertyMetadataDto> getMetadataFilteringFields() {
         try {

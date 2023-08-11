@@ -58,6 +58,14 @@ public abstract class AbstractBlogApplicationService implements BlogApplicationS
         update(c, ar -> ar.removeArticle(c.getArticleId(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
     }
 
+    public void when(BlogCommands.Create c) {
+        update(c, ar -> ar.create(c.getArticles(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
+    }
+
+    public void when(BlogCommands.Update c) {
+        update(c, ar -> ar.update(c.getName(), c.getArticles(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
+    }
+
     public BlogState get(String id) {
         BlogState state = getStateRepository().get(id, true);
         return state;
