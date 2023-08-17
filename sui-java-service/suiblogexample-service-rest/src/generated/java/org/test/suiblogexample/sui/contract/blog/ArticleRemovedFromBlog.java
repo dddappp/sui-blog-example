@@ -48,7 +48,7 @@ public class ArticleRemovedFromBlog {
     @Override
     public String toString() {
         return "ArticleRemovedFromBlog{" +
-                "id='" + id + '\'' +
+                "id=" + '\'' + id + '\'' +
                 ", version=" + version +
                 ", articleId=" + '\'' + articleId + '\'' +
                 '}';

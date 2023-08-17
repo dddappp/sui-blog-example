@@ -48,7 +48,7 @@ public class ArticleAddedToBlog {
     @Override
     public String toString() {
         return "ArticleAddedToBlog{" +
-                "id='" + id + '\'' +
+                "id=" + '\'' + id + '\'' +
                 ", version=" + version +
                 ", articleId=" + '\'' + articleId + '\'' +
                 '}';

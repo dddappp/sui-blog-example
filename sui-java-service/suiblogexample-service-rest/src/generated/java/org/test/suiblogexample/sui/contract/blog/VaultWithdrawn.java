@@ -48,7 +48,7 @@ public class VaultWithdrawn {
     @Override
     public String toString() {
         return "VaultWithdrawn{" +
-                "id='" + id + '\'' +
+                "id=" + '\'' + id + '\'' +
                 ", version=" + version +
                 ", amount=" + amount +
                 '}';

@@ -208,8 +208,8 @@ public class DomainBeanUtils {
         TagCreated contractEvent = eventEnvelope.getParsedJson();
 
         AbstractTagEvent.TagCreated tagCreated = new AbstractTagEvent.TagCreated();
-        tagCreated.setName(contractEvent.getName());
         tagCreated.setId_(contractEvent.getId());
+        tagCreated.setName(contractEvent.getName());
         tagCreated.setVersion(BigInteger.valueOf(-1));
 
         tagCreated.setSuiTimestamp(eventEnvelope.getTimestampMs());

@@ -28,7 +28,7 @@ public class InitBlogEvent {
     @Override
     public String toString() {
         return "InitBlogEvent{" +
-                "id='" + id + '\'' +
+                "id=" + '\'' + id + '\'' +
                 '}';
     }
 

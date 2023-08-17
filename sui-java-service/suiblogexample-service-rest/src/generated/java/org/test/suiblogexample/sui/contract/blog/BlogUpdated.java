@@ -58,7 +58,7 @@ public class BlogUpdated {
     @Override
     public String toString() {
         return "BlogUpdated{" +
-                "id='" + id + '\'' +
+                "id=" + '\'' + id + '\'' +
                 ", version=" + version +
                 ", name=" + '\'' + name + '\'' +
                 ", articles=" + Arrays.toString(articles) +

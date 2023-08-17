@@ -48,7 +48,7 @@ public class DonationReceived {
     @Override
     public String toString() {
         return "DonationReceived{" +
-                "id='" + id + '\'' +
+                "id=" + '\'' + id + '\'' +
                 ", version=" + version +
                 ", amount=" + amount +
                 '}';

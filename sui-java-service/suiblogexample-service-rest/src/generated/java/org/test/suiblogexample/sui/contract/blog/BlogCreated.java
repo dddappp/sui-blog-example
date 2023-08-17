@@ -38,7 +38,7 @@ public class BlogCreated {
     @Override
     public String toString() {
         return "BlogCreated{" +
-                "id='" + id + '\'' +
+                "id=" + '\'' + id + '\'' +
                 ", articles=" + Arrays.toString(articles) +
                 '}';
     }

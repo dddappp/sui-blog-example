@@ -29,7 +29,7 @@ public class UpdateArticleStateTaskService {
     public void updateArticleStates() {
         articleEventRepository.findByStatusIsNull().forEach(e -> {
             String objectId = e.getId();
-            if (ArticleEventService.isDeletionCommand(e.getEventType())) {
+            if (ArticleEventService.isDeletionCommand(e)) {
                 suiArticleService.deleteArticle(objectId);
             } else {
                 suiArticleService.updateArticleState(objectId);
