@@ -68,7 +68,7 @@ public class ArticleCreated {
     @Override
     public String toString() {
         return "ArticleCreated{" +
-                "id='" + id + '\'' +
+                "id=" + '\'' + id + '\'' +
                 ", blogId=" + '\'' + blogId + '\'' +
                 ", title=" + '\'' + title + '\'' +
                 ", body=" + '\'' + body + '\'' +

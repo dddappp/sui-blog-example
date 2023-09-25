@@ -48,7 +48,7 @@ public class ArticleDeleted {
     @Override
     public String toString() {
         return "ArticleDeleted{" +
-                "id='" + id + '\'' +
+                "id=" + '\'' + id + '\'' +
                 ", version=" + version +
                 ", blogId=" + '\'' + blogId + '\'' +
                 '}';

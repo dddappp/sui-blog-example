@@ -48,7 +48,7 @@ public class ArticleTagsV2Updated {
     @Override
     public String toString() {
         return "ArticleTagsV2Updated{" +
-                "id='" + id + '\'' +
+                "id=" + '\'' + id + '\'' +
                 ", version=" + version +
                 ", tags=" + Arrays.toString(tags) +
                 '}';
