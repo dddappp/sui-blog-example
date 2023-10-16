@@ -14,9 +14,9 @@ module sui_blog_example::tag {
     friend sui_blog_example::tag_create_logic;
     friend sui_blog_example::tag_aggregate;
 
-    const EID_ALREADY_EXISTS: u64 = 101;
-    const EDATA_TOO_LONG: u64 = 102;
-    const EINAPPROPRIATE_VERSION: u64 = 103;
+    const EIdAlreadyExists: u64 = 101;
+    const EDataTooLong: u64 = 102;
+    const EInappropriateVersion: u64 = 103;
 
     struct TagNameTable has key {
         id: UID,
@@ -61,7 +61,7 @@ module sui_blog_example::tag {
         name: String,
         ctx: &mut TxContext,
     ): Tag {
-        assert!(std::string::length(&name) <= 50, EDATA_TOO_LONG);
+        assert!(std::string::length(&name) <= 50, EDataTooLong);
         Tag {
             id: object::new(ctx),
             name,
@@ -113,7 +113,7 @@ module sui_blog_example::tag {
         name: String,
         tag_name_table: &TagNameTable,
     ) {
-        assert!(!table::contains(&tag_name_table.table, name), EID_ALREADY_EXISTS);
+        assert!(!table::contains(&tag_name_table.table, name), EIdAlreadyExists);
     }
 
     fun asset_name_not_exists_then_add(
@@ -126,7 +126,7 @@ module sui_blog_example::tag {
     }
 
     public(friend) fun transfer_object(tag: Tag, recipient: address) {
-        assert!(tag.version == 0, EINAPPROPRIATE_VERSION);
+        assert!(tag.version == 0, EInappropriateVersion);
         transfer::transfer(tag, recipient);
     }
 
@@ -136,7 +136,7 @@ module sui_blog_example::tag {
     }
 
     public(friend) fun share_object(tag: Tag) {
-        assert!(tag.version == 0, EINAPPROPRIATE_VERSION);
+        assert!(tag.version == 0, EInappropriateVersion);
         transfer::share_object(tag);
     }
 
@@ -146,7 +146,7 @@ module sui_blog_example::tag {
     }
 
     public(friend) fun freeze_object(tag: Tag) {
-        assert!(tag.version == 0, EINAPPROPRIATE_VERSION);
+        assert!(tag.version == 0, EInappropriateVersion);
         transfer::freeze_object(tag);
     }
 
@@ -157,7 +157,7 @@ module sui_blog_example::tag {
 
     fun update_object_version(tag: &mut Tag) {
         tag.version = tag.version + 1;
-        //assert!(tag.version != 0, EINAPPROPRIATE_VERSION);
+        //assert!(tag.version != 0, EInappropriateVersion);
     }
 
     public(friend) fun drop_tag(tag: Tag) {

@@ -21,8 +21,8 @@ module sui_blog_example::blog {
     friend sui_blog_example::blog_update_logic;
     friend sui_blog_example::blog_aggregate;
 
-    const EDATA_TOO_LONG: u64 = 102;
-    const EINAPPROPRIATE_VERSION: u64 = 103;
+    const EDataTooLong: u64 = 102;
+    const EInappropriateVersion: u64 = 103;
 
     fun init(witness: BLOG, ctx: &mut TxContext) {
         let blog = new_blog(
@@ -54,7 +54,7 @@ module sui_blog_example::blog {
     }
 
     public(friend) fun set_name(blog: &mut Blog, name: String) {
-        assert!(std::string::length(&name) <= 200, EDATA_TOO_LONG);
+        assert!(std::string::length(&name) <= 200, EDataTooLong);
         blog.name = name;
     }
 
@@ -237,7 +237,7 @@ module sui_blog_example::blog {
 
 
     public(friend) fun transfer_object(blog: Blog, recipient: address) {
-        assert!(blog.version == 0, EINAPPROPRIATE_VERSION);
+        assert!(blog.version == 0, EInappropriateVersion);
         transfer::transfer(blog, recipient);
     }
 
@@ -247,7 +247,7 @@ module sui_blog_example::blog {
     }
 
     public(friend) fun share_object(blog: Blog) {
-        assert!(blog.version == 0, EINAPPROPRIATE_VERSION);
+        assert!(blog.version == 0, EInappropriateVersion);
         transfer::share_object(blog);
     }
 
@@ -257,7 +257,7 @@ module sui_blog_example::blog {
     }
 
     public(friend) fun freeze_object(blog: Blog) {
-        assert!(blog.version == 0, EINAPPROPRIATE_VERSION);
+        assert!(blog.version == 0, EInappropriateVersion);
         transfer::freeze_object(blog);
     }
 
@@ -268,7 +268,7 @@ module sui_blog_example::blog {
 
     public(friend) fun update_object_version(blog: &mut Blog) {
         blog.version = blog.version + 1;
-        //assert!(blog.version != 0, EINAPPROPRIATE_VERSION);
+        //assert!(blog.version != 0, EInappropriateVersion);
     }
 
     public(friend) fun drop_blog(blog: Blog) {

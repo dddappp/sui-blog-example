@@ -13,8 +13,8 @@ module sui_blog_example::tag_v2 {
     friend sui_blog_example::tag_v2_create_logic;
     friend sui_blog_example::tag_v2_aggregate;
 
-    const EDATA_TOO_LONG: u64 = 102;
-    const EINAPPROPRIATE_VERSION: u64 = 103;
+    const EDataTooLong: u64 = 102;
+    const EInappropriateVersion: u64 = 103;
 
     struct TagV2 has key {
         id: UID,
@@ -35,7 +35,7 @@ module sui_blog_example::tag_v2 {
     }
 
     public(friend) fun set_name(tag_v2: &mut TagV2, name: String) {
-        assert!(std::string::length(&name) <= 100, EDATA_TOO_LONG);
+        assert!(std::string::length(&name) <= 100, EDataTooLong);
         tag_v2.name = name;
     }
 
@@ -43,7 +43,7 @@ module sui_blog_example::tag_v2 {
         name: String,
         ctx: &mut TxContext,
     ): TagV2 {
-        assert!(std::string::length(&name) <= 100, EDATA_TOO_LONG);
+        assert!(std::string::length(&name) <= 100, EDataTooLong);
         TagV2 {
             id: object::new(ctx),
             version: 0,
@@ -79,7 +79,7 @@ module sui_blog_example::tag_v2 {
 
 
     public(friend) fun transfer_object(tag_v2: TagV2, recipient: address) {
-        assert!(tag_v2.version == 0, EINAPPROPRIATE_VERSION);
+        assert!(tag_v2.version == 0, EInappropriateVersion);
         transfer::transfer(tag_v2, recipient);
     }
 
@@ -89,7 +89,7 @@ module sui_blog_example::tag_v2 {
     }
 
     public(friend) fun share_object(tag_v2: TagV2) {
-        assert!(tag_v2.version == 0, EINAPPROPRIATE_VERSION);
+        assert!(tag_v2.version == 0, EInappropriateVersion);
         transfer::share_object(tag_v2);
     }
 
@@ -99,7 +99,7 @@ module sui_blog_example::tag_v2 {
     }
 
     public(friend) fun freeze_object(tag_v2: TagV2) {
-        assert!(tag_v2.version == 0, EINAPPROPRIATE_VERSION);
+        assert!(tag_v2.version == 0, EInappropriateVersion);
         transfer::freeze_object(tag_v2);
     }
 
@@ -110,7 +110,7 @@ module sui_blog_example::tag_v2 {
 
     fun update_object_version(tag_v2: &mut TagV2) {
         tag_v2.version = tag_v2.version + 1;
-        //assert!(tag_v2.version != 0, EINAPPROPRIATE_VERSION);
+        //assert!(tag_v2.version != 0, EInappropriateVersion);
     }
 
     public(friend) fun drop_tag_v2(tag_v2: TagV2) {

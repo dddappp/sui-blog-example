@@ -15,7 +15,7 @@ module sui_blog_example::comment {
     friend sui_blog_example::article_update_tags_v2_logic;
     friend sui_blog_example::article;
 
-    const EDATA_TOO_LONG: u64 = 102;
+    const EDataTooLong: u64 = 102;
 
     struct Comment has store {
         comment_seq_id: u64,
@@ -33,7 +33,7 @@ module sui_blog_example::comment {
     }
 
     public(friend) fun set_commenter(comment: &mut Comment, commenter: String) {
-        assert!(std::string::length(&commenter) <= 100, EDATA_TOO_LONG);
+        assert!(std::string::length(&commenter) <= 100, EDataTooLong);
         comment.commenter = commenter;
     }
 
@@ -42,7 +42,7 @@ module sui_blog_example::comment {
     }
 
     public(friend) fun set_body(comment: &mut Comment, body: String) {
-        assert!(std::string::length(&body) <= 500, EDATA_TOO_LONG);
+        assert!(std::string::length(&body) <= 500, EDataTooLong);
         comment.body = body;
     }
 
@@ -60,8 +60,8 @@ module sui_blog_example::comment {
         body: String,
         owner: address,
     ): Comment {
-        assert!(std::string::length(&commenter) <= 100, EDATA_TOO_LONG);
-        assert!(std::string::length(&body) <= 500, EDATA_TOO_LONG);
+        assert!(std::string::length(&commenter) <= 100, EDataTooLong);
+        assert!(std::string::length(&body) <= 500, EDataTooLong);
         Comment {
             comment_seq_id,
             commenter,

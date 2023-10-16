@@ -22,10 +22,10 @@ module sui_blog_example::article {
     friend sui_blog_example::article_update_tags_v2_logic;
     friend sui_blog_example::article_aggregate;
 
-    const EID_ALREADY_EXISTS: u64 = 101;
-    const EDATA_TOO_LONG: u64 = 102;
-    const EINAPPROPRIATE_VERSION: u64 = 103;
-    const EID_NOT_FOUND: u64 = 106;
+    const EIdAlreadyExists: u64 = 101;
+    const EDataTooLong: u64 = 102;
+    const EInappropriateVersion: u64 = 103;
+    const EIdNotFound: u64 = 106;
 
     struct Article has key {
         id: UID,
@@ -65,7 +65,7 @@ module sui_blog_example::article {
     }
 
     public(friend) fun set_title(article: &mut Article, title: String) {
-        assert!(std::string::length(&title) <= 200, EDATA_TOO_LONG);
+        assert!(std::string::length(&title) <= 200, EDataTooLong);
         article.title = title;
     }
 
@@ -74,7 +74,7 @@ module sui_blog_example::article {
     }
 
     public(friend) fun set_body(article: &mut Article, body: String) {
-        assert!(std::string::length(&body) <= 2000, EDATA_TOO_LONG);
+        assert!(std::string::length(&body) <= 2000, EDataTooLong);
         article.body = body;
     }
 
@@ -104,12 +104,12 @@ module sui_blog_example::article {
 
     public(friend) fun add_comment(article: &mut Article, comment: Comment) {
         let key = comment::comment_seq_id(&comment);
-        assert!(!table::contains(&article.comments, key), EID_ALREADY_EXISTS);
+        assert!(!table::contains(&article.comments, key), EIdAlreadyExists);
         table::add(&mut article.comments, key, comment);
     }
 
     public(friend) fun remove_comment(article: &mut Article, comment_seq_id: u64) {
-        assert!(table::contains(&article.comments, comment_seq_id), EID_NOT_FOUND);
+        assert!(table::contains(&article.comments, comment_seq_id), EIdNotFound);
         let comment = table::remove(&mut article.comments, comment_seq_id);
         comment::drop_comment(comment);
     }
@@ -136,8 +136,8 @@ module sui_blog_example::article {
         owner: address,
         ctx: &mut TxContext,
     ): Article {
-        assert!(std::string::length(&title) <= 200, EDATA_TOO_LONG);
-        assert!(std::string::length(&body) <= 2000, EDATA_TOO_LONG);
+        assert!(std::string::length(&title) <= 200, EDataTooLong);
+        assert!(std::string::length(&body) <= 2000, EDataTooLong);
         Article {
             id: object::new(ctx),
             version: 0,
@@ -445,7 +445,7 @@ module sui_blog_example::article {
 
 
     public(friend) fun transfer_object(article: Article, recipient: address) {
-        assert!(article.version == 0, EINAPPROPRIATE_VERSION);
+        assert!(article.version == 0, EInappropriateVersion);
         transfer::transfer(article, recipient);
     }
 
@@ -455,7 +455,7 @@ module sui_blog_example::article {
     }
 
     public(friend) fun share_object(article: Article) {
-        assert!(article.version == 0, EINAPPROPRIATE_VERSION);
+        assert!(article.version == 0, EInappropriateVersion);
         transfer::share_object(article);
     }
 
@@ -465,7 +465,7 @@ module sui_blog_example::article {
     }
 
     public(friend) fun freeze_object(article: Article) {
-        assert!(article.version == 0, EINAPPROPRIATE_VERSION);
+        assert!(article.version == 0, EInappropriateVersion);
         transfer::freeze_object(article);
     }
 
@@ -476,7 +476,7 @@ module sui_blog_example::article {
 
     fun update_object_version(article: &mut Article) {
         article.version = article.version + 1;
-        //assert!(article.version != 0, EINAPPROPRIATE_VERSION);
+        //assert!(article.version != 0, EInappropriateVersion);
     }
 
     public(friend) fun drop_article(article: Article) {
