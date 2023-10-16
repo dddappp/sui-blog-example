@@ -98,7 +98,7 @@ module sui_blog_example::blog_aggregate {
     }
 
     public entry fun update(
-        blog: blog::Blog,
+        blog: &mut blog::Blog,
         name: String,
         articles: vector<ID>,
         ctx: &mut tx_context::TxContext,
@@ -106,15 +106,15 @@ module sui_blog_example::blog_aggregate {
         let blog_updated = blog_update_logic::verify(
             name,
             articles,
-            &blog,
+            blog,
             ctx,
         );
-        let updated_blog = blog_update_logic::mutate(
+        blog_update_logic::mutate(
             &blog_updated,
             blog,
             ctx,
         );
-        blog::update_version_and_transfer_object(updated_blog, tx_context::sender(ctx));
+        blog::update_object_version(blog);
         blog::emit_blog_updated(blog_updated);
     }
 

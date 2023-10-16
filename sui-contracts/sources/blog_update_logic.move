@@ -23,15 +23,14 @@ module sui_blog_example::blog_update_logic {
 
     public(friend) fun mutate(
         blog_updated: &blog::BlogUpdated,
-        blog: blog::Blog,
+        blog: &mut blog::Blog,
         ctx: &TxContext, // modify the reference to mutable if needed
-    ): blog::Blog {
+    ) {
         let name = blog_updated::name(blog_updated);
         let articles = blog_updated::articles(blog_updated);
         let _ = ctx;
-        blog::set_name(&mut blog, name);
-        blog::set_articles(&mut blog, articles);
-        blog
+        blog::set_name(blog, name);
+        blog::set_articles(blog, articles);
     }
 
 }
