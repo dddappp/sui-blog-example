@@ -40,7 +40,7 @@
     </property>
     <property name="commandType" column="command_type" length="50" />
     <subclass name="AbstractTagV2Event$TagV2ClobEvent" discriminator-value="TagV2ClobEvent">
-      <property name="DynamicPropertiesLob">
+      <property name="dynamicPropertiesLob">
         <column name="dynamic_properties_lob" sql-type="VARCHAR(2000)" />
       </property>
       <subclass name="AbstractTagV2Event$TagV2Created" discriminator-value="TagV2Created" />

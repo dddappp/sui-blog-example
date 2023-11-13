@@ -21,6 +21,7 @@ module sui_blog_example::blog {
     friend sui_blog_example::blog_update_logic;
     friend sui_blog_example::blog_aggregate;
 
+    #[allow(unused_const)]
     const EDataTooLong: u64 = 102;
     const EInappropriateVersion: u64 = 103;
 

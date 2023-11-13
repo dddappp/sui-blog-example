@@ -13,6 +13,7 @@ module sui_blog_example::tag_v2 {
     friend sui_blog_example::tag_v2_create_logic;
     friend sui_blog_example::tag_v2_aggregate;
 
+    #[allow(unused_const)]
     const EDataTooLong: u64 = 102;
     const EInappropriateVersion: u64 = 103;
 

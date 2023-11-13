@@ -15,6 +15,7 @@ module sui_blog_example::tag {
     friend sui_blog_example::tag_aggregate;
 
     const EIdAlreadyExists: u64 = 101;
+    #[allow(unused_const)]
     const EDataTooLong: u64 = 102;
     const EInappropriateVersion: u64 = 103;
 

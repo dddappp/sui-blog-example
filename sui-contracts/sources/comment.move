@@ -15,6 +15,7 @@ module sui_blog_example::comment {
     friend sui_blog_example::article_update_tags_v2_logic;
     friend sui_blog_example::article;
 
+    #[allow(unused_const)]
     const EDataTooLong: u64 = 102;
 
     struct Comment has store {

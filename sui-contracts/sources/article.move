@@ -23,6 +23,7 @@ module sui_blog_example::article {
     friend sui_blog_example::article_aggregate;
 
     const EIdAlreadyExists: u64 = 101;
+    #[allow(unused_const)]
     const EDataTooLong: u64 = 102;
     const EInappropriateVersion: u64 = 103;
     const EIdNotFound: u64 = 106;
