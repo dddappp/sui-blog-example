@@ -48,188 +48,199 @@ public abstract class AbstractBlogAggregate extends AbstractAggregate implements
 
         @Override
         public void addArticle(String articleId, Long offChainVersion, String commandId, String requesterId, BlogCommands.AddArticle c) {
+            java.util.function.Supplier<BlogEvent.ArticleAddedToBlog> eventFactory = () -> newArticleAddedToBlog(articleId, offChainVersion, commandId, requesterId);
+            BlogEvent.ArticleAddedToBlog e;
             try {
-                verifyAddArticle(articleId, c);
+                e = verifyAddArticle(eventFactory, articleId, c);
             } catch (Exception ex) {
                 throw new DomainError("VerificationFailed", ex);
             }
 
-            Event e = newArticleAddedToBlog(articleId, offChainVersion, commandId, requesterId);
             apply(e);
         }
 
         @Override
         public void removeArticle(String articleId, Long offChainVersion, String commandId, String requesterId, BlogCommands.RemoveArticle c) {
+            java.util.function.Supplier<BlogEvent.ArticleRemovedFromBlog> eventFactory = () -> newArticleRemovedFromBlog(articleId, offChainVersion, commandId, requesterId);
+            BlogEvent.ArticleRemovedFromBlog e;
             try {
-                verifyRemoveArticle(articleId, c);
+                e = verifyRemoveArticle(eventFactory, articleId, c);
             } catch (Exception ex) {
                 throw new DomainError("VerificationFailed", ex);
             }
 
-            Event e = newArticleRemovedFromBlog(articleId, offChainVersion, commandId, requesterId);
             apply(e);
         }
 
         @Override
         public void create(String[] articles, Long offChainVersion, String commandId, String requesterId, BlogCommands.Create c) {
+            java.util.function.Supplier<BlogEvent.BlogCreated> eventFactory = () -> newBlogCreated(articles, offChainVersion, commandId, requesterId);
+            BlogEvent.BlogCreated e;
             try {
-                verifyCreate(articles, c);
+                e = verifyCreate(eventFactory, articles, c);
             } catch (Exception ex) {
                 throw new DomainError("VerificationFailed", ex);
             }
 
-            Event e = newBlogCreated(articles, offChainVersion, commandId, requesterId);
             apply(e);
         }
 
         @Override
         public void update(String name, String[] articles, Long offChainVersion, String commandId, String requesterId, BlogCommands.Update c) {
+            java.util.function.Supplier<BlogEvent.BlogUpdated> eventFactory = () -> newBlogUpdated(name, articles, offChainVersion, commandId, requesterId);
+            BlogEvent.BlogUpdated e;
             try {
-                verifyUpdate(name, articles, c);
+                e = verifyUpdate(eventFactory, name, articles, c);
             } catch (Exception ex) {
                 throw new DomainError("VerificationFailed", ex);
             }
 
-            Event e = newBlogUpdated(name, articles, offChainVersion, commandId, requesterId);
             apply(e);
         }
 
-        protected void verify__Init__(BlogCommands.__Init__ c) {
+        protected BlogEvent.InitBlogEvent verify__Init__(java.util.function.Supplier<BlogEvent.InitBlogEvent> eventFactory, BlogCommands.__Init__ c) {
 
-            ReflectUtils.invokeStaticMethod(
+            BlogEvent.InitBlogEvent e = (BlogEvent.InitBlogEvent) ReflectUtils.invokeStaticMethod(
                     "org.test.suiblogexample.domain.blog.__Init__Logic",
                     "verify",
-                    new Class[]{BlogState.class, VerificationContext.class},
-                    new Object[]{getState(), VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, BlogState.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), VerificationContext.forCommand(c)}
             );
 
 //package org.test.suiblogexample.domain.blog;
 //
 //public class __Init__Logic {
-//    public static void verify(BlogState blogState, VerificationContext verificationContext) {
+//    public static BlogEvent.InitBlogEvent verify(java.util.function.Supplier<BlogEvent.InitBlogEvent> eventFactory, BlogState blogState, VerificationContext verificationContext) {
 //    }
 //}
 
+            return e;
         }
            
 
-        protected void verifyDonate(BlogCommands.Donate c) {
+        protected BlogEvent.DonationReceived verifyDonate(java.util.function.Supplier<BlogEvent.DonationReceived> eventFactory, BlogCommands.Donate c) {
 
-            ReflectUtils.invokeStaticMethod(
+            BlogEvent.DonationReceived e = (BlogEvent.DonationReceived) ReflectUtils.invokeStaticMethod(
                     "org.test.suiblogexample.domain.blog.DonateLogic",
                     "verify",
-                    new Class[]{BlogState.class, VerificationContext.class},
-                    new Object[]{getState(), VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, BlogState.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), VerificationContext.forCommand(c)}
             );
 
 //package org.test.suiblogexample.domain.blog;
 //
 //public class DonateLogic {
-//    public static void verify(BlogState blogState, VerificationContext verificationContext) {
+//    public static BlogEvent.DonationReceived verify(java.util.function.Supplier<BlogEvent.DonationReceived> eventFactory, BlogState blogState, VerificationContext verificationContext) {
 //    }
 //}
 
+            return e;
         }
            
 
-        protected void verifyWithdraw(BigInteger amount, BlogCommands.Withdraw c) {
+        protected BlogEvent.VaultWithdrawn verifyWithdraw(java.util.function.Supplier<BlogEvent.VaultWithdrawn> eventFactory, BigInteger amount, BlogCommands.Withdraw c) {
             BigInteger Amount = amount;
 
-            ReflectUtils.invokeStaticMethod(
+            BlogEvent.VaultWithdrawn e = (BlogEvent.VaultWithdrawn) ReflectUtils.invokeStaticMethod(
                     "org.test.suiblogexample.domain.blog.WithdrawLogic",
                     "verify",
-                    new Class[]{BlogState.class, BigInteger.class, VerificationContext.class},
-                    new Object[]{getState(), amount, VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, BlogState.class, BigInteger.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), amount, VerificationContext.forCommand(c)}
             );
 
 //package org.test.suiblogexample.domain.blog;
 //
 //public class WithdrawLogic {
-//    public static void verify(BlogState blogState, BigInteger amount, VerificationContext verificationContext) {
+//    public static BlogEvent.VaultWithdrawn verify(java.util.function.Supplier<BlogEvent.VaultWithdrawn> eventFactory, BlogState blogState, BigInteger amount, VerificationContext verificationContext) {
 //    }
 //}
 
+            return e;
         }
            
 
-        protected void verifyAddArticle(String articleId, BlogCommands.AddArticle c) {
+        protected BlogEvent.ArticleAddedToBlog verifyAddArticle(java.util.function.Supplier<BlogEvent.ArticleAddedToBlog> eventFactory, String articleId, BlogCommands.AddArticle c) {
             String ArticleId = articleId;
 
-            ReflectUtils.invokeStaticMethod(
+            BlogEvent.ArticleAddedToBlog e = (BlogEvent.ArticleAddedToBlog) ReflectUtils.invokeStaticMethod(
                     "org.test.suiblogexample.domain.blog.AddArticleLogic",
                     "verify",
-                    new Class[]{BlogState.class, String.class, VerificationContext.class},
-                    new Object[]{getState(), articleId, VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, BlogState.class, String.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), articleId, VerificationContext.forCommand(c)}
             );
 
 //package org.test.suiblogexample.domain.blog;
 //
 //public class AddArticleLogic {
-//    public static void verify(BlogState blogState, String articleId, VerificationContext verificationContext) {
+//    public static BlogEvent.ArticleAddedToBlog verify(java.util.function.Supplier<BlogEvent.ArticleAddedToBlog> eventFactory, BlogState blogState, String articleId, VerificationContext verificationContext) {
 //    }
 //}
 
+            return e;
         }
            
 
-        protected void verifyRemoveArticle(String articleId, BlogCommands.RemoveArticle c) {
+        protected BlogEvent.ArticleRemovedFromBlog verifyRemoveArticle(java.util.function.Supplier<BlogEvent.ArticleRemovedFromBlog> eventFactory, String articleId, BlogCommands.RemoveArticle c) {
             String ArticleId = articleId;
 
-            ReflectUtils.invokeStaticMethod(
+            BlogEvent.ArticleRemovedFromBlog e = (BlogEvent.ArticleRemovedFromBlog) ReflectUtils.invokeStaticMethod(
                     "org.test.suiblogexample.domain.blog.RemoveArticleLogic",
                     "verify",
-                    new Class[]{BlogState.class, String.class, VerificationContext.class},
-                    new Object[]{getState(), articleId, VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, BlogState.class, String.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), articleId, VerificationContext.forCommand(c)}
             );
 
 //package org.test.suiblogexample.domain.blog;
 //
 //public class RemoveArticleLogic {
-//    public static void verify(BlogState blogState, String articleId, VerificationContext verificationContext) {
+//    public static BlogEvent.ArticleRemovedFromBlog verify(java.util.function.Supplier<BlogEvent.ArticleRemovedFromBlog> eventFactory, BlogState blogState, String articleId, VerificationContext verificationContext) {
 //    }
 //}
 
+            return e;
         }
            
 
-        protected void verifyCreate(String[] articles, BlogCommands.Create c) {
+        protected BlogEvent.BlogCreated verifyCreate(java.util.function.Supplier<BlogEvent.BlogCreated> eventFactory, String[] articles, BlogCommands.Create c) {
             String[] Articles = articles;
 
-            ReflectUtils.invokeStaticMethod(
+            BlogEvent.BlogCreated e = (BlogEvent.BlogCreated) ReflectUtils.invokeStaticMethod(
                     "org.test.suiblogexample.domain.blog.CreateLogic",
                     "verify",
-                    new Class[]{BlogState.class, String[].class, VerificationContext.class},
-                    new Object[]{getState(), articles, VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, BlogState.class, String[].class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), articles, VerificationContext.forCommand(c)}
             );
 
 //package org.test.suiblogexample.domain.blog;
 //
 //public class CreateLogic {
-//    public static void verify(BlogState blogState, String[] articles, VerificationContext verificationContext) {
+//    public static BlogEvent.BlogCreated verify(java.util.function.Supplier<BlogEvent.BlogCreated> eventFactory, BlogState blogState, String[] articles, VerificationContext verificationContext) {
 //    }
 //}
 
+            return e;
         }
            
 
-        protected void verifyUpdate(String name, String[] articles, BlogCommands.Update c) {
+        protected BlogEvent.BlogUpdated verifyUpdate(java.util.function.Supplier<BlogEvent.BlogUpdated> eventFactory, String name, String[] articles, BlogCommands.Update c) {
             String Name = name;
             String[] Articles = articles;
 
-            ReflectUtils.invokeStaticMethod(
+            BlogEvent.BlogUpdated e = (BlogEvent.BlogUpdated) ReflectUtils.invokeStaticMethod(
                     "org.test.suiblogexample.domain.blog.UpdateLogic",
                     "verify",
-                    new Class[]{BlogState.class, String.class, String[].class, VerificationContext.class},
-                    new Object[]{getState(), name, articles, VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, BlogState.class, String.class, String[].class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), name, articles, VerificationContext.forCommand(c)}
             );
 
 //package org.test.suiblogexample.domain.blog;
 //
 //public class UpdateLogic {
-//    public static void verify(BlogState blogState, String name, String[] articles, VerificationContext verificationContext) {
+//    public static BlogEvent.BlogUpdated verify(java.util.function.Supplier<BlogEvent.BlogUpdated> eventFactory, BlogState blogState, String name, String[] articles, VerificationContext verificationContext) {
 //    }
 //}
 
+            return e;
         }
            
 
@@ -237,14 +248,14 @@ public abstract class AbstractBlogAggregate extends AbstractAggregate implements
             BlogEventId eventId = new BlogEventId(getState().getId(), null);
             AbstractBlogEvent.InitBlogEvent e = new AbstractBlogEvent.InitBlogEvent();
 
-            e.setSuiTimestamp(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiTxDigest(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiEventSeq(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiPackageId(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiTransactionModule(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiSender(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiType(null); // todo Need to update 'verify' method to return event properties.
-            e.setStatus(null); // todo Need to update 'verify' method to return event properties.
+            e.setSuiTimestamp(null);
+            e.setSuiTxDigest(null);
+            e.setSuiEventSeq(null);
+            e.setSuiPackageId(null);
+            e.setSuiTransactionModule(null);
+            e.setSuiSender(null);
+            e.setSuiType(null);
+            e.setStatus(null);
 
             e.setCommandId(commandId);
             e.setCreatedBy(requesterId);
@@ -259,14 +270,14 @@ public abstract class AbstractBlogAggregate extends AbstractAggregate implements
             AbstractBlogEvent.ArticleAddedToBlog e = new AbstractBlogEvent.ArticleAddedToBlog();
 
             e.setArticleId(articleId);
-            e.setSuiTimestamp(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiTxDigest(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiEventSeq(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiPackageId(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiTransactionModule(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiSender(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiType(null); // todo Need to update 'verify' method to return event properties.
-            e.setStatus(null); // todo Need to update 'verify' method to return event properties.
+            e.setSuiTimestamp(null);
+            e.setSuiTxDigest(null);
+            e.setSuiEventSeq(null);
+            e.setSuiPackageId(null);
+            e.setSuiTransactionModule(null);
+            e.setSuiSender(null);
+            e.setSuiType(null);
+            e.setStatus(null);
 
             e.setCommandId(commandId);
             e.setCreatedBy(requesterId);
@@ -281,14 +292,14 @@ public abstract class AbstractBlogAggregate extends AbstractAggregate implements
             AbstractBlogEvent.ArticleRemovedFromBlog e = new AbstractBlogEvent.ArticleRemovedFromBlog();
 
             e.setArticleId(articleId);
-            e.setSuiTimestamp(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiTxDigest(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiEventSeq(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiPackageId(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiTransactionModule(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiSender(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiType(null); // todo Need to update 'verify' method to return event properties.
-            e.setStatus(null); // todo Need to update 'verify' method to return event properties.
+            e.setSuiTimestamp(null);
+            e.setSuiTxDigest(null);
+            e.setSuiEventSeq(null);
+            e.setSuiPackageId(null);
+            e.setSuiTransactionModule(null);
+            e.setSuiSender(null);
+            e.setSuiType(null);
+            e.setStatus(null);
 
             e.setCommandId(commandId);
             e.setCreatedBy(requesterId);
@@ -303,14 +314,14 @@ public abstract class AbstractBlogAggregate extends AbstractAggregate implements
             AbstractBlogEvent.BlogCreated e = new AbstractBlogEvent.BlogCreated();
 
             e.setArticles(articles);
-            e.setSuiTimestamp(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiTxDigest(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiEventSeq(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiPackageId(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiTransactionModule(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiSender(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiType(null); // todo Need to update 'verify' method to return event properties.
-            e.setStatus(null); // todo Need to update 'verify' method to return event properties.
+            e.setSuiTimestamp(null);
+            e.setSuiTxDigest(null);
+            e.setSuiEventSeq(null);
+            e.setSuiPackageId(null);
+            e.setSuiTransactionModule(null);
+            e.setSuiSender(null);
+            e.setSuiType(null);
+            e.setStatus(null);
 
             e.setCommandId(commandId);
             e.setCreatedBy(requesterId);
@@ -326,14 +337,14 @@ public abstract class AbstractBlogAggregate extends AbstractAggregate implements
 
             e.setName(name);
             e.setArticles(articles);
-            e.setSuiTimestamp(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiTxDigest(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiEventSeq(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiPackageId(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiTransactionModule(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiSender(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiType(null); // todo Need to update 'verify' method to return event properties.
-            e.setStatus(null); // todo Need to update 'verify' method to return event properties.
+            e.setSuiTimestamp(null);
+            e.setSuiTxDigest(null);
+            e.setSuiEventSeq(null);
+            e.setSuiPackageId(null);
+            e.setSuiTransactionModule(null);
+            e.setSuiSender(null);
+            e.setSuiType(null);
+            e.setStatus(null);
 
             e.setCommandId(commandId);
             e.setCreatedBy(requesterId);

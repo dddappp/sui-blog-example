@@ -247,13 +247,9 @@ module sui_blog_example::blog {
         transfer::transfer(blog, recipient);
     }
 
+    #[lint_allow(share_owned)]
     public(friend) fun share_object(blog: Blog) {
         assert!(blog.version == 0, EInappropriateVersion);
-        transfer::share_object(blog);
-    }
-
-    public(friend) fun update_version_and_share_object(blog: Blog) {
-        update_object_version(&mut blog);
         transfer::share_object(blog);
     }
 

@@ -23,136 +23,136 @@ public class StaticMethodConstraints {
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiblogexample.domain.article.CreateLogic",
                     "verify",
-                    new Class[]{ArticleState.class, String.class, String.class, String.class, String.class, VerificationContext.class},
-                    new String[]{"_", "blog", "title", "body", "owner"}
+                    new Class[]{java.util.function.Supplier.class, ArticleState.class, String.class, String.class, String.class, String.class, VerificationContext.class},
+                    new String[]{"_", "_", "blog", "title", "body", "owner"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiblogexample.domain.article.UpdateLogic",
                     "verify",
-                    new Class[]{ArticleState.class, String.class, String.class, String.class, String[].class, String[].class, VerificationContext.class},
-                    new String[]{"_", "title", "body", "owner", "tags", "tagsV2"}
+                    new Class[]{java.util.function.Supplier.class, ArticleState.class, String.class, String.class, String.class, String[].class, String[].class, VerificationContext.class},
+                    new String[]{"_", "_", "title", "body", "owner", "tags", "tagsV2"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiblogexample.domain.article.DeleteLogic",
                     "verify",
-                    new Class[]{ArticleState.class, String.class, VerificationContext.class},
-                    new String[]{"_", "blog"}
+                    new Class[]{java.util.function.Supplier.class, ArticleState.class, String.class, VerificationContext.class},
+                    new String[]{"_", "_", "blog"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiblogexample.domain.article.UpdateCommentLogic",
                     "verify",
-                    new Class[]{ArticleState.class, BigInteger.class, String.class, String.class, String.class, VerificationContext.class},
-                    new String[]{"_", "commentSeqId", "commenter", "body", "owner"}
+                    new Class[]{java.util.function.Supplier.class, ArticleState.class, BigInteger.class, String.class, String.class, String.class, VerificationContext.class},
+                    new String[]{"_", "_", "commentSeqId", "commenter", "body", "owner"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiblogexample.domain.article.RemoveCommentLogic",
                     "verify",
-                    new Class[]{ArticleState.class, BigInteger.class, VerificationContext.class},
-                    new String[]{"_", "commentSeqId"}
+                    new Class[]{java.util.function.Supplier.class, ArticleState.class, BigInteger.class, VerificationContext.class},
+                    new String[]{"_", "_", "commentSeqId"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiblogexample.domain.article.AddCommentLogic",
                     "verify",
-                    new Class[]{ArticleState.class, String.class, String.class, VerificationContext.class},
-                    new String[]{"_", "commenter", "body"}
+                    new Class[]{java.util.function.Supplier.class, ArticleState.class, String.class, String.class, VerificationContext.class},
+                    new String[]{"_", "_", "commenter", "body"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiblogexample.domain.article.UpdateTagsLogic",
                     "verify",
-                    new Class[]{ArticleState.class, String[].class, VerificationContext.class},
-                    new String[]{"_", "tags"}
+                    new Class[]{java.util.function.Supplier.class, ArticleState.class, String[].class, VerificationContext.class},
+                    new String[]{"_", "_", "tags"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiblogexample.domain.article.UpdateTagsV2Logic",
                     "verify",
-                    new Class[]{ArticleState.class, String[].class, VerificationContext.class},
-                    new String[]{"_", "tags"}
+                    new Class[]{java.util.function.Supplier.class, ArticleState.class, String[].class, VerificationContext.class},
+                    new String[]{"_", "_", "tags"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiblogexample.domain.tag.CreateLogic",
                     "verify",
-                    new Class[]{TagState.class, VerificationContext.class},
-                    new String[]{"_"}
+                    new Class[]{java.util.function.Supplier.class, TagState.class, VerificationContext.class},
+                    new String[]{"_", "_"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiblogexample.domain.tagv2.CreateLogic",
                     "verify",
-                    new Class[]{TagV2State.class, String.class, VerificationContext.class},
-                    new String[]{"_", "name"}
+                    new Class[]{java.util.function.Supplier.class, TagV2State.class, String.class, VerificationContext.class},
+                    new String[]{"_", "_", "name"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiblogexample.domain.blog.__Init__Logic",
                     "verify",
-                    new Class[]{BlogState.class, VerificationContext.class},
-                    new String[]{"_"}
+                    new Class[]{java.util.function.Supplier.class, BlogState.class, VerificationContext.class},
+                    new String[]{"_", "_"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiblogexample.domain.blog.DonateLogic",
                     "verify",
-                    new Class[]{BlogState.class, VerificationContext.class},
-                    new String[]{"_"}
+                    new Class[]{java.util.function.Supplier.class, BlogState.class, VerificationContext.class},
+                    new String[]{"_", "_"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiblogexample.domain.blog.WithdrawLogic",
                     "verify",
-                    new Class[]{BlogState.class, BigInteger.class, VerificationContext.class},
-                    new String[]{"_", "amount"}
+                    new Class[]{java.util.function.Supplier.class, BlogState.class, BigInteger.class, VerificationContext.class},
+                    new String[]{"_", "_", "amount"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiblogexample.domain.blog.AddArticleLogic",
                     "verify",
-                    new Class[]{BlogState.class, String.class, VerificationContext.class},
-                    new String[]{"_", "articleId"}
+                    new Class[]{java.util.function.Supplier.class, BlogState.class, String.class, VerificationContext.class},
+                    new String[]{"_", "_", "articleId"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiblogexample.domain.blog.RemoveArticleLogic",
                     "verify",
-                    new Class[]{BlogState.class, String.class, VerificationContext.class},
-                    new String[]{"_", "articleId"}
+                    new Class[]{java.util.function.Supplier.class, BlogState.class, String.class, VerificationContext.class},
+                    new String[]{"_", "_", "articleId"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiblogexample.domain.blog.CreateLogic",
                     "verify",
-                    new Class[]{BlogState.class, String[].class, VerificationContext.class},
-                    new String[]{"_", "articles"}
+                    new Class[]{java.util.function.Supplier.class, BlogState.class, String[].class, VerificationContext.class},
+                    new String[]{"_", "_", "articles"}
             );
 
 
         ReflectUtils.assertStaticMethodIfClassExists(
                     "org.test.suiblogexample.domain.blog.UpdateLogic",
                     "verify",
-                    new Class[]{BlogState.class, String.class, String[].class, VerificationContext.class},
-                    new String[]{"_", "name", "articles"}
+                    new Class[]{java.util.function.Supplier.class, BlogState.class, String.class, String[].class, VerificationContext.class},
+                    new String[]{"_", "_", "name", "articles"}
             );
 
 

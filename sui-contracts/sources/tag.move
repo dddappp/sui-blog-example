@@ -136,13 +136,9 @@ module sui_blog_example::tag {
         transfer::transfer(tag, recipient);
     }
 
+    #[lint_allow(share_owned)]
     public(friend) fun share_object(tag: Tag) {
         assert!(tag.version == 0, EInappropriateVersion);
-        transfer::share_object(tag);
-    }
-
-    public(friend) fun update_version_and_share_object(tag: Tag) {
-        update_object_version(&mut tag);
         transfer::share_object(tag);
     }
 
@@ -164,8 +160,8 @@ module sui_blog_example::tag {
     public(friend) fun drop_tag(tag: Tag) {
         let Tag {
             id,
-            version: _version,
             name: _name,
+            version: _version,
         } = tag;
         object::delete(id);
     }
