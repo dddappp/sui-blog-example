@@ -25,9 +25,9 @@ module sui_blog_example::blog {
     const EDataTooLong: u64 = 102;
     const EInappropriateVersion: u64 = 103;
 
-    fun init(witness: BLOG, ctx: &mut TxContext) {
+    fun init(otw: BLOG, ctx: &mut TxContext) {
         let blog = new_blog(
-            witness,
+            otw,
             ctx,
         );
         event::emit(new_init_blog_event(&blog));
