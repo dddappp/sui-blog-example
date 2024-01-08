@@ -186,9 +186,9 @@ Open the regenerated `article_add_comment_logic.move` file, find the `verify` fu
 
 ## Test Example
 
-### Publish the Sui contracts
+### Publish the Sui contract
 
-Execute the following command in the directory `sui-contracts` to publish the contracts to the chain:
+Execute the following command in the directory `sui-contracts` to publish the contract on chain:
 
 ```shell
 sui client publish --gas-budget 1000000000 --skip-dependency-verification
