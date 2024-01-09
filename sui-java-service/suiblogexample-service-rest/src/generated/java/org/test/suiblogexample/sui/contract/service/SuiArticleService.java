@@ -33,7 +33,7 @@ public class SuiArticleService {
                     return s;
                 },
                 (articleState, commentSeqId) -> (CommentState.MutableCommentState)
-                        ((EntityStateCollection.ModifiableEntityStateCollection<BigInteger, CommentState>) articleState.getComments()).getOrAdd(commentSeqId)
+                        ((EntityStateCollection.ModifiableEntityStateCollection<BigInteger, CommentState>) articleState.getComments()).getOrAddDefault(commentSeqId)
         );
     }
 

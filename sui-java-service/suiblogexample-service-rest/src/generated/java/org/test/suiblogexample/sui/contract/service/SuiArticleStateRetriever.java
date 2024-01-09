@@ -57,7 +57,7 @@ public class SuiArticleStateRetriever {
             String commentTableId = article.getComments().getFields().getId().getId();
             List<Comment> comments = getComments(commentTableId);
             for (Comment i : comments) {
-                articleState.getComments().add(toCommentState(articleState, i));
+                ((EntityStateCollection.ModifiableEntityStateCollection)articleState.getComments()).add(toCommentState(articleState, i));
             }
         }
 
