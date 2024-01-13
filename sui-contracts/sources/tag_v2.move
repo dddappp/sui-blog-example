@@ -16,6 +16,7 @@ module sui_blog_example::tag_v2 {
     #[allow(unused_const)]
     const EDataTooLong: u64 = 102;
     const EInappropriateVersion: u64 = 103;
+    const EEmptyObjectID: u64 = 107;
 
     struct TagV2 has key {
         id: UID,
@@ -120,6 +121,7 @@ module sui_blog_example::tag_v2 {
     }
 
     public(friend) fun emit_tag_v2_created(tag_v2_created: TagV2Created) {
+        assert!(std::option::is_some(&tag_v2_created.id), EEmptyObjectID);
         event::emit(tag_v2_created);
     }
 

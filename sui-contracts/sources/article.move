@@ -26,7 +26,8 @@ module sui_blog_example::article {
     #[allow(unused_const)]
     const EDataTooLong: u64 = 102;
     const EInappropriateVersion: u64 = 103;
-    const EIdNotFound: u64 = 106;
+    const EEmptyObjectID: u64 = 107;
+    const EIdNotFound: u64 = 111;
 
     struct Article has key {
         id: UID,
@@ -496,6 +497,7 @@ module sui_blog_example::article {
     }
 
     public(friend) fun emit_article_created(article_created: ArticleCreated) {
+        assert!(std::option::is_some(&article_created.id), EEmptyObjectID);
         event::emit(article_created);
     }
 
