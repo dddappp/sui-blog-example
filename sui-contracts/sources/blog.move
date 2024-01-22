@@ -67,7 +67,7 @@ module sui_blog_example::blog {
         blog.articles = articles;
     }
 
-    public(friend) fun borrow_vault(blog: &Blog): &Balance<SUI> {
+    public fun borrow_vault(blog: &Blog): &Balance<SUI> {
         &blog.vault
     }
 
