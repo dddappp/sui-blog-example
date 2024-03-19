@@ -163,7 +163,6 @@ aggregates:
       Comment:
         metadata:
           Preprocessors: ["MOVE_CRUD_IT"]
-          CRUD_IT_NO_ADD_ENTITY: true
     # ...
     methods:
       AddComment:
