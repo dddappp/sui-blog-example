@@ -79,7 +79,7 @@ public class HibernateTagStateRepository implements TagStateRepository {
         TagState persistent = getCurrentSession().get(AbstractTagState.SimpleTagState.class, detached.getName());
         if (persistent != null) {
             merge(persistent, detached);
-            getCurrentSession().merge(detached);
+            getCurrentSession().save(persistent);
         } else {
             getCurrentSession().save(detached);
         }
@@ -87,7 +87,7 @@ public class HibernateTagStateRepository implements TagStateRepository {
     }
 
     private void merge(TagState persistent, TagState detached) {
-        ((TagState.MutableTagState) detached).setOffChainVersion(persistent.getOffChainVersion());
+        ((AbstractTagState) persistent).merge(detached);
     }
 
 }

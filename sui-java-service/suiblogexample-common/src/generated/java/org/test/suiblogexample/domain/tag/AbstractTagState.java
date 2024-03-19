@@ -186,7 +186,7 @@ public abstract class AbstractTagState implements TagState.SqlTagState {
         }
     }
 
-    protected void merge(TagState s) {
+    public void merge(TagState s) {
         if (s == this) {
             return;
         }

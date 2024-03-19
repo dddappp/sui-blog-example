@@ -176,7 +176,7 @@ public abstract class AbstractTagV2Event extends AbstractEvent implements TagV2E
 
     public abstract String getEventType();
 
-    public static class TagV2ClobEvent extends  AbstractTagV2Event {
+    public static class TagV2ClobEvent extends AbstractTagV2Event {
 
         protected Map<String, Object> getDynamicProperties() {
             return dynamicProperties;
@@ -212,7 +212,7 @@ public abstract class AbstractTagV2Event extends AbstractEvent implements TagV2E
 
     }
 
-    public static class TagV2Created extends TagV2ClobEvent {
+    public static class TagV2Created extends TagV2ClobEvent implements TagV2Event.TagV2Created {
 
         @Override
         public String getEventType() {

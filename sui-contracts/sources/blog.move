@@ -59,6 +59,14 @@ module sui_blog_example::blog {
         blog.name = name;
     }
 
+    public fun borrow_articles(blog: &Blog): &vector<ID> {
+        &blog.articles
+    }
+
+    public(friend) fun borrow_mut_articles(blog: &mut Blog): &mut vector<ID> {
+        &mut blog.articles
+    }
+
     public fun articles(blog: &Blog): vector<ID> {
         blog.articles
     }
@@ -253,11 +261,13 @@ module sui_blog_example::blog {
         transfer::share_object(blog);
     }
 
+    #[lint_allow(freeze_wrapped)]
     public(friend) fun freeze_object(blog: Blog) {
         assert!(blog.version == 0, EInappropriateVersion);
         transfer::freeze_object(blog);
     }
 
+    #[lint_allow(freeze_wrapped)]
     public(friend) fun update_version_and_freeze_object(blog: Blog) {
         update_object_version(&mut blog);
         transfer::freeze_object(blog);

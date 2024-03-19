@@ -88,12 +88,28 @@ module sui_blog_example::article {
         article.owner = owner;
     }
 
+    public fun borrow_tags(article: &Article): &vector<String> {
+        &article.tags
+    }
+
+    public(friend) fun borrow_mut_tags(article: &mut Article): &mut vector<String> {
+        &mut article.tags
+    }
+
     public fun tags(article: &Article): vector<String> {
         article.tags
     }
 
     public(friend) fun set_tags(article: &mut Article, tags: vector<String>) {
         article.tags = tags;
+    }
+
+    public fun borrow_tags_v2(article: &Article): &vector<ID> {
+        &article.tags_v2
+    }
+
+    public(friend) fun borrow_mut_tags_v2(article: &mut Article): &mut vector<ID> {
+        &mut article.tags_v2
     }
 
     public fun tags_v2(article: &Article): vector<ID> {
@@ -462,11 +478,13 @@ module sui_blog_example::article {
         transfer::share_object(article);
     }
 
+    #[lint_allow(freeze_wrapped)]
     public(friend) fun freeze_object(article: Article) {
         assert!(article.version == 0, EInappropriateVersion);
         transfer::freeze_object(article);
     }
 
+    #[lint_allow(freeze_wrapped)]
     public(friend) fun update_version_and_freeze_object(article: Article) {
         update_object_version(&mut article);
         transfer::freeze_object(article);

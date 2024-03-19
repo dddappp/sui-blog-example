@@ -48,33 +48,35 @@ public abstract class AbstractTagV2Aggregate extends AbstractAggregate implement
 
         @Override
         public void create(String name, Long offChainVersion, String commandId, String requesterId, TagV2Commands.Create c) {
+            java.util.function.Supplier<TagV2Event.TagV2Created> eventFactory = () -> newTagV2Created(name, offChainVersion, commandId, requesterId);
+            TagV2Event.TagV2Created e;
             try {
-                verifyCreate(name, c);
+                e = verifyCreate(eventFactory, name, c);
             } catch (Exception ex) {
                 throw new DomainError("VerificationFailed", ex);
             }
 
-            Event e = newTagV2Created(name, offChainVersion, commandId, requesterId);
             apply(e);
         }
 
-        protected void verifyCreate(String name, TagV2Commands.Create c) {
+        protected TagV2Event.TagV2Created verifyCreate(java.util.function.Supplier<TagV2Event.TagV2Created> eventFactory, String name, TagV2Commands.Create c) {
             String Name = name;
 
-            ReflectUtils.invokeStaticMethod(
+            TagV2Event.TagV2Created e = (TagV2Event.TagV2Created) ReflectUtils.invokeStaticMethod(
                     "org.test.suiblogexample.domain.tagv2.CreateLogic",
                     "verify",
-                    new Class[]{TagV2State.class, String.class, VerificationContext.class},
-                    new Object[]{getState(), name, VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, TagV2State.class, String.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), name, VerificationContext.forCommand(c)}
             );
 
 //package org.test.suiblogexample.domain.tagv2;
 //
 //public class CreateLogic {
-//    public static void verify(TagV2State tagV2State, String name, VerificationContext verificationContext) {
+//    public static TagV2Event.TagV2Created verify(java.util.function.Supplier<TagV2Event.TagV2Created> eventFactory, TagV2State tagV2State, String name, VerificationContext verificationContext) {
 //    }
 //}
 
+            return e;
         }
            
 
@@ -83,14 +85,14 @@ public abstract class AbstractTagV2Aggregate extends AbstractAggregate implement
             AbstractTagV2Event.TagV2Created e = new AbstractTagV2Event.TagV2Created();
 
             e.setName(name);
-            e.setSuiTimestamp(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiTxDigest(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiEventSeq(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiPackageId(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiTransactionModule(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiSender(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiType(null); // todo Need to update 'verify' method to return event properties.
-            e.setStatus(null); // todo Need to update 'verify' method to return event properties.
+            e.setSuiTimestamp(null);
+            e.setSuiTxDigest(null);
+            e.setSuiEventSeq(null);
+            e.setSuiPackageId(null);
+            e.setSuiTransactionModule(null);
+            e.setSuiSender(null);
+            e.setSuiType(null);
+            e.setStatus(null);
 
             e.setCommandId(commandId);
             e.setCreatedBy(requesterId);

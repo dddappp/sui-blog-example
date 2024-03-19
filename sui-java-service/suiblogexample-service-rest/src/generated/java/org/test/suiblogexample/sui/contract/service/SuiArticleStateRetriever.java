@@ -76,7 +76,7 @@ public class SuiArticleStateRetriever {
         List<Comment> comments = new ArrayList<>();
         String cursor = null;
         while (true) {
-            DynamicFieldPage commentFieldPage = suiJsonRpcClient.getDynamicFields(commentTableId, cursor, null);
+            DynamicFieldPage<?> commentFieldPage = suiJsonRpcClient.getDynamicFields(commentTableId, cursor, null);
             for (DynamicFieldInfo commentFieldInfo : commentFieldPage.getData()) {
                 String fieldObjectId = commentFieldInfo.getObjectId();
                 SuiMoveObjectResponse<CommentDynamicField> getCommentFieldResponse

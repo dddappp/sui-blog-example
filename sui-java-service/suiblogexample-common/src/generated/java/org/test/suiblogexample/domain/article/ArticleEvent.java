@@ -21,6 +21,114 @@ public interface ArticleEvent extends Event, SuiEventEnvelope, SuiMoveEvent, Has
         void setEventReadOnly(boolean readOnly);
     }
 
+    interface ArticleCreated extends ArticleEvent {
+        String getBlogId();
+
+        void setBlogId(String value);
+
+        String getTitle();
+
+        void setTitle(String value);
+
+        String getBody();
+
+        void setBody(String value);
+
+        String getOwner();
+
+        void setOwner(String value);
+
+    }
+
+    interface ArticleUpdated extends ArticleEvent {
+        String getTitle();
+
+        void setTitle(String value);
+
+        String getBody();
+
+        void setBody(String value);
+
+        String getOwner();
+
+        void setOwner(String value);
+
+        String[] getTags();
+
+        void setTags(String[] value);
+
+        String[] getTagsV2();
+
+        void setTagsV2(String[] value);
+
+    }
+
+    interface ArticleDeleted extends ArticleEvent {
+        String getBlogId();
+
+        void setBlogId(String value);
+
+    }
+
+    interface CommentUpdated extends ArticleEvent {
+        BigInteger getCommentSeqId();
+
+        void setCommentSeqId(BigInteger value);
+
+        String getCommenter();
+
+        void setCommenter(String value);
+
+        String getBody();
+
+        void setBody(String value);
+
+        String getOwner();
+
+        void setOwner(String value);
+
+    }
+
+    interface CommentRemoved extends ArticleEvent {
+        BigInteger getCommentSeqId();
+
+        void setCommentSeqId(BigInteger value);
+
+    }
+
+    interface CommentAdded extends ArticleEvent {
+        BigInteger getCommentSeqId();
+
+        void setCommentSeqId(BigInteger value);
+
+        String getCommenter();
+
+        void setCommenter(String value);
+
+        String getBody();
+
+        void setBody(String value);
+
+        String getOwner();
+
+        void setOwner(String value);
+
+    }
+
+    interface ArticleTagsUpdated extends ArticleEvent {
+        String[] getTags();
+
+        void setTags(String[] value);
+
+    }
+
+    interface ArticleTagsV2Updated extends ArticleEvent {
+        String[] getTags();
+
+        void setTags(String[] value);
+
+    }
+
     String getId();
 
     //void setId(String id);

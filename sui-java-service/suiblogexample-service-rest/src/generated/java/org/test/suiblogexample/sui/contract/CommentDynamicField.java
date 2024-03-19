@@ -5,10 +5,10 @@
 
 package org.test.suiblogexample.sui.contract;
 
-import com.github.wubuku.sui.bean.DynamicField;
+import com.github.wubuku.sui.bean.StructValueDynamicField;
 
 import java.math.*;
 
-public class CommentDynamicField extends DynamicField<BigInteger, Comment> {
+public class CommentDynamicField extends StructValueDynamicField<BigInteger, Comment> {
 
 }

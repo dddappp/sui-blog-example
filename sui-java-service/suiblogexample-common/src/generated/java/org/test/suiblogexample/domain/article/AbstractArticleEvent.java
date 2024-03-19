@@ -202,7 +202,7 @@ public abstract class AbstractArticleEvent extends AbstractEvent implements Arti
 
     public abstract String getEventType();
 
-    public static class ArticleClobEvent extends  AbstractArticleEvent {
+    public static class ArticleClobEvent extends AbstractArticleEvent {
 
         protected Map<String, Object> getDynamicProperties() {
             return dynamicProperties;
@@ -238,7 +238,7 @@ public abstract class AbstractArticleEvent extends AbstractEvent implements Arti
 
     }
 
-    public static class ArticleCreated extends ArticleClobEvent {
+    public static class ArticleCreated extends ArticleClobEvent implements ArticleEvent.ArticleCreated {
 
         @Override
         public String getEventType() {
@@ -295,7 +295,7 @@ public abstract class AbstractArticleEvent extends AbstractEvent implements Arti
 
     }
 
-    public static class ArticleUpdated extends ArticleClobEvent {
+    public static class ArticleUpdated extends ArticleClobEvent implements ArticleEvent.ArticleUpdated {
 
         @Override
         public String getEventType() {
@@ -364,7 +364,7 @@ public abstract class AbstractArticleEvent extends AbstractEvent implements Arti
 
     }
 
-    public static class ArticleDeleted extends ArticleClobEvent {
+    public static class ArticleDeleted extends ArticleClobEvent implements ArticleEvent.ArticleDeleted {
 
         @Override
         public String getEventType() {
@@ -385,7 +385,7 @@ public abstract class AbstractArticleEvent extends AbstractEvent implements Arti
 
     }
 
-    public static class CommentUpdated extends ArticleClobEvent {
+    public static class CommentUpdated extends ArticleClobEvent implements ArticleEvent.CommentUpdated {
 
         @Override
         public String getEventType() {
@@ -442,7 +442,7 @@ public abstract class AbstractArticleEvent extends AbstractEvent implements Arti
 
     }
 
-    public static class CommentRemoved extends ArticleClobEvent {
+    public static class CommentRemoved extends ArticleClobEvent implements ArticleEvent.CommentRemoved {
 
         @Override
         public String getEventType() {
@@ -463,7 +463,7 @@ public abstract class AbstractArticleEvent extends AbstractEvent implements Arti
 
     }
 
-    public static class CommentAdded extends ArticleClobEvent {
+    public static class CommentAdded extends ArticleClobEvent implements ArticleEvent.CommentAdded {
 
         @Override
         public String getEventType() {
@@ -520,7 +520,7 @@ public abstract class AbstractArticleEvent extends AbstractEvent implements Arti
 
     }
 
-    public static class ArticleTagsUpdated extends ArticleClobEvent {
+    public static class ArticleTagsUpdated extends ArticleClobEvent implements ArticleEvent.ArticleTagsUpdated {
 
         @Override
         public String getEventType() {
@@ -541,7 +541,7 @@ public abstract class AbstractArticleEvent extends AbstractEvent implements Arti
 
     }
 
-    public static class ArticleTagsV2Updated extends ArticleClobEvent {
+    public static class ArticleTagsV2Updated extends ArticleClobEvent implements ArticleEvent.ArticleTagsV2Updated {
 
         @Override
         public String getEventType() {

@@ -79,7 +79,7 @@ public class HibernateTagV2StateRepository implements TagV2StateRepository {
         TagV2State persistent = getCurrentSession().get(AbstractTagV2State.SimpleTagV2State.class, detached.getId());
         if (persistent != null) {
             merge(persistent, detached);
-            getCurrentSession().merge(detached);
+            getCurrentSession().save(persistent);
         } else {
             getCurrentSession().save(detached);
         }
@@ -87,7 +87,7 @@ public class HibernateTagV2StateRepository implements TagV2StateRepository {
     }
 
     private void merge(TagV2State persistent, TagV2State detached) {
-        ((TagV2State.MutableTagV2State) detached).setOffChainVersion(persistent.getOffChainVersion());
+        ((AbstractTagV2State) persistent).merge(detached);
     }
 
 }

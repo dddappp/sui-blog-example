@@ -12,7 +12,7 @@ import org.test.suiblogexample.domain.*;
 import org.test.suiblogexample.specialization.*;
 import org.test.suiblogexample.domain.AbstractEvent;
 
-public abstract class AbstractCommentEvent extends AbstractEvent implements CommentEvent.SqlCommentEvent, SuiEventEnvelope.MutableSuiEventEnvelope, SuiMoveEvent.MutableSuiMoveEvent, HasStatus.MutableHasStatus {
+public abstract class AbstractCommentEvent extends AbstractEvent implements CommentEvent.SqlCommentEvent {
     private CommentEventId commentEventId = new CommentEventId();
 
     public CommentEventId getCommentEventId() {

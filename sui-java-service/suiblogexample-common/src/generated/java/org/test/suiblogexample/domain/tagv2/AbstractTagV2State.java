@@ -186,7 +186,7 @@ public abstract class AbstractTagV2State implements TagV2State.SqlTagV2State {
         }
     }
 
-    protected void merge(TagV2State s) {
+    public void merge(TagV2State s) {
         if (s == this) {
             return;
         }

@@ -45,7 +45,7 @@ public class ContractConstants {
     public static final String BLOG_MODULE_BLOG_UPDATED = "blog::BlogUpdated";
 
 
-    public static String[] getMoveObjectIdGeneratorObjectTypes(String packageId) {
+    public static String[] getDefaultPackageIdGeneratorObjectTypes(String packageId) {
         return new String[]{
                 packageId + "::" + TAG_MODULE_TAG_NAME_TABLE,
         };

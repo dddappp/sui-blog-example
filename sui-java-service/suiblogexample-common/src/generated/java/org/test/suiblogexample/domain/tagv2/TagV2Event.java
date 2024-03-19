@@ -21,6 +21,13 @@ public interface TagV2Event extends Event, SuiEventEnvelope, SuiMoveEvent, HasSt
         void setEventReadOnly(boolean readOnly);
     }
 
+    interface TagV2Created extends TagV2Event {
+        String getName();
+
+        void setName(String value);
+
+    }
+
     String getId();
 
     //void setId(String id);

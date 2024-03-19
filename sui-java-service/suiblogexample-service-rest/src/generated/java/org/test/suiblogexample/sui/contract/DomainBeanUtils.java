@@ -10,6 +10,8 @@ import java.util.*;
 
 import com.github.wubuku.sui.bean.MoveEvent;
 import com.github.wubuku.sui.bean.SuiMoveEventEnvelope;
+import com.github.wubuku.sui.bean.Table;
+import com.github.wubuku.sui.bean.ObjectTable;
 import org.test.suiblogexample.domain.article.AbstractArticleEvent;
 import org.test.suiblogexample.sui.contract.article.ArticleCreated;
 import org.test.suiblogexample.sui.contract.article.ArticleUpdated;
@@ -37,6 +39,26 @@ import org.test.suiblogexample.sui.contract.blog.BlogUpdated;
  */
 public class DomainBeanUtils {
     private DomainBeanUtils() {
+    }
+
+    public static org.test.suiblogexample.domain.ObjectTable toObjectTable(ObjectTable contractObjectTable) {
+        if (contractObjectTable == null) {
+            return null;
+        }
+        org.test.suiblogexample.domain.ObjectTable objectTable = new org.test.suiblogexample.domain.ObjectTable();
+        objectTable.setId(contractObjectTable.getFields().getId().getId());
+        objectTable.setSize(contractObjectTable.getFields().getSize());
+        return objectTable;
+    }
+
+    public static org.test.suiblogexample.domain.Table toTable(Table contractTable) {
+        if (contractTable == null) {
+            return null;
+        }
+        org.test.suiblogexample.domain.Table table = new org.test.suiblogexample.domain.Table();
+        table.setId(contractTable.getFields().getId().getId());
+        table.setSize(contractTable.getFields().getSize());
+        return table;
     }
 
 

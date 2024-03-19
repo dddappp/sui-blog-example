@@ -48,32 +48,34 @@ public abstract class AbstractTagAggregate extends AbstractAggregate implements 
 
         @Override
         public void create(Long offChainVersion, String commandId, String requesterId, TagCommands.Create c) {
+            java.util.function.Supplier<TagEvent.TagCreated> eventFactory = () -> newTagCreated(offChainVersion, commandId, requesterId);
+            TagEvent.TagCreated e;
             try {
-                verifyCreate(c);
+                e = verifyCreate(eventFactory, c);
             } catch (Exception ex) {
                 throw new DomainError("VerificationFailed", ex);
             }
 
-            Event e = newTagCreated(offChainVersion, commandId, requesterId);
             apply(e);
         }
 
-        protected void verifyCreate(TagCommands.Create c) {
+        protected TagEvent.TagCreated verifyCreate(java.util.function.Supplier<TagEvent.TagCreated> eventFactory, TagCommands.Create c) {
 
-            ReflectUtils.invokeStaticMethod(
+            TagEvent.TagCreated e = (TagEvent.TagCreated) ReflectUtils.invokeStaticMethod(
                     "org.test.suiblogexample.domain.tag.CreateLogic",
                     "verify",
-                    new Class[]{TagState.class, VerificationContext.class},
-                    new Object[]{getState(), VerificationContext.forCommand(c)}
+                    new Class[]{java.util.function.Supplier.class, TagState.class, VerificationContext.class},
+                    new Object[]{eventFactory, getState(), VerificationContext.forCommand(c)}
             );
 
 //package org.test.suiblogexample.domain.tag;
 //
 //public class CreateLogic {
-//    public static void verify(TagState tagState, VerificationContext verificationContext) {
+//    public static TagEvent.TagCreated verify(java.util.function.Supplier<TagEvent.TagCreated> eventFactory, TagState tagState, VerificationContext verificationContext) {
 //    }
 //}
 
+            return e;
         }
            
 
@@ -81,14 +83,14 @@ public abstract class AbstractTagAggregate extends AbstractAggregate implements 
             TagEventId eventId = new TagEventId(getState().getName(), null);
             AbstractTagEvent.TagCreated e = new AbstractTagEvent.TagCreated();
 
-            e.setSuiTimestamp(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiTxDigest(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiEventSeq(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiPackageId(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiTransactionModule(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiSender(null); // todo Need to update 'verify' method to return event properties.
-            e.setSuiType(null); // todo Need to update 'verify' method to return event properties.
-            e.setStatus(null); // todo Need to update 'verify' method to return event properties.
+            e.setSuiTimestamp(null);
+            e.setSuiTxDigest(null);
+            e.setSuiEventSeq(null);
+            e.setSuiPackageId(null);
+            e.setSuiTransactionModule(null);
+            e.setSuiSender(null);
+            e.setSuiType(null);
+            e.setStatus(null);
 
             e.setCommandId(commandId);
             e.setCreatedBy(requesterId);
