@@ -153,12 +153,18 @@ For example, you might want to use `Owner` fields of `Article` and `Comment` to 
 
 This requirement can currently be satisfied as follows.
 
-First, define a custom method in the model file like this:
+First, modify DDDML model file and define a custom method like this:
 
 ```yaml
 aggregates:
   Article:
-  # ...
+    # ...
+    entities:
+      Comment:
+        metadata:
+          Preprocessors: ["MOVE_CRUD_IT"]
+          CRUD_IT_NO_ADD_ENTITY: true
+    # ...
     methods:
       AddComment:
         event:
@@ -272,7 +278,7 @@ sui client call --package 0xdc93d426b0a5ceaa8a883776c34370f83af72df528e8c9229a4f
 --gas-budget 10000000
 ```
 
-Then you can change the content of the first parameter (title) and the second parameter (body) after `--args`, and create a few more articles.
+Then you can change the content of the first parameter (`title`) and the second parameter (`body`) after `--args`, and create a few more articles.
 
 #### Read Articles
 
@@ -284,7 +290,7 @@ You can use parameters to filter articles, such as: http://localhost:1023/api/Ar
 
 Let's assume that the object ID of an article you just created is `0xd31224eac22bfd66de709d521f337acf65a026e5fe16218ceae3a1843df5eaec`.
 
-You can update an article like this: (Note that the first argument after --args is the object ID of the article, please replace it with the actual value.)
+You can update an article like this: (Note that the first argument after `--args` is the object ID of the article, please replace it with the actual value.)
 
 ```shell
 sui client call --package 0xdc93d426b0a5ceaa8a883776c34370f83af72df528e8c9229a4febe2dc1b3b60 --module article_aggregate --function update \
@@ -300,7 +306,7 @@ sui client object 0xd31224eac22bfd66de709d521f337acf65a026e5fe16218ceae3a1843df5
 
 #### Delete Articles
 
-You can delete an article like this: (Note that the first argument after --args is the object ID of the article, please replace it with the actual value.)
+You can delete an article like this: (Note that the first argument after `--args` is the object ID of the article, please replace it with the actual value.)
 
 ```shell
 sui client call --package 0xdc93d426b0a5ceaa8a883776c34370f83af72df528e8c9229a4febe2dc1b3b60 --module article_aggregate --function delete \
@@ -314,7 +320,7 @@ sui client call --package 0xdc93d426b0a5ceaa8a883776c34370f83af72df528e8c9229a4f
 
 First, get the object ID  of another article (the article that was not deleted).
 
-You can add a comment like this: (Note that the first argument after --args is the object ID of an article, please replace it with the actual value.)
+You can add a comment like this: (Note that the first argument after `--args` is the object ID of an article, please replace it with the actual value.)
 
 ```shell
 sui client call --package 0xdc93d426b0a5ceaa8a883776c34370f83af72df528e8c9229a4febe2dc1b3b60 --module article_aggregate --function add_comment \
