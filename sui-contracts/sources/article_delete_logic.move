@@ -1,3 +1,4 @@
+#[allow(unused_mut_parameter)]
 module sui_blog_example::article_delete_logic {
     use sui::tx_context::TxContext;
     use sui_blog_example::blog_aggregate;

@@ -152,6 +152,7 @@ singletonObjects:
     metadata:
       Preprocessors: [ "MOVE_CRUD_IT" ]
       CRUD_IT_NO_DELETE: true
+      MOVE_AGGREGATE_MODULE_ATTRIBUTES: "#[allow(unused_mut_parameter)]"
     properties:
       Name:
         type: String

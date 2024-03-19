@@ -19,6 +19,7 @@ module sui_blog_example::blog_scripts {
         blog_aggregate::donate(blog, coin::into_balance(a), ctx);
     }
 
+    #[lint_allow(self_transfer)]
     public fun withdraw(
         blog: &mut blog::Blog,
         amount: u64,
