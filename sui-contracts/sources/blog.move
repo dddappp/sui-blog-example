@@ -245,32 +245,10 @@ module sui_blog_example::blog {
     }
 
 
-    public(friend) fun transfer_object(blog: Blog, recipient: address) {
-        assert!(blog.version == 0, EInappropriateVersion);
-        transfer::transfer(blog, recipient);
-    }
-
-    public(friend) fun update_version_and_transfer_object(blog: Blog, recipient: address) {
-        update_object_version(&mut blog);
-        transfer::transfer(blog, recipient);
-    }
-
     #[lint_allow(share_owned)]
     public(friend) fun share_object(blog: Blog) {
         assert!(blog.version == 0, EInappropriateVersion);
         transfer::share_object(blog);
-    }
-
-    #[lint_allow(freeze_wrapped)]
-    public(friend) fun freeze_object(blog: Blog) {
-        assert!(blog.version == 0, EInappropriateVersion);
-        transfer::freeze_object(blog);
-    }
-
-    #[lint_allow(freeze_wrapped)]
-    public(friend) fun update_version_and_freeze_object(blog: Blog) {
-        update_object_version(&mut blog);
-        transfer::freeze_object(blog);
     }
 
     public(friend) fun update_object_version(blog: &mut Blog) {

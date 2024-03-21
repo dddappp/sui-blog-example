@@ -472,24 +472,6 @@ module sui_blog_example::article {
         transfer::transfer(article, recipient);
     }
 
-    #[lint_allow(share_owned)]
-    public(friend) fun share_object(article: Article) {
-        assert!(article.version == 0, EInappropriateVersion);
-        transfer::share_object(article);
-    }
-
-    #[lint_allow(freeze_wrapped)]
-    public(friend) fun freeze_object(article: Article) {
-        assert!(article.version == 0, EInappropriateVersion);
-        transfer::freeze_object(article);
-    }
-
-    #[lint_allow(freeze_wrapped)]
-    public(friend) fun update_version_and_freeze_object(article: Article) {
-        update_object_version(&mut article);
-        transfer::freeze_object(article);
-    }
-
     fun update_object_version(article: &mut Article) {
         article.version = article.version + 1;
         //assert!(article.version != 0, EInappropriateVersion);

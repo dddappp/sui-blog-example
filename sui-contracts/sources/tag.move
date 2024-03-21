@@ -127,29 +127,8 @@ module sui_blog_example::tag {
         table::add(&mut tag_name_table.table, name, id);
     }
 
-    public(friend) fun transfer_object(tag: Tag, recipient: address) {
-        assert!(tag.version == 0, EInappropriateVersion);
-        transfer::transfer(tag, recipient);
-    }
-
-    public(friend) fun update_version_and_transfer_object(tag: Tag, recipient: address) {
-        update_object_version(&mut tag);
-        transfer::transfer(tag, recipient);
-    }
-
-    #[lint_allow(share_owned)]
-    public(friend) fun share_object(tag: Tag) {
-        assert!(tag.version == 0, EInappropriateVersion);
-        transfer::share_object(tag);
-    }
-
     public(friend) fun freeze_object(tag: Tag) {
         assert!(tag.version == 0, EInappropriateVersion);
-        transfer::freeze_object(tag);
-    }
-
-    public(friend) fun update_version_and_freeze_object(tag: Tag) {
-        update_object_version(&mut tag);
         transfer::freeze_object(tag);
     }
 
