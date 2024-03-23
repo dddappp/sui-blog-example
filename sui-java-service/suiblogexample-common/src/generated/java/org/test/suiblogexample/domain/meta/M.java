@@ -417,6 +417,7 @@ public class M {
     public static final String[] propertyNames = new String[] {
             "id",
             "name",
+            "imageUrl",
             "version",
             "offChainVersion",
             "createdBy",
@@ -428,6 +429,7 @@ public class M {
     };
 
     public static final String[] propertyTypes = new String[] {
+            "String",
             "String",
             "String",
             "BigInteger",
@@ -456,6 +458,8 @@ public class M {
         aliasMap.put("Id", "id");
         aliasMap.put("name", "name");
         aliasMap.put("Name", "name");
+        aliasMap.put("imageUrl", "imageUrl");
+        aliasMap.put("ImageUrl", "imageUrl");
         aliasMap.put("version", "version");
         aliasMap.put("Version", "version");
         aliasMap.put("offChainVersion", "offChainVersion");

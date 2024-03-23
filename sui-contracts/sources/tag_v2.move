@@ -10,6 +10,9 @@ module sui_blog_example::tag_v2 {
     use sui::object::{Self, UID};
     use sui::transfer;
     use sui::tx_context::TxContext;
+
+    struct TAG_V2 has drop {}
+
     friend sui_blog_example::tag_v2_create_logic;
     friend sui_blog_example::tag_v2_aggregate;
 
@@ -18,10 +21,27 @@ module sui_blog_example::tag_v2 {
     const EInappropriateVersion: u64 = 103;
     const EEmptyObjectID: u64 = 107;
 
+    fun init(otw: TAG_V2, ctx: &mut TxContext) {
+        let keys = vector[
+            std::string::utf8(b"image_url"),
+        ];
+        let values = vector[
+            std::string::utf8(b"{https://arweave.net/{image_url}}"),
+        ];
+        let publisher = sui::package::claim(otw, ctx);
+        let display = sui::display::new_with_fields<TagV2>(
+            &publisher, keys, values, ctx
+        );
+        sui::display::update_version(&mut display);
+        sui::transfer::public_transfer(publisher, sui::tx_context::sender(ctx));
+        sui::transfer::public_transfer(display, sui::tx_context::sender(ctx));
+    }
+
     struct TagV2 has key {
         id: UID,
         version: u64,
         name: String,
+        image_url: String,
     }
 
     public fun id(tag_v2: &TagV2): object::ID {
@@ -41,6 +61,15 @@ module sui_blog_example::tag_v2 {
         tag_v2.name = name;
     }
 
+    public fun image_url(tag_v2: &TagV2): String {
+        tag_v2.image_url
+    }
+
+    public(friend) fun set_image_url(tag_v2: &mut TagV2, image_url: String) {
+        assert!(std::string::length(&image_url) <= 200, EDataTooLong);
+        tag_v2.image_url = image_url;
+    }
+
     public(friend) fun new_tag_v2(
         name: String,
         ctx: &mut TxContext,
@@ -50,6 +79,7 @@ module sui_blog_example::tag_v2 {
             id: object::new(ctx),
             version: 0,
             name,
+            image_url: std::string::utf8(b"6AXZZCbeJLoOiexVs4TbWYcBvAtHsP8j0b0TZCLovs0"),
         }
     }
 
@@ -95,6 +125,7 @@ module sui_blog_example::tag_v2 {
             id,
             version: _version,
             name: _name,
+            image_url: _image_url,
         } = tag_v2;
         object::delete(id);
     }

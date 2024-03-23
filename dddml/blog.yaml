@@ -131,6 +131,20 @@ aggregates:
   TagV2:
     metadata:
       Preprocessors: [ "MOVE_CRUD_IT" ]
+      SUI_DISPLAY_KEYS:
+#        - "name"
+#        - "link"
+        - "image_url"
+#        - "description"
+#        - "project_url"
+#        - "creator"
+      SUI_DISPLAY_VALUES:
+#        - "{name}"
+#        - "https://sui-heroes.io/hero/{id}"
+        - "https://arweave.net/{image_url}"
+#        - "A true Hero of the Sui ecosystem!"
+#        - "https://sui-heroes.io"
+#        - "Unknown Sui Fan"
     immutable: true
     id:
       name: Id
@@ -139,6 +153,12 @@ aggregates:
       Name:
         type: String
         length: 100
+      ImageUrl:
+        type: String
+        length: 200
+        defaultLogic:
+          Move:
+            'std::string::utf8(b"6AXZZCbeJLoOiexVs4TbWYcBvAtHsP8j0b0TZCLovs0")'
     methods:
       Create:
         event:
