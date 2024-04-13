@@ -12,15 +12,17 @@ spring:
           auto: update
 
 server:
-  port: 1023
+  port: 1024
 
 sui:
   contract:
     jsonrpc:
-      url: "https://fullnode.devnet.sui.io/"
+      #url: "https://fullnode.devnet.sui.io/"
       #url: "https://fullnode.testnet.sui.io/"
       #url: "http://localhost:9000"
-    package-publish-transaction: "FE9c2a7UAwefd4AhCh19sdGkpzChaaQ3eEScrjY1WrzP"
+      url: "https://sui.devnet.m2.movementlabs.xyz:443/"
+    #package-publish-transaction: "FE9c2a7UAwefd4AhCh19sdGkpzChaaQ3eEScrjY1WrzP"
+    package-publish-transaction: "atVnUPbf4jSoPU1wiKw1RG6wfCQbk1vQatGvuLFcRo7"
 #    pull-day-summary-events:
 #      day-summary-created:
 #        fixed-delay: 6000
