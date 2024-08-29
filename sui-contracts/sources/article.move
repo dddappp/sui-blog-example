@@ -25,6 +25,7 @@ module sui_blog_example::article {
     const EIdAlreadyExists: u64 = 101;
     #[allow(unused_const)]
     const EDataTooLong: u64 = 102;
+    #[allow(unused_const)]
     const EInappropriateVersion: u64 = 103;
     const EEmptyObjectID: u64 = 107;
     const EIdNotFound: u64 = 111;
@@ -126,11 +127,16 @@ module sui_blog_example::article {
         table::add(&mut article.comments, key, comment);
     }
 
-    public(friend) fun remove_comment(article: &mut Article, comment_seq_id: u64) {
+    public(friend) fun remove_comment(article: &mut Article, comment_seq_id: u64): Comment {
         assert!(table::contains(&article.comments, comment_seq_id), EIdNotFound);
-        let comment = table::remove(&mut article.comments, comment_seq_id);
+        table::remove(&mut article.comments, comment_seq_id)
+    }
+
+    public(friend) fun remove_and_drop_comment(article: &mut Article, comment_seq_id: u64) {
+        let comment = remove_comment(article, comment_seq_id);
         comment::drop_comment(comment);
     }
+
 
     public(friend) fun borrow_mut_comment(article: &mut Article, comment_seq_id: u64): &mut Comment {
         table::borrow_mut(&mut article.comments, comment_seq_id)

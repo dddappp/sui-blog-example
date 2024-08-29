@@ -23,6 +23,7 @@ module sui_blog_example::blog {
 
     #[allow(unused_const)]
     const EDataTooLong: u64 = 102;
+    #[allow(unused_const)]
     const EInappropriateVersion: u64 = 103;
 
     fun init(otw: BLOG, ctx: &mut TxContext) {

@@ -253,7 +253,7 @@ public class TagResource {
  
     public static class TagResourceUtils {
 
-        public static void setNullIdOrThrowOnInconsistentIds(String name, TagCommand value) {
+        public static void setNullIdOrThrowOnInconsistentIds(String name, org.test.suiblogexample.domain.tag.TagCommand value) {
             String idObj = name;
             if (value.getName() == null) {
                 value.setName(idObj);

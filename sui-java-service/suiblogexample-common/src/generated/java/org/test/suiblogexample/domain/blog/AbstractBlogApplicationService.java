@@ -50,14 +50,6 @@ public abstract class AbstractBlogApplicationService implements BlogApplicationS
         this.stateQueryRepository = stateQueryRepository;
     }
 
-    public void when(BlogCommands.AddArticle c) {
-        update(c, ar -> ar.addArticle(c.getArticleId(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
-    }
-
-    public void when(BlogCommands.RemoveArticle c) {
-        update(c, ar -> ar.removeArticle(c.getArticleId(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
-    }
-
     public void when(BlogCommands.Create c) {
         update(c, ar -> ar.create(c.getArticles(), c.getOffChainVersion(), c.getCommandId(), c.getRequesterId(), c));
     }

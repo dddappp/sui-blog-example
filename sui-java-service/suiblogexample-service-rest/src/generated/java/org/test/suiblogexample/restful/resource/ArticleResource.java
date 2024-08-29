@@ -441,7 +441,7 @@ public class ArticleResource {
  
     public static class ArticleResourceUtils {
 
-        public static void setNullIdOrThrowOnInconsistentIds(String id, ArticleCommand value) {
+        public static void setNullIdOrThrowOnInconsistentIds(String id, org.test.suiblogexample.domain.article.ArticleCommand value) {
             String idObj = id;
             if (value.getId() == null) {
                 value.setId(idObj);

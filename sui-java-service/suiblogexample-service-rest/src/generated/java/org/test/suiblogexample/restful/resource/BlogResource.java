@@ -271,7 +271,7 @@ public class BlogResource {
  
     public static class BlogResourceUtils {
 
-        public static void setNullIdOrThrowOnInconsistentIds(String id, BlogCommand value) {
+        public static void setNullIdOrThrowOnInconsistentIds(String id, org.test.suiblogexample.domain.blog.BlogCommand value) {
             String idObj = id;
             if (value.getId() == null) {
                 value.setId(idObj);

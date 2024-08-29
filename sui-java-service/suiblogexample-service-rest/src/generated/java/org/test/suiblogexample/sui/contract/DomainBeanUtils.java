@@ -8,6 +8,7 @@ package org.test.suiblogexample.sui.contract;
 import java.math.*;
 import java.util.*;
 
+import com.github.wubuku.sui.bean.AbstractSuiEventEnvelope;
 import com.github.wubuku.sui.bean.MoveEvent;
 import com.github.wubuku.sui.bean.SuiMoveEventEnvelope;
 import com.github.wubuku.sui.bean.Table;
@@ -64,7 +65,12 @@ public class DomainBeanUtils {
 
     public static AbstractArticleEvent.ArticleCreated toArticleCreated(SuiMoveEventEnvelope<ArticleCreated> eventEnvelope) {
         ArticleCreated contractEvent = eventEnvelope.getParsedJson();
+        AbstractArticleEvent.ArticleCreated articleCreated = toArticleCreated(contractEvent);
+        setArticleEventEnvelopeProperties(articleCreated, eventEnvelope);
+        return articleCreated;
+    }
 
+    public static AbstractArticleEvent.ArticleCreated toArticleCreated(ArticleCreated contractEvent) {
         AbstractArticleEvent.ArticleCreated articleCreated = new AbstractArticleEvent.ArticleCreated();
         articleCreated.setId(contractEvent.getId());
         articleCreated.setBlogId(contractEvent.getBlogId());
@@ -72,21 +78,17 @@ public class DomainBeanUtils {
         articleCreated.setBody(contractEvent.getBody());
         articleCreated.setOwner(contractEvent.getOwner());
         articleCreated.setVersion(BigInteger.valueOf(-1));
-
-        articleCreated.setSuiTimestamp(eventEnvelope.getTimestampMs());
-        articleCreated.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
-        articleCreated.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
-
-        articleCreated.setSuiPackageId(eventEnvelope.getPackageId());
-        articleCreated.setSuiTransactionModule(eventEnvelope.getTransactionModule());
-        articleCreated.setSuiSender(eventEnvelope.getSender());
-
         return articleCreated;
     }
 
     public static AbstractArticleEvent.ArticleUpdated toArticleUpdated(SuiMoveEventEnvelope<ArticleUpdated> eventEnvelope) {
         ArticleUpdated contractEvent = eventEnvelope.getParsedJson();
+        AbstractArticleEvent.ArticleUpdated articleUpdated = toArticleUpdated(contractEvent);
+        setArticleEventEnvelopeProperties(articleUpdated, eventEnvelope);
+        return articleUpdated;
+    }
 
+    public static AbstractArticleEvent.ArticleUpdated toArticleUpdated(ArticleUpdated contractEvent) {
         AbstractArticleEvent.ArticleUpdated articleUpdated = new AbstractArticleEvent.ArticleUpdated();
         articleUpdated.setId(contractEvent.getId());
         articleUpdated.setTitle(contractEvent.getTitle());
@@ -95,40 +97,32 @@ public class DomainBeanUtils {
         articleUpdated.setTags(contractEvent.getTags());
         articleUpdated.setTagsV2(contractEvent.getTagsV2());
         articleUpdated.setVersion(contractEvent.getVersion());
-
-        articleUpdated.setSuiTimestamp(eventEnvelope.getTimestampMs());
-        articleUpdated.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
-        articleUpdated.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
-
-        articleUpdated.setSuiPackageId(eventEnvelope.getPackageId());
-        articleUpdated.setSuiTransactionModule(eventEnvelope.getTransactionModule());
-        articleUpdated.setSuiSender(eventEnvelope.getSender());
-
         return articleUpdated;
     }
 
     public static AbstractArticleEvent.ArticleDeleted toArticleDeleted(SuiMoveEventEnvelope<ArticleDeleted> eventEnvelope) {
         ArticleDeleted contractEvent = eventEnvelope.getParsedJson();
+        AbstractArticleEvent.ArticleDeleted articleDeleted = toArticleDeleted(contractEvent);
+        setArticleEventEnvelopeProperties(articleDeleted, eventEnvelope);
+        return articleDeleted;
+    }
 
+    public static AbstractArticleEvent.ArticleDeleted toArticleDeleted(ArticleDeleted contractEvent) {
         AbstractArticleEvent.ArticleDeleted articleDeleted = new AbstractArticleEvent.ArticleDeleted();
         articleDeleted.setId(contractEvent.getId());
         articleDeleted.setBlogId(contractEvent.getBlogId());
         articleDeleted.setVersion(contractEvent.getVersion());
-
-        articleDeleted.setSuiTimestamp(eventEnvelope.getTimestampMs());
-        articleDeleted.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
-        articleDeleted.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
-
-        articleDeleted.setSuiPackageId(eventEnvelope.getPackageId());
-        articleDeleted.setSuiTransactionModule(eventEnvelope.getTransactionModule());
-        articleDeleted.setSuiSender(eventEnvelope.getSender());
-
         return articleDeleted;
     }
 
     public static AbstractArticleEvent.CommentUpdated toCommentUpdated(SuiMoveEventEnvelope<CommentUpdated> eventEnvelope) {
         CommentUpdated contractEvent = eventEnvelope.getParsedJson();
+        AbstractArticleEvent.CommentUpdated commentUpdated = toCommentUpdated(contractEvent);
+        setArticleEventEnvelopeProperties(commentUpdated, eventEnvelope);
+        return commentUpdated;
+    }
 
+    public static AbstractArticleEvent.CommentUpdated toCommentUpdated(CommentUpdated contractEvent) {
         AbstractArticleEvent.CommentUpdated commentUpdated = new AbstractArticleEvent.CommentUpdated();
         commentUpdated.setId(contractEvent.getId());
         commentUpdated.setCommentSeqId(contractEvent.getCommentSeqId());
@@ -136,40 +130,32 @@ public class DomainBeanUtils {
         commentUpdated.setBody(contractEvent.getBody());
         commentUpdated.setOwner(contractEvent.getOwner());
         commentUpdated.setVersion(contractEvent.getVersion());
-
-        commentUpdated.setSuiTimestamp(eventEnvelope.getTimestampMs());
-        commentUpdated.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
-        commentUpdated.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
-
-        commentUpdated.setSuiPackageId(eventEnvelope.getPackageId());
-        commentUpdated.setSuiTransactionModule(eventEnvelope.getTransactionModule());
-        commentUpdated.setSuiSender(eventEnvelope.getSender());
-
         return commentUpdated;
     }
 
     public static AbstractArticleEvent.CommentRemoved toCommentRemoved(SuiMoveEventEnvelope<CommentRemoved> eventEnvelope) {
         CommentRemoved contractEvent = eventEnvelope.getParsedJson();
+        AbstractArticleEvent.CommentRemoved commentRemoved = toCommentRemoved(contractEvent);
+        setArticleEventEnvelopeProperties(commentRemoved, eventEnvelope);
+        return commentRemoved;
+    }
 
+    public static AbstractArticleEvent.CommentRemoved toCommentRemoved(CommentRemoved contractEvent) {
         AbstractArticleEvent.CommentRemoved commentRemoved = new AbstractArticleEvent.CommentRemoved();
         commentRemoved.setId(contractEvent.getId());
         commentRemoved.setCommentSeqId(contractEvent.getCommentSeqId());
         commentRemoved.setVersion(contractEvent.getVersion());
-
-        commentRemoved.setSuiTimestamp(eventEnvelope.getTimestampMs());
-        commentRemoved.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
-        commentRemoved.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
-
-        commentRemoved.setSuiPackageId(eventEnvelope.getPackageId());
-        commentRemoved.setSuiTransactionModule(eventEnvelope.getTransactionModule());
-        commentRemoved.setSuiSender(eventEnvelope.getSender());
-
         return commentRemoved;
     }
 
     public static AbstractArticleEvent.CommentAdded toCommentAdded(SuiMoveEventEnvelope<CommentAdded> eventEnvelope) {
         CommentAdded contractEvent = eventEnvelope.getParsedJson();
+        AbstractArticleEvent.CommentAdded commentAdded = toCommentAdded(contractEvent);
+        setArticleEventEnvelopeProperties(commentAdded, eventEnvelope);
+        return commentAdded;
+    }
 
+    public static AbstractArticleEvent.CommentAdded toCommentAdded(CommentAdded contractEvent) {
         AbstractArticleEvent.CommentAdded commentAdded = new AbstractArticleEvent.CommentAdded();
         commentAdded.setId(contractEvent.getId());
         commentAdded.setCommentSeqId(contractEvent.getCommentSeqId());
@@ -177,227 +163,205 @@ public class DomainBeanUtils {
         commentAdded.setBody(contractEvent.getBody());
         commentAdded.setOwner(contractEvent.getOwner());
         commentAdded.setVersion(contractEvent.getVersion());
-
-        commentAdded.setSuiTimestamp(eventEnvelope.getTimestampMs());
-        commentAdded.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
-        commentAdded.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
-
-        commentAdded.setSuiPackageId(eventEnvelope.getPackageId());
-        commentAdded.setSuiTransactionModule(eventEnvelope.getTransactionModule());
-        commentAdded.setSuiSender(eventEnvelope.getSender());
-
         return commentAdded;
     }
 
     public static AbstractArticleEvent.ArticleTagsUpdated toArticleTagsUpdated(SuiMoveEventEnvelope<ArticleTagsUpdated> eventEnvelope) {
         ArticleTagsUpdated contractEvent = eventEnvelope.getParsedJson();
+        AbstractArticleEvent.ArticleTagsUpdated articleTagsUpdated = toArticleTagsUpdated(contractEvent);
+        setArticleEventEnvelopeProperties(articleTagsUpdated, eventEnvelope);
+        return articleTagsUpdated;
+    }
 
+    public static AbstractArticleEvent.ArticleTagsUpdated toArticleTagsUpdated(ArticleTagsUpdated contractEvent) {
         AbstractArticleEvent.ArticleTagsUpdated articleTagsUpdated = new AbstractArticleEvent.ArticleTagsUpdated();
         articleTagsUpdated.setId(contractEvent.getId());
         articleTagsUpdated.setTags(contractEvent.getTags());
         articleTagsUpdated.setVersion(contractEvent.getVersion());
-
-        articleTagsUpdated.setSuiTimestamp(eventEnvelope.getTimestampMs());
-        articleTagsUpdated.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
-        articleTagsUpdated.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
-
-        articleTagsUpdated.setSuiPackageId(eventEnvelope.getPackageId());
-        articleTagsUpdated.setSuiTransactionModule(eventEnvelope.getTransactionModule());
-        articleTagsUpdated.setSuiSender(eventEnvelope.getSender());
-
         return articleTagsUpdated;
     }
 
     public static AbstractArticleEvent.ArticleTagsV2Updated toArticleTagsV2Updated(SuiMoveEventEnvelope<ArticleTagsV2Updated> eventEnvelope) {
         ArticleTagsV2Updated contractEvent = eventEnvelope.getParsedJson();
+        AbstractArticleEvent.ArticleTagsV2Updated articleTagsV2Updated = toArticleTagsV2Updated(contractEvent);
+        setArticleEventEnvelopeProperties(articleTagsV2Updated, eventEnvelope);
+        return articleTagsV2Updated;
+    }
 
+    public static AbstractArticleEvent.ArticleTagsV2Updated toArticleTagsV2Updated(ArticleTagsV2Updated contractEvent) {
         AbstractArticleEvent.ArticleTagsV2Updated articleTagsV2Updated = new AbstractArticleEvent.ArticleTagsV2Updated();
         articleTagsV2Updated.setId(contractEvent.getId());
         articleTagsV2Updated.setTags(contractEvent.getTags());
         articleTagsV2Updated.setVersion(contractEvent.getVersion());
-
-        articleTagsV2Updated.setSuiTimestamp(eventEnvelope.getTimestampMs());
-        articleTagsV2Updated.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
-        articleTagsV2Updated.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
-
-        articleTagsV2Updated.setSuiPackageId(eventEnvelope.getPackageId());
-        articleTagsV2Updated.setSuiTransactionModule(eventEnvelope.getTransactionModule());
-        articleTagsV2Updated.setSuiSender(eventEnvelope.getSender());
-
         return articleTagsV2Updated;
     }
 
     public static AbstractTagEvent.TagCreated toTagCreated(SuiMoveEventEnvelope<TagCreated> eventEnvelope) {
         TagCreated contractEvent = eventEnvelope.getParsedJson();
+        AbstractTagEvent.TagCreated tagCreated = toTagCreated(contractEvent);
+        setTagEventEnvelopeProperties(tagCreated, eventEnvelope);
+        return tagCreated;
+    }
 
+    public static AbstractTagEvent.TagCreated toTagCreated(TagCreated contractEvent) {
         AbstractTagEvent.TagCreated tagCreated = new AbstractTagEvent.TagCreated();
         tagCreated.setId_(contractEvent.getId());
         tagCreated.setName(contractEvent.getName());
         tagCreated.setVersion(BigInteger.valueOf(-1));
-
-        tagCreated.setSuiTimestamp(eventEnvelope.getTimestampMs());
-        tagCreated.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
-        tagCreated.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
-
-        tagCreated.setSuiPackageId(eventEnvelope.getPackageId());
-        tagCreated.setSuiTransactionModule(eventEnvelope.getTransactionModule());
-        tagCreated.setSuiSender(eventEnvelope.getSender());
-
         return tagCreated;
     }
 
     public static AbstractTagV2Event.TagV2Created toTagV2Created(SuiMoveEventEnvelope<TagV2Created> eventEnvelope) {
         TagV2Created contractEvent = eventEnvelope.getParsedJson();
+        AbstractTagV2Event.TagV2Created tagV2Created = toTagV2Created(contractEvent);
+        setTagV2EventEnvelopeProperties(tagV2Created, eventEnvelope);
+        return tagV2Created;
+    }
 
+    public static AbstractTagV2Event.TagV2Created toTagV2Created(TagV2Created contractEvent) {
         AbstractTagV2Event.TagV2Created tagV2Created = new AbstractTagV2Event.TagV2Created();
         tagV2Created.setId(contractEvent.getId());
         tagV2Created.setName(contractEvent.getName());
         tagV2Created.setVersion(BigInteger.valueOf(-1));
-
-        tagV2Created.setSuiTimestamp(eventEnvelope.getTimestampMs());
-        tagV2Created.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
-        tagV2Created.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
-
-        tagV2Created.setSuiPackageId(eventEnvelope.getPackageId());
-        tagV2Created.setSuiTransactionModule(eventEnvelope.getTransactionModule());
-        tagV2Created.setSuiSender(eventEnvelope.getSender());
-
         return tagV2Created;
     }
 
     public static AbstractBlogEvent.InitBlogEvent toInitBlogEvent(SuiMoveEventEnvelope<InitBlogEvent> eventEnvelope) {
         InitBlogEvent contractEvent = eventEnvelope.getParsedJson();
+        AbstractBlogEvent.InitBlogEvent initBlogEvent = toInitBlogEvent(contractEvent);
+        setBlogEventEnvelopeProperties(initBlogEvent, eventEnvelope);
+        return initBlogEvent;
+    }
 
+    public static AbstractBlogEvent.InitBlogEvent toInitBlogEvent(InitBlogEvent contractEvent) {
         AbstractBlogEvent.InitBlogEvent initBlogEvent = new AbstractBlogEvent.InitBlogEvent();
         initBlogEvent.setId(contractEvent.getId());
         initBlogEvent.setVersion(BigInteger.valueOf(-1));
-
-        initBlogEvent.setSuiTimestamp(eventEnvelope.getTimestampMs());
-        initBlogEvent.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
-        initBlogEvent.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
-
-        initBlogEvent.setSuiPackageId(eventEnvelope.getPackageId());
-        initBlogEvent.setSuiTransactionModule(eventEnvelope.getTransactionModule());
-        initBlogEvent.setSuiSender(eventEnvelope.getSender());
-
         return initBlogEvent;
     }
 
     public static AbstractBlogEvent.DonationReceived toDonationReceived(SuiMoveEventEnvelope<DonationReceived> eventEnvelope) {
         DonationReceived contractEvent = eventEnvelope.getParsedJson();
+        AbstractBlogEvent.DonationReceived donationReceived = toDonationReceived(contractEvent);
+        setBlogEventEnvelopeProperties(donationReceived, eventEnvelope);
+        return donationReceived;
+    }
 
+    public static AbstractBlogEvent.DonationReceived toDonationReceived(DonationReceived contractEvent) {
         AbstractBlogEvent.DonationReceived donationReceived = new AbstractBlogEvent.DonationReceived();
         donationReceived.setId(contractEvent.getId());
         donationReceived.setAmount(contractEvent.getAmount());
         donationReceived.setVersion(contractEvent.getVersion());
-
-        donationReceived.setSuiTimestamp(eventEnvelope.getTimestampMs());
-        donationReceived.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
-        donationReceived.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
-
-        donationReceived.setSuiPackageId(eventEnvelope.getPackageId());
-        donationReceived.setSuiTransactionModule(eventEnvelope.getTransactionModule());
-        donationReceived.setSuiSender(eventEnvelope.getSender());
-
         return donationReceived;
     }
 
     public static AbstractBlogEvent.VaultWithdrawn toVaultWithdrawn(SuiMoveEventEnvelope<VaultWithdrawn> eventEnvelope) {
         VaultWithdrawn contractEvent = eventEnvelope.getParsedJson();
+        AbstractBlogEvent.VaultWithdrawn vaultWithdrawn = toVaultWithdrawn(contractEvent);
+        setBlogEventEnvelopeProperties(vaultWithdrawn, eventEnvelope);
+        return vaultWithdrawn;
+    }
 
+    public static AbstractBlogEvent.VaultWithdrawn toVaultWithdrawn(VaultWithdrawn contractEvent) {
         AbstractBlogEvent.VaultWithdrawn vaultWithdrawn = new AbstractBlogEvent.VaultWithdrawn();
         vaultWithdrawn.setId(contractEvent.getId());
         vaultWithdrawn.setAmount(contractEvent.getAmount());
         vaultWithdrawn.setVersion(contractEvent.getVersion());
-
-        vaultWithdrawn.setSuiTimestamp(eventEnvelope.getTimestampMs());
-        vaultWithdrawn.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
-        vaultWithdrawn.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
-
-        vaultWithdrawn.setSuiPackageId(eventEnvelope.getPackageId());
-        vaultWithdrawn.setSuiTransactionModule(eventEnvelope.getTransactionModule());
-        vaultWithdrawn.setSuiSender(eventEnvelope.getSender());
-
         return vaultWithdrawn;
     }
 
     public static AbstractBlogEvent.ArticleAddedToBlog toArticleAddedToBlog(SuiMoveEventEnvelope<ArticleAddedToBlog> eventEnvelope) {
         ArticleAddedToBlog contractEvent = eventEnvelope.getParsedJson();
+        AbstractBlogEvent.ArticleAddedToBlog articleAddedToBlog = toArticleAddedToBlog(contractEvent);
+        setBlogEventEnvelopeProperties(articleAddedToBlog, eventEnvelope);
+        return articleAddedToBlog;
+    }
 
+    public static AbstractBlogEvent.ArticleAddedToBlog toArticleAddedToBlog(ArticleAddedToBlog contractEvent) {
         AbstractBlogEvent.ArticleAddedToBlog articleAddedToBlog = new AbstractBlogEvent.ArticleAddedToBlog();
         articleAddedToBlog.setId(contractEvent.getId());
         articleAddedToBlog.setArticleId(contractEvent.getArticleId());
         articleAddedToBlog.setVersion(contractEvent.getVersion());
-
-        articleAddedToBlog.setSuiTimestamp(eventEnvelope.getTimestampMs());
-        articleAddedToBlog.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
-        articleAddedToBlog.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
-
-        articleAddedToBlog.setSuiPackageId(eventEnvelope.getPackageId());
-        articleAddedToBlog.setSuiTransactionModule(eventEnvelope.getTransactionModule());
-        articleAddedToBlog.setSuiSender(eventEnvelope.getSender());
-
         return articleAddedToBlog;
     }
 
     public static AbstractBlogEvent.ArticleRemovedFromBlog toArticleRemovedFromBlog(SuiMoveEventEnvelope<ArticleRemovedFromBlog> eventEnvelope) {
         ArticleRemovedFromBlog contractEvent = eventEnvelope.getParsedJson();
+        AbstractBlogEvent.ArticleRemovedFromBlog articleRemovedFromBlog = toArticleRemovedFromBlog(contractEvent);
+        setBlogEventEnvelopeProperties(articleRemovedFromBlog, eventEnvelope);
+        return articleRemovedFromBlog;
+    }
 
+    public static AbstractBlogEvent.ArticleRemovedFromBlog toArticleRemovedFromBlog(ArticleRemovedFromBlog contractEvent) {
         AbstractBlogEvent.ArticleRemovedFromBlog articleRemovedFromBlog = new AbstractBlogEvent.ArticleRemovedFromBlog();
         articleRemovedFromBlog.setId(contractEvent.getId());
         articleRemovedFromBlog.setArticleId(contractEvent.getArticleId());
         articleRemovedFromBlog.setVersion(contractEvent.getVersion());
-
-        articleRemovedFromBlog.setSuiTimestamp(eventEnvelope.getTimestampMs());
-        articleRemovedFromBlog.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
-        articleRemovedFromBlog.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
-
-        articleRemovedFromBlog.setSuiPackageId(eventEnvelope.getPackageId());
-        articleRemovedFromBlog.setSuiTransactionModule(eventEnvelope.getTransactionModule());
-        articleRemovedFromBlog.setSuiSender(eventEnvelope.getSender());
-
         return articleRemovedFromBlog;
     }
 
     public static AbstractBlogEvent.BlogCreated toBlogCreated(SuiMoveEventEnvelope<BlogCreated> eventEnvelope) {
         BlogCreated contractEvent = eventEnvelope.getParsedJson();
+        AbstractBlogEvent.BlogCreated blogCreated = toBlogCreated(contractEvent);
+        setBlogEventEnvelopeProperties(blogCreated, eventEnvelope);
+        return blogCreated;
+    }
 
+    public static AbstractBlogEvent.BlogCreated toBlogCreated(BlogCreated contractEvent) {
         AbstractBlogEvent.BlogCreated blogCreated = new AbstractBlogEvent.BlogCreated();
         blogCreated.setId(contractEvent.getId());
         blogCreated.setArticles(contractEvent.getArticles());
         blogCreated.setVersion(BigInteger.valueOf(-1));
-
-        blogCreated.setSuiTimestamp(eventEnvelope.getTimestampMs());
-        blogCreated.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
-        blogCreated.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
-
-        blogCreated.setSuiPackageId(eventEnvelope.getPackageId());
-        blogCreated.setSuiTransactionModule(eventEnvelope.getTransactionModule());
-        blogCreated.setSuiSender(eventEnvelope.getSender());
-
         return blogCreated;
     }
 
     public static AbstractBlogEvent.BlogUpdated toBlogUpdated(SuiMoveEventEnvelope<BlogUpdated> eventEnvelope) {
         BlogUpdated contractEvent = eventEnvelope.getParsedJson();
+        AbstractBlogEvent.BlogUpdated blogUpdated = toBlogUpdated(contractEvent);
+        setBlogEventEnvelopeProperties(blogUpdated, eventEnvelope);
+        return blogUpdated;
+    }
 
+    public static AbstractBlogEvent.BlogUpdated toBlogUpdated(BlogUpdated contractEvent) {
         AbstractBlogEvent.BlogUpdated blogUpdated = new AbstractBlogEvent.BlogUpdated();
         blogUpdated.setId(contractEvent.getId());
         blogUpdated.setName(contractEvent.getName());
         blogUpdated.setArticles(contractEvent.getArticles());
         blogUpdated.setVersion(contractEvent.getVersion());
-
-        blogUpdated.setSuiTimestamp(eventEnvelope.getTimestampMs());
-        blogUpdated.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
-        blogUpdated.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
-
-        blogUpdated.setSuiPackageId(eventEnvelope.getPackageId());
-        blogUpdated.setSuiTransactionModule(eventEnvelope.getTransactionModule());
-        blogUpdated.setSuiSender(eventEnvelope.getSender());
-
         return blogUpdated;
     }
 
+    public static void setArticleEventEnvelopeProperties(AbstractArticleEvent event, AbstractSuiEventEnvelope<?> eventEnvelope) {
+        setEventEnvelopeProperties((org.test.suiblogexample.domain.SuiEventEnvelope.MutableSuiEventEnvelope) event, eventEnvelope);
+        setEventEnvelopeProperties((org.test.suiblogexample.domain.SuiMoveEvent.MutableSuiMoveEvent) event, eventEnvelope);
+    }
+
+    public static void setTagEventEnvelopeProperties(AbstractTagEvent event, AbstractSuiEventEnvelope<?> eventEnvelope) {
+        setEventEnvelopeProperties((org.test.suiblogexample.domain.SuiEventEnvelope.MutableSuiEventEnvelope) event, eventEnvelope);
+        setEventEnvelopeProperties((org.test.suiblogexample.domain.SuiMoveEvent.MutableSuiMoveEvent) event, eventEnvelope);
+    }
+
+    public static void setTagV2EventEnvelopeProperties(AbstractTagV2Event event, AbstractSuiEventEnvelope<?> eventEnvelope) {
+        setEventEnvelopeProperties((org.test.suiblogexample.domain.SuiEventEnvelope.MutableSuiEventEnvelope) event, eventEnvelope);
+        setEventEnvelopeProperties((org.test.suiblogexample.domain.SuiMoveEvent.MutableSuiMoveEvent) event, eventEnvelope);
+    }
+
+    public static void setBlogEventEnvelopeProperties(AbstractBlogEvent event, AbstractSuiEventEnvelope<?> eventEnvelope) {
+        setEventEnvelopeProperties((org.test.suiblogexample.domain.SuiEventEnvelope.MutableSuiEventEnvelope) event, eventEnvelope);
+        setEventEnvelopeProperties((org.test.suiblogexample.domain.SuiMoveEvent.MutableSuiMoveEvent) event, eventEnvelope);
+    }
+
+    private static void setEventEnvelopeProperties(org.test.suiblogexample.domain.SuiEventEnvelope.MutableSuiEventEnvelope event, AbstractSuiEventEnvelope<?> eventEnvelope) {
+        event.setSuiTimestamp(eventEnvelope.getTimestampMs());
+        event.setSuiTxDigest(eventEnvelope.getId().getTxDigest());
+        event.setSuiEventSeq(new BigInteger(eventEnvelope.getId().getEventSeq()));
+    }
+
+    private static void setEventEnvelopeProperties(org.test.suiblogexample.domain.SuiMoveEvent.MutableSuiMoveEvent event, AbstractSuiEventEnvelope<?> eventEnvelope) {
+        event.setSuiPackageId(eventEnvelope.getPackageId());
+        event.setSuiTransactionModule(eventEnvelope.getTransactionModule());
+        event.setSuiSender(eventEnvelope.getSender());
+    }
 
     public static List<String> extractTypeArguments(String type) {
         int i = type.indexOf("<");

@@ -65,7 +65,7 @@ public class ArticleEventService {
         if (packageId == null) {
             return;
         }
-        int limit = 1;
+        int limit = 10;
         EventId cursor = getArticleCreatedEventNextCursor();
         while (true) {
             PaginatedMoveEvents<ArticleCreated> eventPage = suiJsonRpcClient.queryMoveEvents(
@@ -105,7 +105,7 @@ public class ArticleEventService {
         if (packageId == null) {
             return;
         }
-        int limit = 1;
+        int limit = 10;
         EventId cursor = getArticleUpdatedEventNextCursor();
         while (true) {
             PaginatedMoveEvents<ArticleUpdated> eventPage = suiJsonRpcClient.queryMoveEvents(
@@ -145,7 +145,7 @@ public class ArticleEventService {
         if (packageId == null) {
             return;
         }
-        int limit = 1;
+        int limit = 10;
         EventId cursor = getArticleDeletedEventNextCursor();
         while (true) {
             PaginatedMoveEvents<ArticleDeleted> eventPage = suiJsonRpcClient.queryMoveEvents(
@@ -185,7 +185,7 @@ public class ArticleEventService {
         if (packageId == null) {
             return;
         }
-        int limit = 1;
+        int limit = 10;
         EventId cursor = getCommentUpdatedEventNextCursor();
         while (true) {
             PaginatedMoveEvents<CommentUpdated> eventPage = suiJsonRpcClient.queryMoveEvents(
@@ -225,7 +225,7 @@ public class ArticleEventService {
         if (packageId == null) {
             return;
         }
-        int limit = 1;
+        int limit = 10;
         EventId cursor = getCommentRemovedEventNextCursor();
         while (true) {
             PaginatedMoveEvents<CommentRemoved> eventPage = suiJsonRpcClient.queryMoveEvents(
@@ -265,7 +265,7 @@ public class ArticleEventService {
         if (packageId == null) {
             return;
         }
-        int limit = 1;
+        int limit = 10;
         EventId cursor = getCommentAddedEventNextCursor();
         while (true) {
             PaginatedMoveEvents<CommentAdded> eventPage = suiJsonRpcClient.queryMoveEvents(
@@ -305,7 +305,7 @@ public class ArticleEventService {
         if (packageId == null) {
             return;
         }
-        int limit = 1;
+        int limit = 10;
         EventId cursor = getArticleTagsUpdatedEventNextCursor();
         while (true) {
             PaginatedMoveEvents<ArticleTagsUpdated> eventPage = suiJsonRpcClient.queryMoveEvents(
@@ -345,7 +345,7 @@ public class ArticleEventService {
         if (packageId == null) {
             return;
         }
-        int limit = 1;
+        int limit = 10;
         EventId cursor = getArticleTagsV2UpdatedEventNextCursor();
         while (true) {
             PaginatedMoveEvents<ArticleTagsV2Updated> eventPage = suiJsonRpcClient.queryMoveEvents(

@@ -51,7 +51,7 @@ public class BlogEventService {
         if (packageId == null) {
             return;
         }
-        int limit = 1;
+        int limit = 10;
         EventId cursor = getInitBlogEventNextCursor();
         while (true) {
             PaginatedMoveEvents<InitBlogEvent> eventPage = suiJsonRpcClient.queryMoveEvents(
@@ -91,7 +91,7 @@ public class BlogEventService {
         if (packageId == null) {
             return;
         }
-        int limit = 1;
+        int limit = 10;
         EventId cursor = getDonationReceivedEventNextCursor();
         while (true) {
             PaginatedMoveEvents<DonationReceived> eventPage = suiJsonRpcClient.queryMoveEvents(
@@ -131,7 +131,7 @@ public class BlogEventService {
         if (packageId == null) {
             return;
         }
-        int limit = 1;
+        int limit = 10;
         EventId cursor = getVaultWithdrawnEventNextCursor();
         while (true) {
             PaginatedMoveEvents<VaultWithdrawn> eventPage = suiJsonRpcClient.queryMoveEvents(
@@ -171,7 +171,7 @@ public class BlogEventService {
         if (packageId == null) {
             return;
         }
-        int limit = 1;
+        int limit = 10;
         EventId cursor = getArticleAddedToBlogEventNextCursor();
         while (true) {
             PaginatedMoveEvents<ArticleAddedToBlog> eventPage = suiJsonRpcClient.queryMoveEvents(
@@ -211,7 +211,7 @@ public class BlogEventService {
         if (packageId == null) {
             return;
         }
-        int limit = 1;
+        int limit = 10;
         EventId cursor = getArticleRemovedFromBlogEventNextCursor();
         while (true) {
             PaginatedMoveEvents<ArticleRemovedFromBlog> eventPage = suiJsonRpcClient.queryMoveEvents(
@@ -251,7 +251,7 @@ public class BlogEventService {
         if (packageId == null) {
             return;
         }
-        int limit = 1;
+        int limit = 10;
         EventId cursor = getBlogCreatedEventNextCursor();
         while (true) {
             PaginatedMoveEvents<BlogCreated> eventPage = suiJsonRpcClient.queryMoveEvents(
@@ -291,7 +291,7 @@ public class BlogEventService {
         if (packageId == null) {
             return;
         }
-        int limit = 1;
+        int limit = 10;
         EventId cursor = getBlogUpdatedEventNextCursor();
         while (true) {
             PaginatedMoveEvents<BlogUpdated> eventPage = suiJsonRpcClient.queryMoveEvents(

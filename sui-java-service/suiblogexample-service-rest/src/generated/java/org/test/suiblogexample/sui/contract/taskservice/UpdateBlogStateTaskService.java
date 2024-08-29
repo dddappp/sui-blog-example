@@ -5,6 +5,7 @@
 
 package org.test.suiblogexample.sui.contract.taskservice;
 
+import org.test.suiblogexample.domain.blog.AbstractBlogEvent;
 import org.test.suiblogexample.sui.contract.repository.*;
 import org.test.suiblogexample.sui.contract.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +28,13 @@ public class UpdateBlogStateTaskService {
     @Scheduled(fixedDelayString = "${sui.contract.update-blog-states.fixed-delay:5000}")
     @Transactional
     public void updateBlogStates() {
-        blogEventRepository.findByStatusIsNull().forEach(e -> {
+        java.util.List<AbstractBlogEvent> es = blogEventRepository.findByStatusIsNull();
+        AbstractBlogEvent e = es.stream().findFirst().orElse(null);
+        if (e != null) {
             String objectId = e.getId();
             suiBlogService.updateBlogState(objectId);
-            blogEventService.updateStatusToProcessed(e);
-        });
+            es.stream().filter(ee -> ee.getId().equals(objectId))
+                    .forEach(blogEventService::updateStatusToProcessed);
+        }
     }
 }

@@ -253,7 +253,7 @@ public class TagV2Resource {
  
     public static class TagV2ResourceUtils {
 
-        public static void setNullIdOrThrowOnInconsistentIds(String id, TagV2Command value) {
+        public static void setNullIdOrThrowOnInconsistentIds(String id, org.test.suiblogexample.domain.tagv2.TagV2Command value) {
             String idObj = id;
             if (value.getId() == null) {
                 value.setId(idObj);

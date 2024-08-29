@@ -15,10 +15,6 @@ import org.test.suiblogexample.specialization.Event;
 import org.test.suiblogexample.domain.Command;
 
 public interface BlogApplicationService {
-    void when(BlogCommands.AddArticle c);
-
-    void when(BlogCommands.RemoveArticle c);
-
     void when(BlogCommands.Create c);
 
     void when(BlogCommands.Update c);

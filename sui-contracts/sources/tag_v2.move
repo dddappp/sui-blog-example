@@ -18,6 +18,7 @@ module sui_blog_example::tag_v2 {
 
     #[allow(unused_const)]
     const EDataTooLong: u64 = 102;
+    #[allow(unused_const)]
     const EInappropriateVersion: u64 = 103;
     const EEmptyObjectID: u64 = 107;
 
@@ -26,7 +27,7 @@ module sui_blog_example::tag_v2 {
             std::string::utf8(b"image_url"),
         ];
         let values = vector[
-            std::string::utf8(b"{https://arweave.net/{image_url}}"),
+            std::string::utf8(b"https://arweave.net/{image_url}"),
         ];
         let publisher = sui::package::claim(otw, ctx);
         let display = sui::display::new_with_fields<TagV2>(
@@ -115,6 +116,7 @@ module sui_blog_example::tag_v2 {
         transfer::freeze_object(tag_v2);
     }
 
+    #[allow(unused_function)]
     fun update_object_version(tag_v2: &mut TagV2) {
         tag_v2.version = tag_v2.version + 1;
         //assert!(tag_v2.version != 0, EInappropriateVersion);

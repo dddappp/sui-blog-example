@@ -17,6 +17,7 @@ module sui_blog_example::tag {
     const EIdAlreadyExists: u64 = 101;
     #[allow(unused_const)]
     const EDataTooLong: u64 = 102;
+    #[allow(unused_const)]
     const EInappropriateVersion: u64 = 103;
     const EEmptyObjectID: u64 = 107;
 
@@ -132,6 +133,7 @@ module sui_blog_example::tag {
         transfer::freeze_object(tag);
     }
 
+    #[allow(unused_function)]
     fun update_object_version(tag: &mut Tag) {
         tag.version = tag.version + 1;
         //assert!(tag.version != 0, EInappropriateVersion);

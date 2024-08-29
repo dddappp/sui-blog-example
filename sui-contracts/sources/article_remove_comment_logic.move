@@ -30,7 +30,7 @@ module sui_blog_example::article_remove_comment_logic {
         let id = article::id(&article);
         let _ = ctx;
         let _ = id;
-        article::remove_comment(&mut article, comment_seq_id);
+        article::remove_and_drop_comment(&mut article, comment_seq_id);
         article
     }
 
