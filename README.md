@@ -85,15 +85,16 @@ aggregates:
 
 #### Update dddappp Docker Image
 
-Since the dddappp v0.0.1 image is updated frequently, you may be required to manually delete the image and pull it again before `docker run`.
+Since the dddappp image is updated frequently, if you run into error,
+you may be required to manually delete the image and pull it again before `docker run`.
 
 ```shell
-# If you have already run it, you may need to Clean Up Exited Docker Containers first
-docker rm $(docker ps -aq --filter "ancestor=wubuku/dddappp:0.0.1")
+# If you have already run/pull this image, and now run into error, you may need to Clean Up Exited Docker Containers first (ensure run the latest image)
+docker rm $(docker ps -aq --filter "ancestor=wubuku/dddappp-sui:master")
 # remove the image
-docker image rm wubuku/dddappp:0.0.1
+docker image rm wubuku/dddappp-sui:master
 # pull the image
-docker pull wubuku/dddappp:0.0.1
+docker pull wubuku/dddappp-sui:master
 ```
 
 ---
@@ -103,7 +104,7 @@ In repository root directory, run:
 ```shell
 docker run \
 -v .:/myapp \
-wubuku/dddappp:0.0.1 \
+wubuku/dddappp-sui:master \
 --dddmlDirectoryPath /myapp/dddml \
 --boundedContextName Test.SuiBlogExample \
 --suiMoveProjectDirectoryPath /myapp/sui-contracts \
@@ -196,7 +197,7 @@ Open the regenerated `article_add_comment_logic.move` file, find the `verify` fu
 Execute the following command in the directory `sui-contracts` to publish the contract on chain:
 
 ```shell
-sui client publish --gas-budget 1000000000 --skip-dependency-verification
+sui client publish --gas-budget 1000000000 --skip-dependency-verification --skip-fetch-latest-git-deps
 ```
 
 If the command is executed successfully, the transaction digest of this publication will be output. For example:
@@ -373,7 +374,7 @@ sui client call --package 0xdc93d426b0a5ceaa8a883776c34370f83af72df528e8c9229a4f
 Run the command:
 
 ```shell
-docker rm $(docker ps -aq --filter "ancestor=wubuku/dddappp:0.0.1")
+docker rm $(docker ps -aq --filter "ancestor=wubuku/dddappp-sui:master")
 ```
 
 ### A More Complex Sui Demo
